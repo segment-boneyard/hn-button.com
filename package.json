@@ -1,0 +1,9 @@
+{
+  "name": "hn-button",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "jade": "~0.28.2",
+    "express": "~3.1.1"
+  }
+}

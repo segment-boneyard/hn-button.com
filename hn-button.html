@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="hn-button.css">
+  </head>
+  <body>
+    <a class="hn-button"
+       onclick="parent.postMessage(this.getAttribute('data-action'), '*')"
+       href="{{ href }}"
+       data-action="{{ action }}"
+       target="_blank">{{ text }}
+      {{ if count }}
+        <span class="hn-button-count">{{ count }}</span>
+      {{ endif }}
+    </a>
+  </body>
+</html>

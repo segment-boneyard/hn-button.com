@@ -1,0 +1,13 @@
+{
+  "name": "hn-button",
+  "dependencies": {
+    "component/each": "*",
+    "component/emitter": "*",
+    "component/event": "*",
+    "component/query": "*"
+  },
+  "scripts": [
+    "hn-button.js"
+  ],
+  "main": "hn-button.js"
+}
