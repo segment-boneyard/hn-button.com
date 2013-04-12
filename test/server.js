@@ -4,8 +4,9 @@
  */
 
 var express = require('express')
-  , fs      = require('fs')
-  , path    = require('path');
+  , fs = require('fs')
+  , hbs = require('hbs')
+  , path = require('path');
 
 
 /**
@@ -13,7 +14,9 @@ var express = require('express')
  */
 
 var app = module.exports = express()
-  .use(express.static(path.resolve(__dirname, '..')));
+  .use(express.static(path.resolve(__dirname, '..')))
+  .engine('html', hbs.__express)
+  .set('views', __dirname);
 
 
 /**
@@ -21,7 +24,7 @@ var app = module.exports = express()
  */
 
 app.get('/', function (req, res, next) {
-  fs.createReadStream(path.resolve(__dirname, 'test.html')).pipe(res);
+  res.render('test.html');
 });
 
 

@@ -1,0 +1,110 @@
+@import compass
+
+
+/**
+ * Variables.
+ */
+
+$height: 20px // standard
+$font-size: 10px
+$padding: .3em
+$icon-size: 1.25em
+$background-color: #dedede
+$border-color: #ccc
+$arrow-width: .4em
+$darker: 7%
+
+
+/**
+ * Shared.
+ */
+
+.hn-button,
+.hn-button-count
+  cursor: pointer
+  +box-sizing(border-box)
+  padding: 0 $padding
+  $real-height: 1em * ($height / $font-size) // ems for fluidity
+  height: $real-height
+  line-height: $real-height * .9 // visually centered
+  font-size: $font-size
+  font-family: Verdana // hn-like
+  color: #333
+  border: 1px solid $border-color
+  +border-radius(3px)
+
+  // hover state
+  &:hover
+    border-color: darken($border-color, $darker)
+
+
+/**
+ * Button.
+ *
+ * a.hn-button
+ *   [span.hn-button-count]
+ */
+
+.hn-button
+  text-decoration: none // reset
+  position: relative
+  display: inline-block
+  +background(linear-gradient(white, $background-color))
+  font-weight: 600
+  text-shadow: 0 1px 0 rgba(white, .5)
+
+  // icon
+  padding-left: $padding * 2 + $icon-size
+  &::before
+    content: ''
+    position: absolute
+    $icon-margin: $icon-size - 1em
+    top: $icon-margin
+    left: $icon-margin
+    width: $icon-size
+    height: $icon-size
+    margin-right: $padding
+    background-color: red
+
+  // hover state
+  &:hover
+    $subtly-darker: $darker * .4
+    +background(linear-gradient(darken(white, $subtly-darker), darken($background-color, $subtly-darker)))
+
+
+/**
+ * Count.
+ */
+
+.hn-button-count
+  position: absolute
+  top: -1px
+  left: 100%
+  margin-left: $arrow-width  + .2em
+  background-color: white
+  font-weight: normal
+
+  // arrow
+  &::before,
+  &::after
+    content: ''
+    position: absolute
+    top: 50%
+    right: 100%
+    width: 0
+    height: 0
+    border: $arrow-width solid transparent
+    border-left: none
+  &::before
+    margin-top: -($arrow-width)
+    border-right-color: $border-color
+  &::after
+    $pixel: 1em * (1px / $font-size)
+    margin-top: -($arrow-width - $pixel)
+    border-width: $arrow-width - $pixel
+    border-right-color: white
+
+  // hover state
+  &:hover
+    &::before
+      border-right-color: darken($border-color, $darker)

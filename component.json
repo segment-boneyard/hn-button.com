@@ -7,7 +7,7 @@
     "component/query": "*"
   },
   "scripts": [
-    "hn-button.js"
+    "lib/hn-button.js"
   ],
-  "main": "hn-button.js"
+  "main": "lib/hn-button.js"
 }

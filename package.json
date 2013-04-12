@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "jade": "~0.28.2",
-    "express": "~3.1.1"
+    "express": "~3.1.1",
+    "hbs": "~2.1.0"
   }
 }

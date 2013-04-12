@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , jade = require('jade');
+  , hbs = require('hbs');
 
 
 /**
@@ -12,12 +12,12 @@ var express = require('express')
  */
 
 var app = module.exports = express()
-  .set('views', __dirname)
-  .set('view engine', 'jade');
+  .engine('html', hbs.__express)
+  .set('views', __dirname + '/build');
 
 
 /**
- * Index page.
+ * Index redirect.
  */
 
 app.get('/', function (req, res, next) {
@@ -26,7 +26,7 @@ app.get('/', function (req, res, next) {
 
 
 /**
- * Button page.
+ * The button's iframe page.
  */
 
 app.get('/hn-button', function (req, res, next) {
@@ -35,9 +35,7 @@ app.get('/hn-button', function (req, res, next) {
 
   if (!url || !title) throw new Error('url and title required');
 
-  var href, action, text, count;
-
-  res.render('hn-button', {
+  res.render('hn-button.min.html', {
     action : 'submit',
     count : 80,
     href : 'https://segment.io',
