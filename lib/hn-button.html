@@ -8,6 +8,9 @@
        onclick="parent.postMessage(this.getAttribute('data-action'), '*')"
        href="{{href}}"
        data-action="{{action}}"
+       {{#if style}}
+       data-style="{{style}}"
+       {{/if}}
        target="_blank">{{text}}
       {{#if count}}
         <span class="hn-button-count">{{count}}</span>

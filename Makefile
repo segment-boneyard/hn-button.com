@@ -16,7 +16,7 @@ clean:
 	rm -fr components build
 
 server:
-	node index.js
+	foreman start
 
 test-server:
 	node test/server.js

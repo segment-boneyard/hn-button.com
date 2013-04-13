@@ -35,6 +35,8 @@ app.get('/hn-button', function (req, res, next) {
 
   if (!url || !title) throw new Error('url and title required');
 
+  // TODO: actually do stuff here.
+
   res.render('hn-button.min.html', {
     action : 'submit',
     count : 80,
@@ -48,4 +50,10 @@ app.get('/hn-button', function (req, res, next) {
  * Listen.
  */
 
-app.listen(8888);
+var port = process.env.PORT || 8888;
+
+console.log(process.env);
+
+app.listen(port, function () {
+  console.log('Listening on ' + port);
+});
