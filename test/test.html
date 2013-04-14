@@ -3,14 +3,10 @@
     <title>HN Button Test</title>
   </head>
   <body>
-    <a href="https://news.ycombinator.com/submit" class="hn-button">Vote on HN</a>
+    <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="true" >Vote on HN</a>
     <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="true" data-style="twitter">Vote on HN</a>
     <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="true" data-style="facebook">Vote on HN</a>
     <script src="/hn-button.js"></script>
-
-    <!-- Tweet Button -->
-    <a href="https://twitter.com/share" class="twitter-share-button" data-via="ianstormtaylor">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
     <!-- Like Button -->
     <div id="fb-root"></div>
@@ -22,5 +18,9 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
     <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-  </body>
+
+    <!-- Tweet Button -->
+    <a href="https://twitter.com/share" class="twitter-share-button" data-via="ianstormtaylor">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</body>
 </html>

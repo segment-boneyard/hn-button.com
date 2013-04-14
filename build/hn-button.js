@@ -207,6 +207,33 @@ require.relative = function(parent) {
 
   return localRequire;
 };
+require.register("component-bind/index.js", function(exports, require, module){
+
+/**
+ * Slice reference.
+ */
+
+var slice = [].slice;
+
+/**
+ * Bind `obj` to `fn`.
+ *
+ * @param {Object} obj
+ * @param {Function|String} fn or string
+ * @return {Function}
+ * @api public
+ */
+
+module.exports = function(obj, fn){
+  if ('string' == typeof fn) fn = obj[fn];
+  if ('function' != typeof fn) throw new Error('bind() requires a function');
+  var args = [].slice.call(arguments, 2);
+  return function(){
+    return fn.apply(obj, args.concat(slice.call(arguments)));
+  }
+};
+
+});
 require.register("component-type/index.js", function(exports, require, module){
 
 /**
@@ -564,62 +591,78 @@ exports.engine = function(obj){
 };
 
 });
+require.register("matthewmueller-uid/index.js", function(exports, require, module){
+/**
+ * Export `uid`
+ */
+
+module.exports = uid;
+
+/**
+ * Create a `uid`
+ *
+ * @param {String} len
+ * @return {String} uid
+ */
+
+function uid(len) {
+  len = len || 7;
+  return Math.random().toString(35).substr(2, len);
+}
+
+});
 require.register("hn-button/lib/hn-button.js", function(exports, require, module){
 
 /**
  * Module dependencies.
  */
 
-var each = require('each')
+var bind = require('bind')
+  , each = require('each')
   , Emitter = require('emitter')
   , on = require('event').bind
-  , query = require('query');
+  , query = require('query')
+  , uid = require('uid');
+
+
+/**
+ * Module exports, just an emitter for listening to button events.
+ */
+
+var HN = module.exports = new Emitter();
 
 
 /**
  * Origin of the server.
  */
 
-var origin = 'http://localhost:5000';
+var origin = location.protocol + '//localhost:5000';
 
 
 /**
- * Module exports.
+ * When an iframe first loads it send along its width, so we can resize the
+ * <iframe> in the DOM. This way it never takes up more space than it actually
+ * needs, so multiple button in a row are next to each other.
  */
 
-var emitter = module.exports = new Emitter();
-
-
-/**
- * Initialize all of the HN buttons on the page.
- */
-
-each(query.all('.hn-button'), init);
-
-
-/**
- * Listen for messages from the iframe.
- */
-
-on(window, 'message', function (message) {
-  if (message.origin !== origin) return;
-  emitter.emit(message.data.event, message);
-});
-
-
-emitter.on('width', function (event) {
-  debugger;
+HN.on('load', function (event) {
+  var iframe = event.iframe;
+  iframe.width = Math.ceil(event.width);
+  console.log(Math.ceil(event.width));
 });
 
 
 /**
- * Initialize a button.
+ * Initialize a button. Generate a unique ID that we can use when messaging
+ * between windows to identify the sender.
  *
  * @param {Element} button  The button's element in the DOM.
  */
 
-function init (button) {
-  render(button);
+function Button (a) {
+  this.id = 'hn-button-' + uid();
+  on(window, 'message', bind(this, this.onMessage));
+  this.render(a);
 }
 
 
@@ -629,7 +672,7 @@ function init (button) {
  * @param {Element} a  The original <a> element that was on the page.
  */
 
-function render (a) {
+Button.prototype.render = function (a) {
   // Grab some settings from the <a>.
   var options = {
     title : a.getAttribute('data-title') || document.title,
@@ -639,27 +682,26 @@ function render (a) {
   };
 
   // Create the iframe element that we will replace the <a> with.
-  var iframe = document.createElement('iframe');
+  var iframe = this.iframe = document.createElement('iframe');
 
   // Set the source based on data attributes, with fallbacks.
   iframe.src = src(options);
 
-  // Add the title and url to the iframe for emitting, and because I think it's
-  // nice to see the same attributes you set on the <a> stay on the iframe.
+  // Add the id, name, class, and I think it's nice to see the same attributes
+  // you set on the <a> stay on the iframe.
+  iframe.id = iframe.name = this.id;
+  iframe.className = 'hn-button';
   iframe.setAttribute('data-title', options.title);
   iframe.setAttribute('data-url', options.url);
   if (options.style) iframe.setAttribute('data-style', options.style);
   if (options.count) iframe.setAttribute('data-count', options.count);
 
-  // Add our class.
-  iframe.className = 'hn-iframe';
-
-  // Give it a title for tooltips on hover.
+  // Give it a title for accessibility.
   iframe.title = 'Hacker News Button';
 
   // Set the proper width and height, depending on the orientation.
-  iframe.width = '99px'; // maximum width needed for the iframe
   iframe.height = '20px'; // standard
+  iframe.width = '99px'; // best guess, real width calculated on load.
 
   // Set other required attributes.
   iframe.frameBorder = '0'; // removes default iframe border
@@ -667,11 +709,35 @@ function render (a) {
   // Replace the <a> with the iframe.
   a.parentNode.insertBefore(iframe, a);
   a.parentNode.removeChild(a);
-}
+};
 
 
 /**
- * Render an iframe src href.
+ * Listen for messages coming from our iframe's window and proxy them to the
+ * global HN object so others can react.
+ *
+ * @param {MessageEvent} message  The message from the postMessage API.
+ */
+
+Button.prototype.onMessage = function (message) {
+  // make sure we're listening for the right thing
+  if (message.origin !== origin) return;
+  if (message.data.id !== this.id) return;
+
+  var event = message.data.event
+    , data = message.data.data;
+
+  // add this iframe's properties so the listener can differentiate
+  data.id = this.id;
+  data.iframe = this.iframe;
+
+  // emit on the global HN object
+  HN.emit(event, data);
+};
+
+
+/**
+ * Helper to render an iframe src href from an options dictionary.
  *
  * @param {Object} options  The options to use.
  * @return {String}         The iframe `src` href.
@@ -685,7 +751,18 @@ function src (options) {
   });
   return origin + query;
 }
+
+
+/**
+ * Kick everything off, initializing all the `.hn-button`'s on the page.
+ */
+
+each(query.all('.hn-button'), function (a) {
+  new Button (a);
 });
+});
+require.alias("component-bind/index.js", "hn-button/deps/bind/index.js");
+
 require.alias("component-each/index.js", "hn-button/deps/each/index.js");
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
@@ -695,6 +772,8 @@ require.alias("component-indexof/index.js", "component-emitter/deps/indexof/inde
 require.alias("component-event/index.js", "hn-button/deps/event/index.js");
 
 require.alias("component-query/index.js", "hn-button/deps/query/index.js");
+
+require.alias("matthewmueller-uid/index.js", "hn-button/deps/uid/index.js");
 
 require.alias("hn-button/lib/hn-button.js", "hn-button/index.js");
 

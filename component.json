@@ -1,10 +1,12 @@
 {
   "name": "hn-button",
   "dependencies": {
+    "component/bind": "*",
     "component/each": "*",
     "component/emitter": "*",
     "component/event": "*",
-    "component/query": "*"
+    "component/query": "*",
+    "matthewmueller/uid": "*"
   },
   "scripts": [
     "lib/hn-button.js"
