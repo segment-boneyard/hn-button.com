@@ -14,7 +14,7 @@ var express = require('express')
  */
 
 var app = module.exports = express()
-  .use(express.static(path.resolve(__dirname, '..')))
+  .use(express.static(path.resolve(__dirname, '../build')))
   .engine('html', hbs.__express)
   .set('views', __dirname);
 
@@ -32,4 +32,8 @@ app.get('/', function (req, res, next) {
  * Listen.
  */
 
-app.listen(7777);
+var port = 7777;
+
+app.listen(port, function () {
+  console.log('Listening on ' + port + '...');
+});

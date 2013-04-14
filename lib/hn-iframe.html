@@ -1,20 +1,25 @@
 <!doctype html>
 <html>
   <head>
-    <link rel="stylesheet" href="hn-button.css">
+    <link rel="stylesheet" href="hn-iframe.css">
   </head>
   <body>
-    <a class="hn-button"
+    <a id="hn-button"
+       class="hn-button"
        onclick="parent.postMessage(this.getAttribute('data-action'), '*')"
        href="{{href}}"
        data-action="{{action}}"
        {{#if style}}
        data-style="{{style}}"
        {{/if}}
+       {{#if count}}
+       data-count="{{count}}"
+       {{/if}}
        target="_blank">{{text}}
       {{#if count}}
-        <span class="hn-button-count">{{count}}</span>
+        <span id="hn-button-count" class="hn-button-count">{{votes}}</span>
       {{/if}}
     </a>
+    <script src="hn-iframe.js"></script>
   </body>
 </html>

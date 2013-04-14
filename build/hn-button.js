@@ -580,7 +580,7 @@ var each = require('each')
  * Origin of the server.
  */
 
-var origin = '//localhost:8888';
+var origin = 'http://localhost:5000';
 
 
 /**
@@ -603,10 +603,12 @@ each(query.all('.hn-button'), init);
 
 on(window, 'message', function (message) {
   if (message.origin !== origin) return;
-  emitter.emit(message.data, {
-    url : message.source.getAttribute('data-url'),
-    title : message.source.getAttribute('data-title')
-  });
+  emitter.emit(message.data.event, message);
+});
+
+
+emitter.on('width', function (event) {
+  debugger;
 });
 
 
@@ -628,20 +630,26 @@ function init (button) {
  */
 
 function render (a) {
+  // Grab some settings from the <a>.
+  var options = {
+    title : a.getAttribute('data-title') || document.title,
+    url   : a.getAttribute('data-url') || window.location.href,
+    style : a.getAttribute('data-style'),
+    count : a.getAttribute('data-count'),
+  };
+
   // Create the iframe element that we will replace the <a> with.
   var iframe = document.createElement('iframe');
-  var title = a.getAttribute('data-title') || document.title;
-  var url = a.getAttribute('data-url') || window.location.href;
 
   // Set the source based on data attributes, with fallbacks.
-  iframe.src = src({
-    title : title,
-    url : url
-  });
+  iframe.src = src(options);
 
-  // Add the title and url to the iframe for emitting.
-  iframe.setAttribute('data-title', title);
-  iframe.setAttribute('data-url', url);
+  // Add the title and url to the iframe for emitting, and because I think it's
+  // nice to see the same attributes you set on the <a> stay on the iframe.
+  iframe.setAttribute('data-title', options.title);
+  iframe.setAttribute('data-url', options.url);
+  if (options.style) iframe.setAttribute('data-style', options.style);
+  if (options.count) iframe.setAttribute('data-count', options.count);
 
   // Add our class.
   iframe.className = 'hn-iframe';
@@ -650,11 +658,10 @@ function render (a) {
   iframe.title = 'Hacker News Button';
 
   // Set the proper width and height, depending on the orientation.
-  iframe.width = '100px';
-  iframe.height = '100px';
+  iframe.width = '99px'; // maximum width needed for the iframe
+  iframe.height = '20px'; // standard
 
   // Set other required attributes.
-  iframe.scrolling = 'auto';
   iframe.frameBorder = '0'; // removes default iframe border
 
   // Replace the <a> with the iframe.
@@ -664,16 +671,19 @@ function render (a) {
 
 
 /**
- * Render an iframe src string.
+ * Render an iframe src href.
  *
- * @param {Object} params  The URL parameters to use.
+ * @param {Object} options  The options to use.
+ * @return {String}         The iframe `src` href.
  */
 
-function src (params) {
-  var title = encodeURIComponent(params.title);
-  var url = encodeURIComponent(params.url);
-
-  return origin + '/hn-button?title=' + title + '&url=' + url;
+function src (options) {
+  var query = '';
+  each(options, function (key, value) {
+    query += query ? '&' : '?';
+    if (value) query += key + '=' + encodeURIComponent(value);
+  });
+  return origin + query;
 }
 });
 require.alias("component-each/index.js", "hn-button/deps/each/index.js");

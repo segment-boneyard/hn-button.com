@@ -24,6 +24,22 @@ $real-height: 1em * ($height / $font-size) // ems for fluidity
 $subtly-darker: $darker * .4
 $line-height: $real-height * .9 // visually centered
 
+
+/**
+ * Reset.
+ */
+
+*
+  margin: 0
+  padding: 0
+  +box-sizing(border-box)
+  font: $font-size/1 Verdana // hn-like
+
+body,
+html
+  overflow: hidden // never scrollbars
+
+
 /**
  * Shared.
  */
@@ -31,16 +47,12 @@ $line-height: $real-height * .9 // visually centered
 .hn-button,
 .hn-button-count
   cursor: pointer
-  +box-sizing(border-box)
   padding: 0 $padding
   height: $real-height
   line-height: $line-height
-  font-size: $font-size
-  font-family: Verdana // hn-like
   color: #333
   border: 1px solid $border-color
 
-  // hover state
   &:hover
     border-color: darken($border-color, $darker)
 
@@ -59,6 +71,9 @@ $line-height: $real-height * .9 // visually centered
   font-weight: 600
   background-color: $background-color
 
+  &:hover
+    background-color: darken($background-color, $subtly-darker)
+
   // icon
   padding-left: $padding * 2 + $icon-size
   &::before
@@ -70,13 +85,11 @@ $line-height: $real-height * .9 // visually centered
     width: $icon-size
     height: $icon-size
     margin-right: $padding
-    background: url(hn-icon.png) no-repeat center center #ff6600
+    background-color: #ff6600
+    background-repeat: no-repeat
     background-size: 100% 100%
-
-
-  // hover state
-  &:hover
-    background-color: darken($background-color, $subtly-darker)
+    // http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACdQTFRF+MOg/OHQ8o5N85VZ/fDn+tK4/vfz9rOI9aRx9J1l+9nE////8YZB9Tb0MAAAAJ1JREFUeNrsldsOgCAIQPFCWvb/31vCKttMcL3Cg4Ots5OCE/bpAEMM+YGsrka461xLHFtcOQPeZRojuX6z+LaK0l5eGiqyhIRGs9bcySeGjwZ7kg4S7v+nbNP0Ba9ToiRoEL+whiSo6z6w5kPSRUjjaAXtjJEG2p6KiI+FA/STnJiIfmL4WZNm7kvqzaNwxT53Yogh9r4Yoo5DgAEAOV1xvPdlew0AAAAASUVORK5CYII=)
 
 
 /**
@@ -90,6 +103,10 @@ $line-height: $real-height * .9 // visually centered
   margin-left: $arrow-width  + .2em
   background-color: white
   font-weight: normal
+
+  &:hover
+    &::before
+      border-right-color: darken($border-color, $darker)
 
   // arrow
   &::before,
@@ -111,11 +128,6 @@ $line-height: $real-height * .9 // visually centered
     border-width: $arrow-width - $pixel
     border-right-color: white
 
-  // hover state
-  &:hover
-    &::before
-      border-right-color: darken($border-color, $darker)
-
 
 /**
  * Twitter style.
@@ -123,6 +135,7 @@ $line-height: $real-height * .9 // visually centered
 
 $twitter-background-color: #dedede
 $twitter-border-color: #ccc
+$twitter-count-border-color: rgb(187, 187, 187)
 
 [data-style="twitter"]
 
@@ -131,7 +144,6 @@ $twitter-border-color: #ccc
     +border-radius($border-radius)
     border-color: $twitter-border-color
 
-    // hover state
     &:hover
       border-color: darken($twitter-border-color, $darker)
 
@@ -139,16 +151,14 @@ $twitter-border-color: #ccc
     +background(linear-gradient(white, $twitter-background-color))
     text-shadow: 0 1px 0 rgba(white, .5)
 
-    // hover state
     &:hover
       +background(linear-gradient(darken(white, $subtly-darker), darken($twitter-background-color, $subtly-darker)))
 
   & .hn-button-count
+    border-color: $twitter-count-border-color
 
-    // hover state
-    &:hover
-      &::before
-        border-right-color: darken($twitter-border-color, $darker)
+    &::before
+      border-right-color: $twitter-count-border-color
 
 
 /**
@@ -170,7 +180,6 @@ $facebook-count-border-color: #c1c1c1
     border-color: $facebook-border-color
     +border-radius($border-radius)
 
-    // hover state
     &:hover
       border-color: darken($facebook-border-color, $darker)
 

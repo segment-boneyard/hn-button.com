@@ -4,44 +4,47 @@
  */
 
 var express = require('express')
-  , hbs = require('hbs');
+  , hbs = require('hbs')
+  , path = require('path');
 
 
 /**
  * App.
  */
 
+var build = path.resolve(__dirname, 'build');
+
 var app = module.exports = express()
   .engine('html', hbs.__express)
-  .set('views', __dirname + '/build');
-
-
-/**
- * Index redirect.
- */
-
-app.get('/', function (req, res, next) {
-  res.redirect('https://github.com/segmentio/hn-button');
-});
+  .set('views', build)
+  .use(express.static(build));
 
 
 /**
  * The button's iframe page.
  */
 
-app.get('/hn-button', function (req, res, next) {
-  var url = req.query.url;
-  var title = req.query.title;
+app.get('/', function (req, res, next) {
+  var url = req.query.url
+    , title = req.query.title
+    , count = req.query.count
+    , style = req.query.style;
 
-  if (!url || !title) throw new Error('url and title required');
+  if (!url || !title) res.redirect('https://github.com/segmentio/hn-button');
 
   // TODO: actually do stuff here.
 
-  res.render('hn-button.min.html', {
-    action : 'submit',
-    count : 80,
-    href : 'https://segment.io',
-    text : 'Submit'
+  var votes = 192
+    , text = votes ? 'Vote' : 'Submit'
+    , href = 'TODO';
+
+  res.render('hn-iframe.min.html', {
+    action : text.toLowerCase(),
+    count  : count,
+    href   : href,
+    style  : style,
+    text   : text,
+    votes  : number(votes)
   });
 });
 
@@ -50,10 +53,24 @@ app.get('/hn-button', function (req, res, next) {
  * Listen.
  */
 
-var port = process.env.PORT || 8888;
-
-console.log(process.env);
+var port = process.env.PORT || 5000;
 
 app.listen(port, function () {
-  console.log('Listening on ' + port);
+  console.log('Listening on ' + port + '...');
 });
+
+
+/**
+ * Formats a number of votes into a nice string.
+ *
+ * @param {Int} votes  The number of votes.
+ * @return {String}    The number of votes, formatted nicely.
+ */
+
+function number (int) {
+  if (int > 999) {
+    return Math.round(int / 100) / 10 + 'k';
+  } else {
+    return int + '';
+  }
+}
