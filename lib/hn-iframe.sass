@@ -5,23 +5,15 @@
  * Variables.
  */
 
-$height: 20px // standard
-$font-size: 10px
-$padding: 3px
-$icon-size: 12px
-$background-color: rgb(246, 246, 239) // from hn
-$border-color: darken($background-color, 20%)
-$border-radius: 3px
-$arrow-width: 4px
-$darker: 7%
-
-
-/**
- * Computed variables.
- */
-
-$subtly-darker: $darker * .4
-$line-height: $height * .9 // visually centered
+$arrow-size       : 4px
+$background-color : rgb(246, 246, 239) // from hn
+$border-color     : darken($background-color, 20%)
+$border-radius    : 3px // standard
+$font-size        : 10px // 11px is standard, but verdana looks large
+$height           : 20px // standard
+$icon-size        : 12px
+$line-height      : $height * .9 // visually centered
+$padding          : 3px
 
 
 /**
@@ -44,7 +36,7 @@ html
  */
 
 .hn-button,
-.hn-button-count
+.hn-count
   cursor: pointer
   padding: 0 $padding
   height: $height
@@ -53,63 +45,60 @@ html
   border: 1px solid $border-color
 
   &:hover
-    border-color: darken($border-color, $darker)
+    border-color: darken($border-color, 7%)
 
 
 /**
  * Button.
  *
  * a.hn-button
- *   [span.hn-button-count]
+ *   [span.hn-count]
  */
+
+$icon-margin : ($height - $icon-size) / 2 - 1px
+$icon-padding: $padding * 2 + $icon-size
 
 .hn-button
   text-decoration: none // reset
   position: relative
   display: inline-block
-  padding-left: $padding * 2 + $icon-size // account for the icon
+  padding-left: $icon-padding // account for the icon
   font-weight: 600
   background-color: $background-color
 
   &:hover
-    background-color: darken($background-color, $subtly-darker)
+    background-color: darken($background-color, 3%)
 
-
-/**
- * Icon.
- */
-
-.hn-button-icon
-  position: absolute
-  $icon-margin: ($height - $icon-size) / 2 - 1px
-  top: $icon-margin
-  left: $icon-margin
-  width: $icon-size
-  height: $icon-size
-  margin-right: $padding
-  background-color: #ff6600
-  background-repeat: no-repeat
-  background-size: 100% 100%
-  // http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACdQTFRF+MOg/OHQ8o5N85VZ/fDn+tK4/vfz9rOI9aRx9J1l+9nE////8YZB9Tb0MAAAAJ1JREFUeNrsldsOgCAIQPFCWvb/31vCKttMcL3Cg4Ots5OCE/bpAEMM+YGsrka461xLHFtcOQPeZRojuX6z+LaK0l5eGiqyhIRGs9bcySeGjwZ7kg4S7v+nbNP0Ba9ToiRoEL+whiSo6z6w5kPSRUjjaAXtjJEG2p6KiI+FA/STnJiIfmL4WZNm7kvqzaNwxT53Yogh9r4Yoo5DgAEAOV1xvPdlew0AAAAASUVORK5CYII=)
-
+  // icon
+  &::before
+    content: ''
+    position: absolute
+    top: $icon-margin
+    left: $icon-margin
+    width: $icon-size
+    height: $icon-size
+    background-color: #ff6600
+    background-repeat: no-repeat
+    background-size: 100% 100%
+    // http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACdQTFRF+MOg/OHQ8o5N85VZ/fDn+tK4/vfz9rOI9aRx9J1l+9nE////8YZB9Tb0MAAAAJ1JREFUeNrsldsOgCAIQPFCWvb/31vCKttMcL3Cg4Ots5OCE/bpAEMM+YGsrka461xLHFtcOQPeZRojuX6z+LaK0l5eGiqyhIRGs9bcySeGjwZ7kg4S7v+nbNP0Ba9ToiRoEL+whiSo6z6w5kPSRUjjaAXtjJEG2p6KiI+FA/STnJiIfmL4WZNm7kvqzaNwxT53Yogh9r4Yoo5DgAEAOV1xvPdlew0AAAAASUVORK5CYII=)
 
 
 /**
  * Count.
  */
 
-.hn-button-count
+.hn-count
   position: absolute
   top: -1px
   left: 100%
-  margin-left: $arrow-width + 2px
+  margin-left: $arrow-size + 2px
   background-color: white
   font-weight: normal
 
   &:hover
     &::before
-      border-right-color: darken($border-color, $darker * 2)
+      border-right-color: darken($border-color, 14%)
 
   // arrow
   &::before,
@@ -120,14 +109,14 @@ html
     right: 100%
     width: 0
     height: 0
-    border: $arrow-width solid transparent
+    border: $arrow-size solid transparent
     border-left: none
   &::before
-    margin-top: -($arrow-width)
-    border-right-color: darken($border-color, $darker)
+    margin-top: -($arrow-size)
+    border-right-color: darken($border-color, 7%)
   &::after
-    margin-top: -($arrow-width - 1px)
-    border-width: $arrow-width - 1px
+    margin-top: -($arrow-size - 1px)
+    border-width: $arrow-size - 1px
     border-right-color: white
 
 
@@ -135,62 +124,78 @@ html
  * Twitter style.
  */
 
-$twitter-background-color: #dedede
-$twitter-border-color: #ccc
-$twitter-count-border-color: rgb(187, 187, 187)
-$twitter-count-arrow-border-color: #aaa
+$tw-background-color : #dedede
+$tw-border-color     : #ccc
 
 [data-style="twitter"]
 
   &.hn-button,
-  & .hn-button-count
+  & .hn-count
+    font-size: 11px
+    font-family: "Helvetica Neue", Arial, sans-serif
     +border-radius($border-radius)
-    border-color: $twitter-border-color
+    border-color: $tw-border-color
+
     &:hover
-      border-color: darken($twitter-border-color, $darker)
+      border-color: darken($tw-border-color, 7%)
 
   &.hn-button
-    +background(linear-gradient(white, $twitter-background-color))
+    +background(linear-gradient(white, $tw-background-color))
     text-shadow: 0 1px 0 rgba(white, .5)
-    &:hover
-      +background(linear-gradient(darken(white, $subtly-darker), darken($twitter-background-color, $subtly-darker)))
-    &:active
-      +box-shadow(inset 0 3px 5px rgba(black, .01))
 
-  & .hn-button-count
-    border-color: $twitter-count-border-color
+    &:hover
+      +background(linear-gradient(darken(white, 3%), darken($tw-background-color, 3%)))
+
+    &:active
+      +box-shadow(inset 0 3px 5px rgba(black, .1))
+
+  & .hn-count
+    border-color: rgb(187, 187, 187)
+
     &::before
-      border-right-color: $twitter-count-arrow-border-color
+      border-right-color: #aaa
 
 
 /**
  * Facebook style.
  */
 
-$facebook-color: #c65910
-$facebook-background-color: #ffeee3
-$facebook-border-color: darken($facebook-background-color, 10%)
-$facebook-padding: $padding * 1.7
-$facebook-count-border-color: #c1c1c1
+$fb-background-color     : #ffeee3
+$fb-border-color         : darken($fb-background-color, 10%)
+$fb-count-border-color   : #c1c1c1
+$fb-extra-button-padding : 2px
+$fb-extra-count-height   : -2px
+$fb-extra-count-padding  : 3px
 
 [data-style="facebook"]
 
-  &.hn-button
-    font-weight: normal
-    color: $facebook-color
-    background-color: $facebook-background-color
-    border-color: $facebook-border-color
-    +border-radius($border-radius)
-    &:hover
-      border-color: darken($facebook-border-color, $darker)
+  &.hn-button,
+  & .hn-count
+    font-size: 11px
+    font-family: "lucida grande", tahoma, verdana, arial, sans-serif
 
-  & .hn-button-count
+  &.hn-button
+    padding-left: $icon-padding + $fb-extra-button-padding
+    padding-right: $padding + $fb-extra-button-padding
+    font-weight: normal
+    color: #c65910
+    background-color: $fb-background-color
+    border-color: $fb-border-color
+    +border-radius($border-radius)
+
+    &:hover
+      border-color: darken($fb-border-color, 12%)
+
+    &::before
+      left: $icon-margin + $fb-extra-button-padding
+
+  & .hn-count
     +border-radius(0)
     top: 0
-    padding-left: $facebook-padding
-    padding-right: $facebook-padding
-    height: $height - 2px
-    line-height: $line-height - 2px // account for smaller height
-    border-color: $facebook-count-border-color
+    height: $height + $fb-extra-count-height
+    line-height: $line-height + $fb-extra-count-height
+    padding-left: $padding + $fb-extra-count-padding
+    padding-right: $padding + $fb-extra-count-padding
+    border-color: $fb-count-border-color
     &::before
-      border-right-color: $facebook-count-border-color
+      border-right-color: $fb-count-border-color
