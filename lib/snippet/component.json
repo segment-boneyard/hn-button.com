@@ -1,0 +1,10 @@
+{
+  "name": "snippet",
+  "dependencies": {
+
+  },
+  "scripts": [
+    "index.js",
+    "template.js"
+  ]
+}

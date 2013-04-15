@@ -677,7 +677,7 @@ Button.prototype.render = function (a) {
     title : a.getAttribute('data-title') || document.title,
     url   : a.getAttribute('data-url') || window.location.href,
     style : a.getAttribute('data-style'),
-    count : a.getAttribute('data-count'),
+    count : a.getAttribute('data-count')
   };
 
   // Create the iframe element that we will replace the <a> with.
@@ -699,7 +699,7 @@ Button.prototype.render = function (a) {
   iframe.title = 'Hacker News Button';
 
   // Set the proper width and height, depending on the orientation.
-  iframe.height = 20; // standard
+  iframe.height = options.count === 'vertical' ? 62 : 20; // standard
   iframe.width = 100; // a best guess, real width applied on load
 
   // Set other required attributes.

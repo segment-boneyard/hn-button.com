@@ -7,7 +7,7 @@
 
 $arrow-size       : 4px
 $background-color : rgb(246, 246, 239) // from hn
-$border-color     : darken($background-color, 20%)
+$border-color     : desaturate(darken($background-color, 20%), 10%)
 $border-radius    : 3px // standard
 $font-size        : 10px // 11px is standard, but verdana looks large
 $height           : 20px // standard
@@ -32,17 +32,25 @@ html
 
 
 /**
- * Shared.
+ * Widget.
+ */
+
+.hn-widget
+  position: relative
+
+
+/**
+ * Button and count.
  */
 
 .hn-button,
 .hn-count
   cursor: pointer
-  padding: 0 $padding
   height: $height
   line-height: $line-height
-  color: #333
   border: 1px solid $border-color
+  padding: 0 $padding
+  color: #333
 
   &:hover
     border-color: darken($border-color, 7%)
@@ -50,13 +58,10 @@ html
 
 /**
  * Button.
- *
- * a.hn-button
- *   [span.hn-count]
  */
 
-$icon-margin : ($height - $icon-size) / 2 - 1px
-$icon-padding: $padding * 2 + $icon-size
+$icon-margin  : ($height - $icon-size) / 2 - 1px
+$icon-padding : $padding * 2 + $icon-size
 
 .hn-button
   text-decoration: none // reset
@@ -89,113 +94,188 @@ $icon-padding: $padding * 2 + $icon-size
  */
 
 .hn-count
-  position: absolute
-  top: -1px
-  left: 100%
-  margin-left: $arrow-size + 2px
+  position: relative
   background-color: white
-  font-weight: normal
-
-  &:hover
-    &::before
-      border-right-color: darken($border-color, 14%)
 
   // arrow
   &::before,
   &::after
     content: ''
     position: absolute
-    top: 50%
-    right: 100%
     width: 0
     height: 0
     border: $arrow-size solid transparent
-    border-left: none
-  &::before
-    margin-top: -($arrow-size)
-    border-right-color: darken($border-color, 7%)
-  &::after
-    margin-top: -($arrow-size - 1px)
-    border-width: $arrow-size - 1px
-    border-right-color: white
+
+
+/**
+ * Horizontal count.
+ *
+ * a.hn-button
+ *   span.hn-count
+ */
+
+[data-count="horizontal"]
+
+  .hn-widget
+    display: inline-block
+
+  .hn-count
+    position: absolute
+    left: 100%
+    margin-left: $arrow-size + 2px
+
+    &::before,
+    &::after
+      right: 100%
+      top: 50%
+      border-left: none
+    &::before
+      margin-top: -($arrow-size)
+      border-right-color: darken($border-color, 7%)
+      &:hover
+        border-right-color: darken($border-color, 14%)
+    &::after
+      margin-top: -($arrow-size - 1px)
+      border-width: $arrow-size - 1px
+      border-right-color: white
+
+
+
+/**
+ * Vertical count.
+ *
+ * div.hn-count
+ * a.hn-button
+ */
+
+[data-count="vertical"]
+
+  .hn-count
+    height: 36px
+    line-height: 34px
+    text-align: center
+    font-size: 15px
+    margin-bottom: 6px
+
+    &::before,
+    &::after
+      top: 100%
+      left: $padding + $icon-size / 2
+      border-bottom: none
+    &::before
+      margin-left: -($arrow-size)
+      border-top-color: darken($border-color, 7%)
+      &:hover
+        border-top-color: darken($border-color, 14%)
+    &::after
+      margin-left: -($arrow-size - 1px)
+      border-width: $arrow-size - 1px
+      border-top-color: white
 
 
 /**
  * Twitter style.
  */
 
-$tw-background-color : #dedede
-$tw-border-color     : #ccc
+$tw-background-color    : #dedede
+$tw-button-border-color : #ccc
+$tw-count-border-color  : #aaa
 
 [data-style="twitter"]
 
-  &.hn-button,
-  & .hn-count
-    font-size: 11px
+  .hn-button,
+  .hn-count
     font-family: "Helvetica Neue", Arial, sans-serif
     +border-radius($border-radius)
-    border-color: $tw-border-color
-
+    border-color: $tw-button-border-color
     &:hover
-      border-color: darken($tw-border-color, 7%)
+      border-color: darken($tw-button-border-color, 7%)
 
-  &.hn-button
+  .hn-button
+    font-size: 11px
     +background(linear-gradient(white, $tw-background-color))
     text-shadow: 0 1px 0 rgba(white, .5)
-
     &:hover
       +background(linear-gradient(darken(white, 3%), darken($tw-background-color, 3%)))
-
     &:active
       +box-shadow(inset 0 3px 5px rgba(black, .1))
+    &::before
+      +box-shadow(inset 1px 1px rgba(black, .1), 1px 1px rgba(white, .35))
 
-  & .hn-count
+  .hn-count
     border-color: rgb(187, 187, 187)
 
-    &::before
-      border-right-color: #aaa
+  &[data-count="horizontal"]
+    .hn-count
+      font-size: 11px
+      &::before
+        border-right-color: $tw-count-border-color
+
+  &[data-count="vertical"]
+    .hn-count
+      font-size: 16px
+      &::before,
+      &::after
+        left: 50%
+      &::before
+        border-top-color: $tw-count-border-color
 
 
 /**
  * Facebook style.
  */
 
-$fb-background-color     : #ffeee3
-$fb-border-color         : darken($fb-background-color, 10%)
-$fb-count-border-color   : #c1c1c1
-$fb-extra-button-padding : 2px
-$fb-extra-count-height   : -2px
-$fb-extra-count-padding  : 3px
+$fb-background-color              : #ffeee3
+$fb-button-border-color           : darken($fb-background-color, 10%)
+$fb-horizontal-count-border-color : #c1c1c1
+$fb-vertical-count-border-color   : #d3d3d3
+$fb-extra-button-padding          : 2px
+$fb-extra-count-height            : -2px
+$fb-extra-count-padding           : 3px
 
 [data-style="facebook"]
 
-  &.hn-button,
-  & .hn-count
-    font-size: 11px
+  .hn-button,
+  .hn-count
     font-family: "lucida grande", tahoma, verdana, arial, sans-serif
 
-  &.hn-button
+  .hn-button
+    font-size: 11px
     padding-left: $icon-padding + $fb-extra-button-padding
     padding-right: $padding + $fb-extra-button-padding
     font-weight: normal
     color: #c65910
     background-color: $fb-background-color
-    border-color: $fb-border-color
+    border-color: $fb-button-border-color
     +border-radius($border-radius)
-
     &:hover
-      border-color: darken($fb-border-color, 12%)
-
+      border-color: darken($fb-button-border-color, 12%)
     &::before
       left: $icon-margin + $fb-extra-button-padding
 
-  & .hn-count
+  .hn-count
     +border-radius(0)
-    top: 0
-    height: $height + $fb-extra-count-height
-    line-height: $line-height + $fb-extra-count-height
-    padding-left: $padding + $fb-extra-count-padding
-    padding-right: $padding + $fb-extra-count-padding
-    border-color: $fb-count-border-color
-    &::before
-      border-right-color: $fb-count-border-color
+    top: 1px
+
+  &[data-count="horizontal"]
+    .hn-count
+      height: $height + $fb-extra-count-height
+      line-height: $line-height + $fb-extra-count-height
+      padding-left: $padding + $fb-extra-count-padding
+      padding-right: $padding + $fb-extra-count-padding
+      border-color: $fb-horizontal-count-border-color
+      &::before
+        border-right-color: $fb-horizontal-count-border-color
+
+  &[data-count="vertical"]
+    .hn-count
+      height: 34px
+      line-height: 31px
+      font-size: 13px
+      margin-bottom: 8px
+      border-color: $fb-vertical-count-border-color
+      &::before,
+      &::after
+        left: $padding + $icon-size / 2 + $fb-extra-button-padding
+      &::before
+        border-top-color: $fb-vertical-count-border-color

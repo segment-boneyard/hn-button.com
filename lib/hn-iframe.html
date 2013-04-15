@@ -3,23 +3,17 @@
   <head>
     <link rel="stylesheet" href="hn-iframe.css">
   </head>
-  <body>
-    <a id="hn-button"
-       class="hn-button"
-       onclick="parent.postMessage(this.getAttribute('data-action'), '*')"
-       href="{{href}}"
-       data-action="{{action}}"
-       {{#if style}}
-       data-style="{{style}}"
-       {{/if}}
-       {{#if count}}
-       data-count="{{count}}"
-       {{/if}}
-       target="_blank">{{text}}
+  <body data-count="{{count}}" data-style="{{style}}">
+    <div class="hn-widget">
       {{#if count}}
-        <span id="hn-count" class="hn-count">{{votes}}</span>
+      <div id="hn-count" class="hn-count">{{votes}}</div>
       {{/if}}
-    </a>
+      <a id="hn-button"
+         class="hn-button"
+         href="{{href}}"
+         data-action="{{action}}"
+         target="_blank">{{text}}</a>
+    </div>
     <script src="hn-iframe.js"></script>
   </body>
 </html>

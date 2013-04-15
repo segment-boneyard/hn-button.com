@@ -25,10 +25,12 @@ var app = module.exports = express()
  */
 
 app.get('/', function (req, res, next) {
-  var url = req.query.url
-    , title = req.query.title
-    , count = req.query.count
-    , style = req.query.style;
+  var q = req.query
+    , url = q.url
+    , title = q.title
+    , count = q.count
+    , style = q.style
+    , font = q.font;
 
   if (!url || !title) res.redirect('https://github.com/segmentio/hn-button');
 
@@ -39,12 +41,15 @@ app.get('/', function (req, res, next) {
     , href = 'TODO';
 
   res.render('hn-iframe.min.html', {
-    action : text.toLowerCase(),
-    count  : count,
-    href   : href,
-    style  : style,
-    text   : text,
-    votes  : number(votes)
+    text       : text,
+    action     : text.toLowerCase(),
+    href       : href,
+    votes      : number(votes),
+    count      : count,
+    vertical   : count === 'vertical',
+    horizontal : count === 'horizontal',
+    style      : style,
+    font       : font
   });
 });
 
