@@ -1,6 +1,6 @@
 release: clean build
 
-build: components css
+build: components hn-button.js
 	component build
 	cd ./lib/iframe; make
 
@@ -10,8 +10,9 @@ clean:
 components: component.json
 	component install
 
-css:
-	sass --compass --style expanded lib/hn-iframe.sass:lib/hn-iframe.css
+hn-button.js:
+	curl https://raw.github.com/segmentio/hn-button.js/master/hn-button.js > public/hn-button.js
+	curl https://raw.github.com/segmentio/hn-button.js/master/hn-button.min.js > public/hn-button.min.js
 
 server:
 	foreman start

@@ -5,7 +5,8 @@
 
 var express = require('express')
   , fs = require('fs')
-  , hbs = require('hbs');
+  , hbs = require('hbs')
+  , path = require('path');
 
 
 /**
@@ -13,7 +14,7 @@ var express = require('express')
  */
 
 var app = module.exports = express()
-  .use(express.static(__dirname))
+  .use(express.static(path.resolve(__dirname, '../public')))
   .engine('html', hbs.__express)
   .set('views', __dirname);
 
