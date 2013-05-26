@@ -1,1 +1,1 @@
-web: node index.js
+web: NODE_PATH=lib node index.js

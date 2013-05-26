@@ -1,8 +1,7 @@
 release: clean build
 
 build: components css
-	component build --copy --name hn-button --standalone HN
-	uglifyjs --no-copyright --output build/hn-button.min.js build/hn-button.js
+	component build
 	inliner lib/hn-iframe.html > build/hn-iframe.min.html
 	rm lib/hn-iframe.css # build/hn-button.js
 
