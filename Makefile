@@ -2,8 +2,7 @@ release: clean build
 
 build: components css
 	component build
-	inliner lib/hn-iframe.html > build/hn-iframe.min.html
-	rm lib/hn-iframe.css # build/hn-button.js
+	cd ./lib/iframe; make
 
 clean:
 	rm -fr components build
