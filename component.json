@@ -1,5 +1,5 @@
 {
-  "name": "hn-button.com",
+  "name": "hn-button",
   "paths": ["lib"],
   "local": ["site"]
 }

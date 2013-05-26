@@ -21,8 +21,8 @@ app.use(express.static(__dirname + '/public'));
  * proper query params aren't there.
  */
 
-app.use(require('iframe'));
-app.use(require('site'));
+app.use(require('./lib/iframe'));
+app.use(require('./lib/site'));
 
 
 /**
