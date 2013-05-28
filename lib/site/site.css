@@ -30,7 +30,7 @@ input,
 button,
 select {
   -webkit-appearance: none;
-  -moz-appearance: none;
+     -moz-appearance: none;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -70,8 +70,8 @@ select:focus {
 
 .header .hn-button {
   -webkit-transform: scale(2);
-  -moz-transform: scale(2);
-  transform: scale(2);
+     -moz-transform: scale(2);
+          transform: scale(2);
 }
 
 .header .hn-button:not([data-count="vertical"]) {
@@ -102,13 +102,13 @@ select:focus {
 
 .form label:first-of-type {
   color: #a9a98f;
-  text-transform: lowercase;
-  -webkit-font-feature-settings: 'smcp' 1;
-  -moz-font-feature-settings: 'smcp' 1;
-  font-feature-settings: 'smcp' 1;
   cursor: pointer;
   display: inline-block;
   width: 3.5em;
+  text-transform: lowercase;
+  -webkit-font-feature-settings: 'smcp' 1;
+     -moz-font-feature-settings: 'smcp' 1;
+          font-feature-settings: 'smcp' 1;
 }
 
 .form input,
@@ -143,8 +143,8 @@ select:focus {
   color: white;
   text-transform: lowercase;
   -webkit-font-feature-settings: 'smcp' 1;
-  -moz-font-feature-settings: 'smcp' 1;
-  font-feature-settings: 'smcp' 1;
+     -moz-font-feature-settings: 'smcp' 1;
+          font-feature-settings: 'smcp' 1;
 }
 
 .form button:hover {
@@ -164,9 +164,11 @@ select:focus {
 
 .feature-list li {
   float: left;
-  width: 33%;
-  box-sizing: border-box;
+  width: 33.333%;
   padding: 0 1.5em;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .feature figure {
@@ -210,8 +212,8 @@ select:focus {
   border-radius: 100%;
   border: 2px solid #eee;
   -webkit-transform: scale(1.75);
-  -moz-transform: scale(1.75);
-  transform: scale(1.75);
+     -moz-transform: scale(1.75);
+          transform: scale(1.75);
 }
 
 .retina-feature .large .hn-button {
@@ -276,7 +278,7 @@ select:focus {
   float: left;
   width: 25%;
   text-align: center;
-  opacity: .25;
+  opacity: .3;
   -webkit-transition: opacity .3s;
      -moz-transition: opacity .3s;
           transition: opacity .3s;
@@ -291,8 +293,8 @@ select:focus {
   font-size: .85em;
   text-transform: lowercase;
   -webkit-font-feature-settings: 'smcp' 1;
-  -moz-font-feature-settings: 'smcp' 1;
-  font-feature-settings: 'smcp' 1;
+     -moz-font-feature-settings: 'smcp' 1;
+          font-feature-settings: 'smcp' 1;
 }
 
 .shoutout a {
