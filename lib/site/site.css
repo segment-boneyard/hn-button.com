@@ -184,10 +184,34 @@ select:focus {
 /* Retina */
 .retina-feature figure > div {
   position: absolute;
-  width: 100%;
-  text-align: center;
+  width: 2.2em;
+  height: 2.2em;
+  left: 55%;
+  margin-left: -2.5em;
   top: 50%;
-  margin-top: -.5em;
+  margin-top: -2.5em;
+  text-align: center;
+}
+
+.retina-feature figure > div .hn-button {
+  margin-top: 1em;
+}
+
+.retina-feature .large {
+  top: 56%;
+  left: 42%;
+  overflow: hidden;
+  border-radius: 100%;
+  border: 2px solid #eee;
+  -webkit-transform: scale(1.75);
+  -moz-transform: scale(1.75);
+  transform: scale(1.75);
+}
+
+.retina-feature .large .hn-button {
+  position: relative;
+  left: 22%;
+  margin-top: .61em;
 }
 
 /* Mimic */
