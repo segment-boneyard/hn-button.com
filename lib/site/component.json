@@ -22,5 +22,8 @@
   "styles": [
     "site.css"
   ],
+  "files": [
+    "favicon.ico"
+  ],
   "main": "site.js"
 }

@@ -198,7 +198,7 @@ select:focus {
   position: absolute;
   width: 2.2em;
   height: 2.2em;
-  left: 55%;
+  left: 57%;
   margin-left: -2.5em;
   top: 46%;
   margin-top: -2.5em;
@@ -215,14 +215,14 @@ select:focus {
   overflow: hidden;
   border-radius: 100%;
   border: 2px solid #edede6;
-  -webkit-transform: scale(1.75);
-     -moz-transform: scale(1.75);
-          transform: scale(1.75);
+  -webkit-transform: scale(2);
+     -moz-transform: scale(2);
+          transform: scale(2);
 }
 
 .retina-feature .large .hn-button {
   position: relative;
-  left: 22%;
+  left: 20%;
   margin-top: .61em;
 }
 
