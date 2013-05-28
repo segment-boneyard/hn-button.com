@@ -1,1 +1,1 @@
-web: make; node index.js
+web: make web
