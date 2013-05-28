@@ -179,6 +179,15 @@ select:focus {
 }
 
 
+/* Retina */
+.retina-feature figure > div {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  margin-top: -.5em;
+}
+
 /* Mimic */
 .mimic-feature figure > div {
   width: 50%;
