@@ -261,6 +261,30 @@ select:focus {
   margin: 3em 0;
 }
 
+.shoutout-list {
+  overflow: hidden;
+}
+
+.shoutout {
+  float: left;
+  width: 25%;
+  opacity: .25;
+  -webkit-transition: opacity .3s;
+     -moz-transition: opacity .3s;
+          transition: opacity .3s;
+}
+
+.shoutout:hover {
+  opacity: 1;
+}
+
+.shoutout > span {
+  text-transform: lowercase;
+  -webkit-font-feature-settings: 'smcp' 1;
+  -moz-font-feature-settings: 'smcp' 1;
+  font-feature-settings: 'smcp' 1;
+}
+
 
 /**
  * Hacks.
