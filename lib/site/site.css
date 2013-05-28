@@ -33,6 +33,10 @@ select {
      -moz-appearance: none;
   border: none;
   background: transparent;
+}
+
+button,
+select {
   cursor: pointer;
 }
 
@@ -196,7 +200,7 @@ select:focus {
   height: 2.2em;
   left: 55%;
   margin-left: -2.5em;
-  top: 50%;
+  top: 46%;
   margin-top: -2.5em;
   text-align: center;
 }
@@ -206,11 +210,11 @@ select:focus {
 }
 
 .retina-feature .large {
-  top: 56%;
+  top: 52%;
   left: 42%;
   overflow: hidden;
   border-radius: 100%;
-  border: 2px solid #eee;
+  border: 2px solid #edede6;
   -webkit-transform: scale(1.75);
      -moz-transform: scale(1.75);
           transform: scale(1.75);
