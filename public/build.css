@@ -2837,7 +2837,7 @@ img {
  */
 
 .logo[data-logo="Component"] {
-  width: 5.213114754em; /* (6.36/1.22) * (1) - 0 */
+  width: 5.213114754em; /* (3.18/0.61) * (1) - 0 */
 }
 
 .logo[data-logo="Component"] > * {

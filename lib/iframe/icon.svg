@@ -4,5 +4,8 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="400px" height="400px" viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <rect fill="#F26722" width="400" height="400"/>
-<text transform="matrix(1 0 0 1 119.6211 311.2324)" fill="#FFFFFF" font-family="'MetaPro-Book'" font-size="309.2957">Y</text>
+<g>
+	<path fill="#FFFFFF" d="M214.884,226.485v84.747h-30.929v-85.365L116.528,98.128h36.497l35.26,72.684
+		c4.33,8.97,8.351,17.939,11.753,27.527c3.711-8.66,7.732-17.63,12.372-27.218l35.878-72.994h34.641L214.884,226.485z"/>
+</g>
 </svg>
