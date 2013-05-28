@@ -224,7 +224,7 @@ html {
   font-weight: normal;
   color: #c65910;
   background-color: #ffeee3;
-  border-color: #ffcfb0;
+  border-color: #ffd2b0;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -232,7 +232,7 @@ html {
   border-radius: 3px;
 }
 [data-style="facebook"] .hn-button:hover {
-  border-color: #ffaa73;
+  border-color: #ffaf73;
 }
 [data-style="facebook"] .hn-button::before {
   left: 5px;
