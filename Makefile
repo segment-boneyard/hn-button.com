@@ -1,6 +1,3 @@
-web: clean build
-	node index.js
-
 build: components
 	component build --out ./public
 	cd ./lib/iframe; make
