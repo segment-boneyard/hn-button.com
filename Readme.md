@@ -1,5 +1,5 @@
 
-# hn-button.com
+# [hn-button.com](http://www.hn-button.com)
 
 This is the site behind the Hacker News button. It's split up into two parts:
 
