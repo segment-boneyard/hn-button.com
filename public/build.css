@@ -3531,15 +3531,20 @@ select:focus {
 }
 
 /* Count and Style */
-.form .ss-dropdown {
+.form .arrow {
   position: absolute;
-  right: 1.4em;
-  top: 1.6em;
-  font-size: .65em;
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-bottom: none;
+  border-top-color: #333333;
+  right: 1em;
+  top: 1.3em;
+  pointer-events: none; /* pass-through */
 }
 
 /* Submit */
-.form fieldset.submit {
+.form .submit {
   text-align: center;
   padding: .55em;
 }
@@ -3596,7 +3601,8 @@ select:focus {
 
 
 /* Retina */
-.retina-feature figure > div {
+.retina-feature .small,
+.retina-feature .large {
   position: absolute;
   width: 2.2em;
   height: 2.2em;
@@ -3607,7 +3613,7 @@ select:focus {
   text-align: center;
 }
 
-.retina-feature figure > div .hn-button {
+.retina-feature .hn-button {
   margin-top: 1em;
 }
 
@@ -3629,7 +3635,8 @@ select:focus {
 }
 
 /* Mimic */
-.mimic-feature figure > div {
+.mimic-feature .twitter,
+.mimic-feature .facebook {
   width: 50%;
   float: left;
   text-align: center;
@@ -3702,9 +3709,13 @@ select:focus {
   font-feature-settings: 'smcp' 1;
 }
 
+.shoutout a {
+  display: block;
+}
+
 .shoutout .logo {
-  margin-top: .2em;
-  font-size: 1.3em;
+  padding-top: .2em;
+  font-size: 1.35em;
 }
 
 
