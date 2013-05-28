@@ -11712,8 +11712,8 @@ function render () {
 }
 });
 
-require.alias("site/site.js", "hn-button/deps/site/site.js");
-require.alias("site/site.js", "hn-button/deps/site/index.js");
+require.alias("site/site.js", "hn-button.com/deps/site/site.js");
+require.alias("site/site.js", "hn-button.com/deps/site/index.js");
 require.alias("ianstormtaylor-clipboard-dom/index.js", "site/deps/clipboard-dom/index.js");
 require.alias("component-classes/index.js", "ianstormtaylor-clipboard-dom/deps/classes/index.js");
 require.alias("component-indexof/index.js", "component-classes/deps/indexof/index.js");
