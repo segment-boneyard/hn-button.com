@@ -1,5 +1,9 @@
 {
   "name": "hn-button",
+  "private": true,
   "paths": ["lib"],
-  "local": ["site"]
+  "local": ["site"],
+  "dependencies": {
+    "ianstormtaylor/reset": "*"
+  }
 }

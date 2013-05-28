@@ -604,7 +604,7 @@ function uid(len) {
 }
 
 });
-require.register("hn-button.js/index.js", function(exports, require, module){
+require.register("hn-button/index.js", function(exports, require, module){
 
 /**
  * Module dependencies.
@@ -642,6 +642,15 @@ HN.on('load', function (event) {
   var iframe = event.target;
   iframe.width = Math.ceil(event.width); // browsers round weirdly, ceil helps
 });
+
+
+/**
+ * Initialize a button element.
+ */
+
+HN.initialize = function (a) {
+  new Button(a);
+};
 
 
 /**
@@ -750,9 +759,7 @@ function src (options) {
  * Kick everything off, initializing all the `.hn-button`'s on the page.
  */
 
-each(query.all('.hn-button'), function (a) {
-  new Button (a);
-});
+each(query.all('.hn-button'), HN.initialize);
 
 
 /**
@@ -772,24 +779,24 @@ if (window.HN) while (window.HN.length > 0) {
 
 module.exports = HN;
 });
-require.alias("component-bind/index.js", "hn-button.js/deps/bind/index.js");
+require.alias("component-bind/index.js", "hn-button/deps/bind/index.js");
 
-require.alias("component-each/index.js", "hn-button.js/deps/each/index.js");
+require.alias("component-each/index.js", "hn-button/deps/each/index.js");
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
-require.alias("component-emitter/index.js", "hn-button.js/deps/emitter/index.js");
+require.alias("component-emitter/index.js", "hn-button/deps/emitter/index.js");
 require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
 
-require.alias("component-event/index.js", "hn-button.js/deps/event/index.js");
+require.alias("component-event/index.js", "hn-button/deps/event/index.js");
 
-require.alias("component-query/index.js", "hn-button.js/deps/query/index.js");
+require.alias("component-query/index.js", "hn-button/deps/query/index.js");
 
-require.alias("matthewmueller-uid/index.js", "hn-button.js/deps/uid/index.js");
+require.alias("matthewmueller-uid/index.js", "hn-button/deps/uid/index.js");
 
 if (typeof exports == "object") {
-  module.exports = require("hn-button.js");
+  module.exports = require("hn-button");
 } else if (typeof define == "function" && define.amd) {
-  define(function(){ return require("hn-button.js"); });
+  define(function(){ return require("hn-button"); });
 } else {
-  this["HN"] = require("hn-button.js");
+  this["HN"] = require("hn-button");
 }})();

@@ -1,11 +1,12 @@
 release: clean build
 
-build: components hn-button.js
-	component build
+build: components
+	component build --out ./public
 	cd ./lib/iframe; make
+	make hn-button.js
 
 clean:
-	rm -fr components build
+	rm -fr components public
 
 components: component.json
 	component install

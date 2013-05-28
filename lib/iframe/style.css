@@ -30,7 +30,6 @@ html {
  */
 .hn-button,
 .hn-count {
-  cursor: pointer;
   height: 20px;
   line-height: 18px;
   border: 1px solid #cbcbb4;
@@ -46,6 +45,7 @@ html {
  * Button.
  */
 .hn-button {
+  cursor: pointer;
   text-decoration: none;
   position: relative;
   display: inline-block;

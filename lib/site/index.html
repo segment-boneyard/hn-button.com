@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hacker News Button</title>
+  <link rel="stylesheet" href="build.css">
+</head>
+<body>
+  <header class="header flag">
+    <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="vertical">Vote on Hacker News</a>
+    <h1>Put a Hacker News button on your site.</h1>
+  </header>
+  <section class="form-section">
+    <a href="https://news.ycombinator.com/submit" class="hn-button">Vote on Hacker News</a>
+    <pre>
+      <code id="code" class="code"></code>
+    </pre>
+    <form id="form" class="form" novalidate>
+      <fieldset>
+        <div class="textfield">
+          <label for="ur">URL (optional)</label>
+          <input id="url" name="url" type="url" placeholder="URL">
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="textfield">
+          <label for="title">Title (optional)</label>
+          <input id="title" name="title" type="text" placeholder="Title">
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="select">
+          <label for="count">Count</label>
+          <select id="count" name="count">
+            <option value="horizontal" selected>Horizontal</option>
+            <option value="vertical">Vertical</option>
+            <option value="">None</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="select">
+          <label for="style">Style</label>
+          <select id="style" name="style">
+            <option value="" selected>Hacker News</option>
+            <option value="twitter">Twitter</option>
+            <option value="facebook">Facebook</option>
+          </select>
+        </div>
+      </fieldset>
+      <fieldset style="position:relative">
+        <input id="submit" name="submit" type="submit" value="Copy the code!">
+      </fieldset>
+    </form>
+  </section>
+  <section class="feature-section">
+    <ul class="feature-list">
+      <li class="feature-list-item">
+        <img>
+        <h2>Retina ready. Infinitely scaleable.</h2>
+        <p>The buttons look sharp on high-DPI screens. Scale them up and they will always stay crisp. That big one up there isn&rsquo;t an image, it&rsquo;s the real thing!</p>
+      </li>
+      <li class="feature-list-item">
+        <img>
+        <h2>Mimic Twitter and Facebook.</h2>
+        <p>You can make the button look like the Twitter or Facebook buttons, because sometimes you need to reduce the visual clutter.</p>
+      </li>
+      <li class="feature-list-item">
+        <img>
+        <h2>And all the standard options.</h2>
+        <p>Just like the buttons you&rsquo;re used to, you can choose between horizontal or vertical, or even remove the count altogether!</p>
+      </li>
+    </ul>
+  </section>
+  <script src="build.js"></script>
+  <script>require('site')</script>
+</body>
+</html>

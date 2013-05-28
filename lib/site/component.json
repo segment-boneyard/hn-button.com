@@ -1,6 +1,23 @@
 {
   "name": "site",
+  "dependencies": {
+    "ianstormtaylor/clipboard-dom": "*",
+    "component/domify": "*",
+    "component/event": "*",
+    "component/escape-html": "*",
+    "component/query": "*",
+    "ianstormtaylor/animate": "*",
+    "segmentio/hn-button.js": "*",
+    "segmentio/hn-button-snippet": "*",
+    "segmentio/value": "*",
+    "yields/prevent": "*",
+    "yields/store": "*"
+  },
   "scripts": [
-    "index.js"
-  ]
+    "site.js"
+  ],
+  "styles": [
+    "site.css"
+  ],
+  "main": "site.js"
 }
