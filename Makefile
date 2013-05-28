@@ -1,5 +1,5 @@
 build: components
-	component build --out ./public
+	component build --out ./public --copy
 	cd ./lib/iframe; make
 	make hn-button.js
 
