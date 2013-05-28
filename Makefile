@@ -1,5 +1,5 @@
 build: components
-	component build --out ./public --copy ## copy for heroku
+	component build --out ./public --copy # no symlinks for heroku
 	cd ./lib/iframe; make
 	make hn-button.js
 

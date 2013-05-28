@@ -3,10 +3,12 @@
   "dependencies": {
     "ianstormtaylor/clipboard-dom": "*",
     "component/domify": "*",
-    "component/event": "*",
+    "component/each": "*",
     "component/escape-html": "*",
+    "component/event": "*",
     "component/query": "*",
     "ianstormtaylor/animate": "*",
+    "matthewmueller/debounce": "*",
     "segmentio/hn-button.js": "*",
     "segmentio/hn-button-snippet": "*",
     "segmentio/value": "*",

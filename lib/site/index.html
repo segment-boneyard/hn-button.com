@@ -2,77 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hacker News Button</title>
-  <link rel="stylesheet" href="build.css">
+  <title>The Hacker News Button</title>
+  <link href="build.css" rel="stylesheet" type="text/css">
+  <link href="//cdn.symbolset.com/7119ac7b9df15695720e313ace8d9abcf491406e/symbolset.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="//use.typekit.net/lml6ajf.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>
+
   <header class="header flag">
-    <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="vertical">Vote on Hacker News</a>
-    <h1>Put a Hacker News button on your site.</h1>
+    <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="horizontal">Vote on Hacker News</a>
+    <h1>The Hacker News button.</h1>
   </header>
-  <section class="form-section">
-    <a href="https://news.ycombinator.com/submit" class="hn-button">Vote on Hacker News</a>
-    <pre>
-      <code id="code" class="code"></code>
-    </pre>
-    <form id="form" class="form" novalidate>
-      <fieldset>
-        <div class="textfield">
-          <label for="ur">URL (optional)</label>
-          <input id="url" name="url" type="url" placeholder="URL">
+
+  <form id="form" class="form" novalidate>
+    <fieldset class="url">
+      <label for="url">URL:</label>
+      <input id="url" name="url" type="url" placeholder="&hellip;">
+    </fieldset>
+
+    <fieldset class="title">
+      <label for="title">Title:</label>
+      <input id="title" name="title" type="text" placeholder="&hellip;">
+    </fieldset>
+
+    <fieldset class="count">
+      <label for="count">Count:</label>
+      <select id="count" name="count">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical">Vertical</option>
+        <option value="">None</option>
+      </select>
+      <i class="ss-standard ss-dropdown"></i>
+    </fieldset>
+
+    <fieldset class="style">
+      <label for="style">Style:</label>
+      <select id="style" name="style">
+        <option value="">Hacker News</option>
+        <option value="twitter">Twitter</option>
+        <option value="facebook">Facebook</option>
+      </select>
+      <i class="ss-standard ss-dropdown"></i>
+    </fieldset>
+
+    <fieldset class="submit">
+      <button id="submit" name="submit">Copy the code</button>
+    </fieldset>
+  </form>
+
+  <ul class="feature-list">
+    <li class="retina-feature feature">
+      <figure>
+        <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="horizontal">Vote on Hacker News</a>
+        <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="horizontal">Vote on Hacker News</a>
+      </figure>
+      <p><strong>Infinitely scaleable</strong> so they&rsquo;ll always stay crisp. That big one up there is the real thing!</p>
+    </li>
+
+    <li class="mimic-feature feature">
+      <figure>
+        <div class="twitter">
+          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+          <br/>
+          <a href="https://news.ycombinator.com/submit" class="hn-button" data-style="twitter" data-count="horizontal">Vote on Hacker News</a>
         </div>
-      </fieldset>
-      <fieldset>
-        <div class="textfield">
-          <label for="title">Title (optional)</label>
-          <input id="title" name="title" type="text" placeholder="Title">
+        <div class="facebook">
+          <div class="fb-like" data-send="false" data-layout="button_count" data-show-faces="false"></div>
+          <br/>
+          <a href="https://news.ycombinator.com/submit" class="hn-button" data-style="facebook" data-count="horizontal">Vote on Hacker News</a>
         </div>
-      </fieldset>
-      <fieldset>
-        <div class="select">
-          <label for="count">Count</label>
-          <select id="count" name="count">
-            <option value="horizontal" selected>Horizontal</option>
-            <option value="vertical">Vertical</option>
-            <option value="">None</option>
-          </select>
-        </div>
-      </fieldset>
-      <fieldset>
-        <div class="select">
-          <label for="style">Style</label>
-          <select id="style" name="style">
-            <option value="" selected>Hacker News</option>
-            <option value="twitter">Twitter</option>
-            <option value="facebook">Facebook</option>
-          </select>
-        </div>
-      </fieldset>
-      <fieldset style="position:relative">
-        <input id="submit" name="submit" type="submit" value="Copy the code!">
-      </fieldset>
-    </form>
-  </section>
-  <section class="feature-section">
-    <ul class="feature-list">
-      <li class="feature-list-item">
-        <img>
-        <h2>Retina ready. Infinitely scaleable.</h2>
-        <p>The buttons look sharp on high-DPI screens. Scale them up and they will always stay crisp. That big one up there isn&rsquo;t an image, it&rsquo;s the real thing!</p>
-      </li>
-      <li class="feature-list-item">
-        <img>
-        <h2>Mimic Twitter and Facebook.</h2>
-        <p>You can make the button look like the Twitter or Facebook buttons, because sometimes you need to reduce the visual clutter.</p>
-      </li>
-      <li class="feature-list-item">
-        <img>
-        <h2>And all the standard options.</h2>
-        <p>Just like the buttons you&rsquo;re used to, you can choose between horizontal or vertical, or even remove the count altogether!</p>
-      </li>
-    </ul>
-  </section>
+      </figure>
+      <p><strong>Mimic Twitter or Facebook</strong> because sometimes you need to reduce the visual clutter.</p>
+    </li>
+
+    <li class="options-feature feature">
+      <figure>
+        <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="vertical">Vote on Hacker News</a>
+        <a href="https://news.ycombinator.com/submit" class="hn-button" data-count="horizontal">Vote on Hacker News</a>
+        <a href="https://news.ycombinator.com/submit" class="hn-button">Vote on Hacker News</a>
+      </figure>
+      <img>
+      <p><strong>All the options</strong> you&rsquo;re used to. Optional url and title. Horizontal, vertical, or no count&hellip;</p>
+    </li>
+  </ul>
+
+  <hr>
+
+  <footer class="footer">
+    <p>Made by <a href="https://segment.io" class="logo" data-logo="Segment.io"><span>Segment.io</span></a> &mdash; Build with <a href="http://component.io" class="logo" data-logo="Component"><span>Component</span></a></p>
+  </footer>
+
   <script src="build.js"></script>
   <script>require('site')</script>
+
+  <!-- Social buttons -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=118682564979090";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>

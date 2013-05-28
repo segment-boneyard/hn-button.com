@@ -993,6 +993,138 @@ function orphan(els) {
 }
 
 });
+require.register("component-type/index.js", function(exports, require, module){
+
+/**
+ * toString ref.
+ */
+
+var toString = Object.prototype.toString;
+
+/**
+ * Return the type of `val`.
+ *
+ * @param {Mixed} val
+ * @return {String}
+ * @api public
+ */
+
+module.exports = function(val){
+  switch (toString.call(val)) {
+    case '[object Function]': return 'function';
+    case '[object Date]': return 'date';
+    case '[object RegExp]': return 'regexp';
+    case '[object Arguments]': return 'arguments';
+    case '[object Array]': return 'array';
+    case '[object String]': return 'string';
+  }
+
+  if (val === null) return 'null';
+  if (val === undefined) return 'undefined';
+  if (val && val.nodeType === 1) return 'element';
+  if (val === Object(val)) return 'object';
+
+  return typeof val;
+};
+
+});
+require.register("component-each/index.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var type = require('type');
+
+/**
+ * HOP reference.
+ */
+
+var has = Object.prototype.hasOwnProperty;
+
+/**
+ * Iterate the given `obj` and invoke `fn(val, i)`.
+ *
+ * @param {String|Array|Object} obj
+ * @param {Function} fn
+ * @api public
+ */
+
+module.exports = function(obj, fn){
+  switch (type(obj)) {
+    case 'array':
+      return array(obj, fn);
+    case 'object':
+      if ('number' == typeof obj.length) return array(obj, fn);
+      return object(obj, fn);
+    case 'string':
+      return string(obj, fn);
+  }
+};
+
+/**
+ * Iterate string chars.
+ *
+ * @param {String} obj
+ * @param {Function} fn
+ * @api private
+ */
+
+function string(obj, fn) {
+  for (var i = 0; i < obj.length; ++i) {
+    fn(obj.charAt(i), i);
+  }
+}
+
+/**
+ * Iterate object keys.
+ *
+ * @param {Object} obj
+ * @param {Function} fn
+ * @api private
+ */
+
+function object(obj, fn) {
+  for (var key in obj) {
+    if (has.call(obj, key)) {
+      fn(key, obj[key]);
+    }
+  }
+}
+
+/**
+ * Iterate array-ish.
+ *
+ * @param {Array|Object} obj
+ * @param {Function} fn
+ * @api private
+ */
+
+function array(obj, fn) {
+  for (var i = 0; i < obj.length; ++i) {
+    fn(obj[i], i);
+  }
+}
+});
+require.register("component-escape-html/index.js", function(exports, require, module){
+/**
+ * Escape special characters in the given string of html.
+ *
+ * @param  {String} html
+ * @return {String}
+ * @api private
+ */
+
+module.exports = function(html) {
+  return String(html)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+});
 require.register("component-event/index.js", function(exports, require, module){
 
 /**
@@ -1034,25 +1166,6 @@ exports.unbind = function(el, type, fn, capture){
   }
   return fn;
 };
-
-});
-require.register("component-escape-html/index.js", function(exports, require, module){
-/**
- * Escape special characters in the given string of html.
- *
- * @param  {String} html
- * @return {String}
- * @api private
- */
-
-module.exports = function(html) {
-  return String(html)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
 
 });
 require.register("component-query/index.js", function(exports, require, module){
@@ -10820,6 +10933,38 @@ module.exports.out = function animateOut (element, animation, remove, callback) 
   });
 };
 });
+require.register("matthewmueller-debounce/index.js", function(exports, require, module){
+/**
+ * Debounce
+ *
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing.
+ *
+ * @param {Function} func
+ * @param {Number} wait
+ * @param {Boolean} immediate
+ * @return {Function}
+ */
+
+module.exports = function(func, wait, immediate) {
+  var timeout, result;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) result = func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) result = func.apply(context, args);
+    return result;
+  };
+};
+
+});
 require.register("component-bind/index.js", function(exports, require, module){
 
 /**
@@ -10846,119 +10991,6 @@ module.exports = function(obj, fn){
   }
 };
 
-});
-require.register("component-type/index.js", function(exports, require, module){
-
-/**
- * toString ref.
- */
-
-var toString = Object.prototype.toString;
-
-/**
- * Return the type of `val`.
- *
- * @param {Mixed} val
- * @return {String}
- * @api public
- */
-
-module.exports = function(val){
-  switch (toString.call(val)) {
-    case '[object Function]': return 'function';
-    case '[object Date]': return 'date';
-    case '[object RegExp]': return 'regexp';
-    case '[object Arguments]': return 'arguments';
-    case '[object Array]': return 'array';
-    case '[object String]': return 'string';
-  }
-
-  if (val === null) return 'null';
-  if (val === undefined) return 'undefined';
-  if (val && val.nodeType === 1) return 'element';
-  if (val === Object(val)) return 'object';
-
-  return typeof val;
-};
-
-});
-require.register("component-each/index.js", function(exports, require, module){
-
-/**
- * Module dependencies.
- */
-
-var type = require('type');
-
-/**
- * HOP reference.
- */
-
-var has = Object.prototype.hasOwnProperty;
-
-/**
- * Iterate the given `obj` and invoke `fn(val, i)`.
- *
- * @param {String|Array|Object} obj
- * @param {Function} fn
- * @api public
- */
-
-module.exports = function(obj, fn){
-  switch (type(obj)) {
-    case 'array':
-      return array(obj, fn);
-    case 'object':
-      if ('number' == typeof obj.length) return array(obj, fn);
-      return object(obj, fn);
-    case 'string':
-      return string(obj, fn);
-  }
-};
-
-/**
- * Iterate string chars.
- *
- * @param {String} obj
- * @param {Function} fn
- * @api private
- */
-
-function string(obj, fn) {
-  for (var i = 0; i < obj.length; ++i) {
-    fn(obj.charAt(i), i);
-  }
-}
-
-/**
- * Iterate object keys.
- *
- * @param {Object} obj
- * @param {Function} fn
- * @api private
- */
-
-function object(obj, fn) {
-  for (var key in obj) {
-    if (has.call(obj, key)) {
-      fn(key, obj[key]);
-    }
-  }
-}
-
-/**
- * Iterate array-ish.
- *
- * @param {Array|Object} obj
- * @param {Function} fn
- * @api private
- */
-
-function array(obj, fn) {
-  for (var i = 0; i < obj.length; ++i) {
-    fn(obj[i], i);
-  }
-}
 });
 require.register("matthewmueller-uid/index.js", function(exports, require, module){
 /**
@@ -11346,6 +11378,12 @@ module.exports = '<script type="text/javascript">var HN=[];HN.factory=function(e
 require.register("segmentio-value/index.js", function(exports, require, module){
 
 /**
+ * Module dependencies.
+ */
+
+var typeOf = require('type');
+
+/**
  * Set or get `el`'s' value.
  *
  * @param {Element} el
@@ -11366,12 +11404,18 @@ module.exports = function(el, val){
 function get(el) {
   switch (type(el)) {
     case 'checkbox':
+    case 'radio':
       if (el.checked) {
         var attr = el.getAttribute('value');
         return null == attr ? true : attr;
       } else {
         return false;
       }
+    case 'radiogroup':
+      for (var i = 0, radio; radio = el[i]; i++) {
+        if (radio.checked) return radio.value;
+      }
+      break;
     case 'select':
       for (var i = 0, option; option = el.options[i]; i++) {
         if (option.selected) return option.value;
@@ -11389,10 +11433,16 @@ function get(el) {
 function set(el, val) {
   switch (type(el)) {
     case 'checkbox':
+    case 'radio':
       if (val) {
         el.checked = true;
       } else {
         el.checked = false;
+      }
+      break;
+    case 'radiogroup':
+      for (var i = 0, radio; radio = el[i]; i++) {
+        radio.checked = radio.value === val;
       }
       break;
     case 'select':
@@ -11410,9 +11460,14 @@ function set(el, val) {
  */
 
 function type(el) {
+  var group = 'array' == typeOf(el) || 'object' == typeOf(el);
+  if (group) el = el[0];
   var name = el.nodeName.toLowerCase();
   var type = el.getAttribute('type');
+
+  if (group && type && 'radio' == type.toLowerCase()) return 'radiogroup';
   if ('input' == name && type && 'checkbox' == type.toLowerCase()) return 'checkbox';
+  if ('input' == name && type && 'radio' == type.toLowerCase()) return 'radio';
   if ('select' == name) return 'select';
   return name;
 }
@@ -11555,30 +11610,31 @@ require.register("site/site.js", function(exports, require, module){
  * Module dependencies.
  */
 
-var $       = require('query')
-  , animate = require('animate')
-  , Clip    = require('clipboard-dom').swf('ianstormtaylor-clipboard-dom/ZeroClipboard.swf')
-  , domify  = require('domify')
-  , escape  = require('escape-html')
-  , snippet = require('hn-button-snippet')
-  , HN      = require('hn-button')
-  , on      = require('event').bind
-  , prevent = require('prevent')
-  , store   = require('store')
-  , value   = require('value');
+var $        = require('query')
+  , animate  = require('animate')
+  , Clip     = require('clipboard-dom').swf('ianstormtaylor-clipboard-dom/ZeroClipboard.swf')
+  , debounce = require('debounce')
+  , domify   = require('domify')
+  , each     = require('each')
+  , escape   = require('escape-html')
+  , snippet  = require('hn-button-snippet')
+  , HN       = require('hn-button')
+  , on       = require('event').bind
+  , prevent  = require('prevent')
+  , store    = require('store')
+  , value    = require('value');
 
 
 /**
  * Cache DOM elements.
  */
 
-var code   = $('#code')
-  , count  = $('#count')
-  , form   = $('#form')
-  , style  = $('#style')
-  , submit = $('#submit')
+var form   = $('#form')
+  , url    = $('#url')
   , title  = $('#title')
-  , url    = $('#url');
+  , count  = $('#count')
+  , style  = $('#style')
+  , submit = $('#submit');
 
 
 /**
@@ -11590,8 +11646,9 @@ form.onsubmit = prevent;
 var clip = new Clip(submit, submit.parentNode);
 
 clip.on('complete', function (text) {
-  animate(submit, 'tada');
-  console.log(text);
+  var original = submit.value;
+  submit.value = 'Copied!';
+  animate(submit, 'tada', function () { submit.value = original; });
 });
 
 on(window, 'resize', clip.reposition); // resposition the SWF overlay on resize
@@ -11610,8 +11667,8 @@ value(style, store('style'));
  * based on the saved settings in local storage.
  */
 
-on(url,   'change', render);
-on(title, 'change', render);
+on(url,   'keyup',  debounce(render, 200));
+on(title, 'keyup',  debounce(render, 200));
 on(count, 'change', render);
 on(style, 'change', render);
 
@@ -11645,12 +11702,11 @@ function render () {
 
   // button
   var a = domify(button)[0];
-  var old = $('.form-section .hn-button');
+  var old = $('header .hn-button');
   old.parentNode.replaceChild(a, old);
   HN.initialize(a);
 
   // code
-  code.innerHTML = escape(full);
   clip.text(full);
 }
 });
@@ -11668,9 +11724,12 @@ require.alias("component-inherit/index.js", "ianstormtaylor-clipboard-dom/deps/i
 
 require.alias("component-domify/index.js", "site/deps/domify/index.js");
 
-require.alias("component-event/index.js", "site/deps/event/index.js");
+require.alias("component-each/index.js", "site/deps/each/index.js");
+require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
 require.alias("component-escape-html/index.js", "site/deps/escape-html/index.js");
+
+require.alias("component-event/index.js", "site/deps/event/index.js");
 
 require.alias("component-query/index.js", "site/deps/query/index.js");
 
@@ -11678,6 +11737,8 @@ require.alias("ianstormtaylor-animate/index.js", "site/deps/animate/index.js");
 require.alias("component-jquery/index.js", "ianstormtaylor-animate/deps/jquery/index.js");
 
 require.alias("kewah-css-animation-event-types/index.js", "ianstormtaylor-animate/deps/css-animation-event-types/index.js");
+
+require.alias("matthewmueller-debounce/index.js", "site/deps/debounce/index.js");
 
 require.alias("segmentio-hn-button.js/index.js", "site/deps/hn-button/index.js");
 require.alias("component-bind/index.js", "segmentio-hn-button.js/deps/bind/index.js");
@@ -11701,6 +11762,8 @@ require.alias("visionmedia-minstache/index.js", "segmentio-hn-button-snippet/dep
 
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");
+require.alias("component-type/index.js", "segmentio-value/deps/type/index.js");
+
 require.alias("segmentio-value/index.js", "segmentio-value/index.js");
 
 require.alias("yields-prevent/index.js", "site/deps/prevent/index.js");

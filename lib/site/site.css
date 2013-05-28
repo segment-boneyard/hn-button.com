@@ -1,2 +1,245 @@
 
-#form {}
+/**
+ * Variables:
+ *
+ *   dark-sand : #cbcbb4
+ *   sand      : #f6f6ef
+ *   orange    : #ff6600
+ */
+
+
+html {
+  font-family: 'freight-sans-pro', Verdana, sans-serif;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #333333;
+}
+
+body {
+  max-width: 45em;
+  margin: 0 auto;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #f6f6ef;
+  margin: 3em 0;
+}
+
+input,
+button,
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input:focus,
+button:focus,
+select:focus {
+  outline: none;
+}
+
+::-webkit-input-placeholder { color: #a9a98f; }
+::-moz-placeholder { color: #a9a98f; }
+:-ms-input-placeholder { color: #a9a98f; }
+
+
+/**
+ * Header.
+ */
+
+.header {
+  position: relative;
+  float: left;
+  width: 28em;
+  padding-top: 6.5em;
+  text-align: center;
+}
+
+.header h1 {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  margin-top: 2em;
+  font-size: 1.5em;
+}
+
+.header .hn-button {
+  -webkit-transform: scale(2);
+  -moz-transform: scale(2);
+  transform: scale(2);
+}
+
+.header .hn-button:not([data-count="vertical"]) {
+  margin-top: 1.8em;
+}
+
+
+/**
+ * Form.
+ */
+
+.form {
+  max-width: 16em;
+  float: right;
+  background-color: #f6f6ef;
+  border: 2px solid #cbcbb4;
+  margin-top: -2px;
+}
+
+.form fieldset {
+  position: relative;
+  padding: .7em 0 .8em .75em;
+}
+
+.form fieldset + fieldset {
+  border-top: 2px solid #cbcbb4;
+}
+
+.form label:first-of-type {
+  color: #a9a98f;
+  text-transform: lowercase;
+  -webkit-font-feature-settings: 'smcp' 1;
+  -moz-font-feature-settings: 'smcp' 1;
+  font-feature-settings: 'smcp' 1;
+  cursor: pointer;
+  display: inline-block;
+  width: 3.5em;
+}
+
+.form input,
+.form select {
+  width: 11em;
+}
+
+/* Count and Style */
+.form .ss-dropdown {
+  position: absolute;
+  right: 1.4em;
+  top: 1.6em;
+  font-size: .65em;
+}
+
+/* Submit */
+.form fieldset.submit {
+  text-align: center;
+  padding: .55em;
+}
+
+.form button {
+  display: block;
+  width: 100%;
+  padding: .45em .7em .55em;
+  background-color: #ff6600;
+  color: white;
+  text-transform: lowercase;
+  -webkit-font-feature-settings: 'smcp' 1;
+  -moz-font-feature-settings: 'smcp' 1;
+  font-feature-settings: 'smcp' 1;
+}
+
+.form button:hover {
+  background-color: #ff6600;
+}
+
+
+/**
+ * Feature.
+ */
+
+.feature-list {
+  clear: both;
+  padding-top: 6em;
+  overflow: hidden;
+}
+
+.feature-list li {
+  float: left;
+  width: 33%;
+  box-sizing: border-box;
+  padding: 0 1.5em;
+}
+
+.feature figure {
+  width: 100%;
+  height: 5em;
+}
+
+.feature h2 {
+  font-weight: bold;
+}
+
+.feature p {
+  font-size: .85em;
+  text-align: center;
+}
+
+
+/* Mimic */
+.mimic-feature figure > div {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+
+.mimic-feature .twitter-share-button {
+  margin-right: -37px;
+}
+
+/* Options */
+.options-feature .hn-button:nth-child(1) {
+  position: relative;
+  left: 50px;
+  -webkit-transform: rotate(-5deg);
+     -moz-transform: rotate(-5deg);
+          transform: rotate(-5deg);
+}
+
+.options-feature .hn-button:nth-child(2) {
+  position: relative;
+  top: -35px;
+  left: 60px;
+  -webkit-transform: rotate(1deg);
+     -moz-transform: rotate(1deg);
+          transform: rotate(1deg);
+}
+
+.options-feature .hn-button:nth-child(3) {
+  position: relative;
+  top: -5px;
+  left: -20px;
+  -webkit-transform: rotate(4deg);
+     -moz-transform: rotate(4deg);
+          transform: rotate(4deg);
+}
+
+
+/**
+ * Footer.
+ */
+
+.footer {
+  margin: 3em 0;
+}
+
+
+/**
+ * Hacks.
+ */
+
+.ss-yc {
+  display: inline-block;
+  background-color: black;
+  color: white;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  font-size: .7em;
+  padding: .21em;
+  text-align: center;
+  font-family: "Lucida Grande";
+}
