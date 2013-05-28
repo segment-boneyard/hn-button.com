@@ -2833,6 +2833,23 @@ img {
 }
 
 /**
+ * Component
+ */
+
+.logo[data-logo="Component"] {
+  width: 5.213114754em; /* (6.36/1.22) * (1) - 0 */
+}
+
+.logo[data-logo="Component"] > * {
+  background-image: url("/segmentio-logo/images/component/component.svg");
+  margin: 0;
+}
+
+.logo[data-logo="Component"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/component/component-monochromatic.svg");
+}
+
+/**
  * comScore
  */
 
@@ -2918,6 +2935,23 @@ img {
 }
 
 /**
+ * GitHub
+ */
+
+.logo[data-logo="GitHub"] {
+  width: 2.964444444em; /* (6.67/1.8) * (1-.1-.1) - 0 */
+}
+
+.logo[data-logo="GitHub"] > * {
+  background-image: url("/segmentio-logo/images/github/github.svg");
+  margin: .1em 0 .1em 0;
+}
+
+.logo[data-logo="GitHub"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/github/github-monochromatic.svg");
+}
+
+/**
  * Google Analytics
  */
 
@@ -2966,6 +3000,23 @@ img {
 
 .logo[data-logo="HitTail"].monochromatic > * {
   background-image: url("/segmentio-logo/images/hittail/hittail-monochromatic.svg");
+}
+
+/**
+ * Heroku
+ */
+
+.logo[data-logo="Heroku"] {
+  width: 3.643085502em; /* (89.09/26.9) * (1+.05+.05) - 0 */
+}
+
+.logo[data-logo="Heroku"] > * {
+  background-image: url("/segmentio-logo/images/heroku/heroku.svg");
+  margin: -.05em 0 -.05em 0;
+}
+
+.logo[data-logo="Heroku"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/heroku/heroku-monochromatic.svg");
 }
 
 /**
