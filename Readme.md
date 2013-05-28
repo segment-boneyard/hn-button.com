@@ -10,7 +10,7 @@ It also relies on a few key components:
 
 - [`hn-button.js`](https://github.com/segmentio/hn-button.js) is the library that gets asynchronously loaded to initialize all of the Hacker News buttons on your page.
 
-- [`hn-button-snippet`](https://github.com/segmentio/hn-button-snippet) is a simple component for rendering the snippet of code required to add a Hacker News button to your site.
+- [`hn-button-snippet`](https://github.com/segmentio/hn-button-snippet) is a simple component for rendering the HTML snippet for the Hacker News button.
 
 The whole thing is open-source, so feel free to poke around and see what's going on. Even submit a pull request if you see anything funky :)
 
