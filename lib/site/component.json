@@ -11,6 +11,7 @@
     "matthewmueller/debounce": "*",
     "segmentio/hn-button.js": "*",
     "segmentio/hn-button-snippet": "*",
+    "segmentio/logo": "*",
     "segmentio/value": "*",
     "yields/prevent": "*",
     "yields/store": "*"

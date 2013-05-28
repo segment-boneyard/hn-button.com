@@ -11375,6 +11375,7 @@ module.exports = '<a href="https://news.ycombinator.com/submit" class="hn-button
 require.register("segmentio-hn-button-snippet/script.js", function(exports, require, module){
 module.exports = '<script type="text/javascript">var HN=[];HN.factory=function(e){return function(){HN.push([e].concat(Array.prototype.slice.call(arguments,0)))};},HN.on=HN.factory("on"),HN.once=HN.factory("once"),HN.off=HN.factory("off"),HN.emit=HN.factory("emit"),HN.load=function(){var e="hn-button.js";if(document.getElementById(e))return;var t=document.createElement("script");t.id=e,t.src="//hn-button.herokuapp.com/hn-button.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)},HN.load();</script>';
 });
+
 require.register("segmentio-value/index.js", function(exports, require, module){
 
 /**
@@ -11759,6 +11760,7 @@ require.alias("segmentio-hn-button-snippet/index.js", "site/deps/hn-button-snipp
 require.alias("segmentio-hn-button-snippet/button.js", "site/deps/hn-button-snippet/button.js");
 require.alias("segmentio-hn-button-snippet/script.js", "site/deps/hn-button-snippet/script.js");
 require.alias("visionmedia-minstache/index.js", "segmentio-hn-button-snippet/deps/minstache/index.js");
+
 
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");

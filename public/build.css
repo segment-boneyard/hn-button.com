@@ -2711,6 +2711,654 @@ img {
 
 
 
+/**
+ * Logo.
+ *
+ * The DOM structure looks this like:
+ *
+ *     <* class="logo" data-logo="Name">
+ *       <*>Replaced Text</*>
+ *     </*>
+ *
+ * So a couple common use cases are covered nicely:
+ *
+ *     <h1 class="logo" data-logo="Segment.io">
+ *       <a href="/">Segment.io</a>
+ *     </h1>
+ *
+ */
+
+.logo {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; /* not baseline, so we align up _and_ down */
+  height: 1em; /* keep height constant regardless of innards */
+  margin: 0; /* reset */
+}
+
+.logo > * {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-indent: -9999px; /* image replacement */
+  direction: ltr; /* make text-indent play nice */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.logo.monochromatic > * {
+  /* no styles, but the individual logos will change their background images */
+}
+
+/**
+ * You'll want to figure out the inner logo's alignment first:
+ *
+ *     .logo[data-logo="Example"] > * {
+ *       background-image: url("/segmentio-logo/images/example.svg");
+ *       margin: -.1em 0 -.2em -.05em;
+ *     }
+ *
+ * Then, with those margins and the ratio of the SVG file, you can determine the
+ * container's width, with the following equation:
+ *
+ *     width = ratio * (height - vertical margins) + horizontal margins
+ *
+ * For the vertical margins, you want the height to reflect the fixed `1em` and
+ * the additional height incurred by using negative margins. (ie. in this
+ * example the height is: 1em - (-.1em) - (-.2em)
+ *
+ * For the horizontal margins, you want them to substract from the width. (ie.
+ * in this example you would do: + (0) + (-.05em)
+ *
+ * So you end up with: (171 / 30) * (1 - (-.1) - (-.2)) + (0) + (-.05)
+ *
+ *     .logo[data-logo="Example"] {
+ *       width: 6.27em;
+ *     }
+ *
+ */
+
+/**
+ * Bitdeli
+ */
+
+.logo[data-logo="Bitdeli"] {
+  width: 2.449589041em; /* (194.46/69.46) * (1+.08-.14) - .1 */
+}
+
+.logo[data-logo="Bitdeli"] > * {
+  background-image: url("/segmentio-logo/images/bitdeli/bitdeli.svg");
+  margin: -.08em 0 .14em -.1em;
+}
+
+.logo[data-logo="Bitdeli"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/bitdeli/bitdeli-monochromatic.svg");
+}
+
+/**
+ * Chartbeat
+ */
+
+.logo[data-logo="Chartbeat"] {
+  width: 4.1383032em; /* (863.54/178.1) * (1+.06-.19) - .05-.03 */
+}
+
+.logo[data-logo="Chartbeat"] > * {
+  background-image: url("/segmentio-logo/images/chartbeat/chartbeat.svg");
+  margin: -.06em -.05em .19em -.03em;
+}
+
+.logo[data-logo="Chartbeat"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/chartbeat/chartbeat-monochromatic.svg");
+}
+
+/**
+ * Clicky
+ */
+
+.logo[data-logo="Clicky"] {
+  width: 3.070888334em; /* (340.37/132.27) * (1+.12+.12) - .12 */
+}
+
+.logo[data-logo="Clicky"] > * {
+  background-image: url("/segmentio-logo/images/clicky/clicky.svg");
+  margin: -.12em 0 -.12em -.12em;
+}
+
+.logo[data-logo="Clicky"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/clicky/clicky-monochromatic.svg");
+}
+
+/**
+ * comScore
+ */
+
+.logo[data-logo="comScore"] {
+  width: 5.326556291em; /* (135.31/22.65) * (1-.1) - .05 */
+}
+
+.logo[data-logo="comScore"] > * {
+  background-image: url("/segmentio-logo/images/comscore/comscore.svg");
+  margin: 0 0 .1em -.05em;
+}
+
+.logo[data-logo="comScore"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/comscore/comscore-monochromatic.svg");
+}
+
+/**
+ * CrazyEgg
+ */
+
+.logo[data-logo="CrazyEgg"] {
+  width: 2.573422998em; /* (221.81/116.36) * (1+.3+.05) */
+}
+
+.logo[data-logo="CrazyEgg"] > * {
+  background-image: url("/segmentio-logo/images/crazyegg/crazyegg.svg");
+  margin: -.3em 0 -.05em 0;
+}
+
+.logo[data-logo="CrazyEgg"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/crazyegg/crazyegg-monochromatic.svg");
+}
+
+/**
+ * Customer.io
+ */
+
+.logo[data-logo="Customer.io"] {
+  width: 4.324920635em; /* (297.24/45.36) * (1-.26-.08) - 0 */
+}
+
+.logo[data-logo="Customer.io"] > * {
+  background-image: url("/segmentio-logo/images/customerio/customerio.svg");
+  margin: .08em 0 .26em 0;
+}
+
+.logo[data-logo="Customer.io"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/customerio/customerio-monochromatic.svg");
+}
+
+/**
+ * Errorception
+ */
+
+.logo[data-logo="Errorception"] {
+  width: 5.812487226em; /* (568.78/60.67) * (1-.19-.19) - 0 */
+}
+
+.logo[data-logo="Errorception"] > * {
+  background-image: url("/segmentio-logo/images/errorception/errorception.svg");
+  margin: .19em 0 .19em 0;
+}
+
+.logo[data-logo="Errorception"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/errorception/errorception-monochromatic.svg");
+}
+
+/**
+ * FoxMetrics
+ */
+
+.logo[data-logo="FoxMetrics"] {
+  width: 3.808073189em; /* (728.43/200.85) * (1-.1+.15) - 0 */
+}
+
+.logo[data-logo="FoxMetrics"] > * {
+  background-image: url("/segmentio-logo/images/foxmetrics/foxmetrics.svg");
+  margin: .1em 0 -.15em 0;
+}
+
+.logo[data-logo="FoxMetrics"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/foxmetrics/foxmetrics-monochromatic.svg");
+}
+
+/**
+ * Google Analytics
+ */
+
+.logo[data-logo="Google Analytics"] {
+  width: 6.088157895em; /* (167.94/27.36) * (1) - .05 */
+}
+
+.logo[data-logo="Google Analytics"] > * {
+  background-image: url("/segmentio-logo/images/google-analytics/google-analytics.svg");
+  margin: 0 0 0 -.05em;
+}
+
+.logo[data-logo="Google Analytics"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/google-analytics/google-analytics-monochromatic.svg");
+}
+
+/**
+ * GoSquared
+ */
+
+.logo[data-logo="GoSquared"] {
+  width: 4.7806245em; /* (127.02/24.98) * (1+.05-.1) - .05 */
+}
+
+.logo[data-logo="GoSquared"] > * {
+  background-image: url("/segmentio-logo/images/gosquared/gosquared.svg");
+  margin: -.05em 0 .1em -.05em;
+}
+
+.logo[data-logo="GoSquared"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/gosquared/gosquared-monochromatic.svg");
+}
+
+/**
+ * HitTail
+ */
+
+.logo[data-logo="HitTail"] {
+  width: 3.382301294em; /* (669.84/173.12) * (1+.1-.2) - .1 */
+}
+
+.logo[data-logo="HitTail"] > * {
+  background-image: url("/segmentio-logo/images/hittail/hittail.svg");
+  margin: -.1em 0 .2em -.1em;
+}
+
+.logo[data-logo="HitTail"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/hittail/hittail-monochromatic.svg");
+}
+
+/**
+ * HubSpot
+ */
+
+.logo[data-logo="HubSpot"] {
+  width: 3.546784174em; /* (291.0/106.66) * (1+.25+.05) - 0 */
+}
+
+.logo[data-logo="HubSpot"] > * {
+  background-image: url("/segmentio-logo/images/hubspot/hubspot.svg");
+  margin: -.25em 0 -.05em 0;
+}
+
+.logo[data-logo="HubSpot"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/hubspot/hubspot-monochromatic.svg");
+}
+
+/**
+ * Keen IO
+ */
+
+.logo[data-logo="Keen IO"] {
+  width: 3.98175625em; /* (593.71/128) * (1-.12) - .1 */
+}
+
+.logo[data-logo="Keen IO"] > * {
+  background-image: url("/segmentio-logo/images/keen-io/keen-io.svg");
+  margin: 0 0 .12em -.1em;
+}
+
+.logo[data-logo="Keen IO"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/keen-io/keen-io-monochromatic.svg");
+}
+
+/**
+ * Klaviyo
+ */
+
+.logo[data-logo="Klaviyo"] {
+  width: 3.017383546em; /* (356.99/106.48) * (1-.08-.02) - 0 */
+}
+
+.logo[data-logo="Klaviyo"] > * {
+  background-image: url("/segmentio-logo/images/klaviyo/klaviyo.svg");
+  margin: .08em 0 .02em 0;
+}
+
+.logo[data-logo="Klaviyo"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/klaviyo/klaviyo-monochromatic.svg");
+}
+
+/**
+ * KISSmetrics
+ */
+
+.logo[data-logo="KISSmetrics"] {
+  width: 5.419555292em; /* (530/67.46) * (1-.1-.2) - .08 */
+}
+
+.logo[data-logo="KISSmetrics"] > * {
+  background-image: url("/segmentio-logo/images/kissmetrics/kissmetrics.svg");
+  margin: .1em 0 .2em -.08em;
+}
+
+.logo[data-logo="KISSmetrics"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/kissmetrics/kissmetrics-monochromatic.svg");
+}
+
+/**
+ * Intercom
+ */
+
+.logo[data-logo="Intercom"] {
+  width: 3.764422199em; /* (1345.88/407.58) * (1+.07+.07) - 0 */
+}
+
+.logo[data-logo="Intercom"] > * {
+  background-image: url("/segmentio-logo/images/intercom/intercom.svg");
+  margin: -.07em 0 -.07em 0;
+}
+
+.logo[data-logo="Intercom"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/intercom/intercom-monochromatic.svg");
+}
+
+/**
+ * Librato
+ */
+
+.logo[data-logo="Librato"] {
+  width: 3.853888572em; /* (297.05/52.59) * (1-.05-.25) - .1 */
+}
+
+.logo[data-logo="Librato"] > * {
+  background-image: url("/segmentio-logo/images/librato/librato.svg");
+  margin: .05em -.1em .25em 0;
+}
+
+.logo[data-logo="Librato"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/librato/librato-monochromatic.svg");
+}
+
+/**
+ * LiveChat
+ */
+
+.logo[data-logo="LiveChat"] {
+  width: 2.061255431em; /* (121.76/66.75) * (1+.13) - 0 */
+}
+
+.logo[data-logo="LiveChat"] > * {
+  background-image: url("/segmentio-logo/images/livechat/livechat.svg");
+  margin: 0 0 -.13em 0;
+}
+
+.logo[data-logo="LiveChat"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/livechat/livechat-monochromatic.svg");
+}
+
+/**
+ * Marketo
+ */
+
+.logo[data-logo="Marketo"] {
+  width: 2.651300733em; /* (116.78/50.51) * (1+.27-.08) - .05-.05 */
+}
+
+.logo[data-logo="Marketo"] > * {
+  background-image: url("/segmentio-logo/images/marketo/marketo.svg");
+  margin: -.27em -.05em .08em -.05em;
+}
+
+.logo[data-logo="Marketo"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/marketo/marketo-monochromatic.svg");
+}
+
+/**
+ * Mixpanel
+ */
+
+.logo[data-logo="Mixpanel"] {
+  width: 3.329404395em; /* (494.89/162.02) * (1+.07+.02) - 0 */
+}
+
+.logo[data-logo="Mixpanel"] > * {
+  background-image: url("/segmentio-logo/images/mixpanel/mixpanel.svg");
+  margin: -.07em 0 -.02em 0;
+}
+
+.logo[data-logo="Mixpanel"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/mixpanel/mixpanel-monochromatic.svg");
+}
+
+/**
+ * Olark
+ */
+
+.logo[data-logo="Olark"] {
+  width: 1.797737161em; /* (384.45/245.93) * (1+.15) */
+}
+
+.logo[data-logo="Olark"] > * {
+  background-image: url("/segmentio-logo/images/olark/olark.svg");
+  margin: 0 0 -.15em 0;
+}
+
+.logo[data-logo="Olark"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/olark/olark-monochromatic.svg");
+}
+
+/**
+ * Omniture
+ */
+
+.logo[data-logo="Omniture"] {
+  width: 3.377156105em; /* (121.39/32.35) * (1-.1) - 0 */
+}
+
+.logo[data-logo="Omniture"] > * {
+  background-image: url("/segmentio-logo/images/omniture/omniture.svg");
+  margin: 0 0 .1em 0;
+}
+
+.logo[data-logo="Omniture"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/omniture/omniture-monochromatic.svg");
+}
+
+/**
+ * Optimizely
+ */
+
+.logo[data-logo="Optimizely"] {
+  width: 4.008663102em; /* (96.04/20.57) * (1-.1-.02) - .05-.05 */
+}
+
+.logo[data-logo="Optimizely"] > * {
+  background-image: url("/segmentio-logo/images/optimizely/optimizely.svg");
+  margin: .02em -.05em .1em -.05em;
+}
+
+.logo[data-logo="Optimizely"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/optimizely/optimizely-monochromatic.svg");
+}
+
+/**
+ * Pardot
+ */
+
+.logo[data-logo="Pardot"] {
+  width: 3.324514075em; /* (81.75/29.84) * (1+.1+.15) - .1 */
+}
+
+.logo[data-logo="Pardot"] > * {
+  background-image: url("/segmentio-logo/images/pardot/pardot.svg");
+  margin: -.1em 0 -.15em -.1em;
+}
+
+.logo[data-logo="Pardot"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/pardot/pardot-monochromatic.svg");
+}
+
+/**
+ * Perfect Audience
+ */
+
+.logo[data-logo="Perfect Audience"] {
+  width: 7.528130672em; /* (518.5/38.57) * (1-.22-.22) - 0 */
+}
+
+.logo[data-logo="Perfect Audience"] > * {
+  background-image: url("/segmentio-logo/images/perfect-audience/perfect-audience.svg");
+  margin: .22em 0 .22em 0;
+}
+
+.logo[data-logo="Perfect Audience"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/perfect-audience/perfect-audience-monochromatic.svg");
+}
+
+/**
+ * Quantcast
+ */
+
+.logo[data-logo="Quantcast"] {
+  width: 4.421600965em; /* (277.91/49.72) * (1-.15-.05) - .05 */
+}
+
+.logo[data-logo="Quantcast"] > * {
+  background-image: url("/segmentio-logo/images/quantcast/quantcast.svg");
+  margin: .15em -.05em .05em 0;
+}
+
+.logo[data-logo="Quantcast"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/quantcast/quantcast-monochromatic.svg");
+}
+
+/**
+ * Salesforce
+ */
+
+.logo[data-logo="Salesforce"] {
+  width: 3.764142954em; /* (170.95/59.04) * (1+.1+.2) - 0 */
+}
+
+.logo[data-logo="Salesforce"] > * {
+  background-image: url("/segmentio-logo/images/salesforce/salesforce.svg");
+  margin: -.1em 0 -.2em 0;
+}
+
+.logo[data-logo="Salesforce"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/salesforce/salesforce-monochromatic.svg");
+}
+
+/**
+ * Segment.io
+ */
+
+.logo[data-logo="Segment.io"] {
+  width: 4.966245128em; /* (365.97/69.27) * (1-.02-.04) - 0 */
+}
+
+.logo[data-logo="Segment.io"] > * {
+  background-image: url("/segmentio-logo/images/segmentio/segmentio.svg");
+  margin: .02em 0 .04em 0;
+}
+
+.logo[data-logo="Segment.io"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/segmentio/segmentio-monochromatic.svg");
+}
+
+/**
+ * SnapEngage
+ */
+
+.logo[data-logo="SnapEngage"] {
+  width: 3.618986135em; /* (857.92/272.62) * (1+.1+.05) - 0 */
+}
+
+.logo[data-logo="SnapEngage"] > * {
+  background-image: url("/segmentio-logo/images/snapengage/snapengage.svg");
+  margin: -.1em 0 -.05em 0;
+}
+
+.logo[data-logo="SnapEngage"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/snapengage/snapengage-monochromatic.svg");
+}
+
+/**
+ * Totango
+ */
+
+.logo[data-logo="Totango"] {
+  width: 4.21943662em; /* (902/142) * (1-.16-.16) - .04-.06 */
+}
+
+.logo[data-logo="Totango"] > * {
+  background-image: url("/segmentio-logo/images/totango/totango.svg");
+  margin: .16em -.06em .16em -.04em;
+}
+
+.logo[data-logo="Totango"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/totango/totango-monochromatic.svg");
+}
+
+/**
+ * USERcycle
+ */
+
+.logo[data-logo="USERcycle"] {
+  width: 4.51874205em; /* (1096.45/227.99) * (1-.05) - .05 */
+}
+
+.logo[data-logo="USERcycle"] > * {
+  background-image: url("/segmentio-logo/images/usercycle/usercycle.svg");
+  margin: 0 0 .05em -.05em;
+}
+
+.logo[data-logo="USERcycle"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/usercycle/usercycle-monochromatic.svg");
+}
+
+/**
+ * UserVoice
+ */
+
+.logo[data-logo="UserVoice"] {
+  width: 4.773225199em; /* (302.67/71.67) * (1+.085+.05) - .02 */
+}
+
+.logo[data-logo="UserVoice"] > * {
+  background-image: url("/segmentio-logo/images/uservoice/uservoice.svg");
+  margin: -.085em -.02em -.05em 0;
+}
+
+.logo[data-logo="UserVoice"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/uservoice/uservoice-monochromatic.svg");
+}
+
+/**
+ * Vero
+ */
+
+.logo[data-logo="Vero"] {
+  width: 3.070786517em; /* (204.75/44.5) * (1-.1-.2) - .05-.1 */
+}
+
+.logo[data-logo="Vero"] > * {
+  background-image: url("/segmentio-logo/images/vero/vero.svg");
+  margin: .15em -.05em .2em -.1em;
+}
+
+.logo[data-logo="Vero"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/vero/vero-monochromatic.svg");
+}
+
+/**
+ * Woopra
+ */
+
+.logo[data-logo="Woopra"] {
+  width: 3.482328293em; /* (1818/427.18) * (1-.11-.06) - .05 */
+}
+
+.logo[data-logo="Woopra"] > * {
+  background-image: url("/segmentio-logo/images/woopra/woopra.svg");
+  margin: .06em 0 .11em -.05em;
+}
+
+.logo[data-logo="Woopra"].monochromatic > * {
+  background-image: url("/segmentio-logo/images/woopra/woopra-monochromatic.svg");
+}
+
 
 
 
@@ -2738,7 +3386,7 @@ body {
 hr {
   border: none;
   border-top: 2px solid #f6f6ef;
-  margin: 3em 0;
+  margin: 4em 0;
 }
 
 input,
@@ -2973,7 +3621,39 @@ select:focus {
  */
 
 .footer {
-  margin: 3em 0;
+  margin: 4em 0;
+}
+
+.shoutout-list {
+  overflow: hidden;
+}
+
+.shoutout {
+  float: left;
+  width: 25%;
+  text-align: center;
+  opacity: .25;
+  -webkit-transition: opacity .3s;
+     -moz-transition: opacity .3s;
+          transition: opacity .3s;
+}
+
+.shoutout:hover {
+  opacity: 1;
+}
+
+.shoutout h3 {
+  display: block;
+  font-size: .85em;
+  text-transform: lowercase;
+  -webkit-font-feature-settings: 'smcp' 1;
+  -moz-font-feature-settings: 'smcp' 1;
+  font-feature-settings: 'smcp' 1;
+}
+
+.shoutout .logo {
+  margin-top: .2em;
+  font-size: 1.3em;
 }
 
 

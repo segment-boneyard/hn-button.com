@@ -23,7 +23,7 @@ body {
 hr {
   border: none;
   border-top: 2px solid #f6f6ef;
-  margin: 3em 0;
+  margin: 4em 0;
 }
 
 input,
@@ -258,7 +258,7 @@ select:focus {
  */
 
 .footer {
-  margin: 3em 0;
+  margin: 4em 0;
 }
 
 .shoutout-list {
@@ -268,6 +268,7 @@ select:focus {
 .shoutout {
   float: left;
   width: 25%;
+  text-align: center;
   opacity: .25;
   -webkit-transition: opacity .3s;
      -moz-transition: opacity .3s;
@@ -278,11 +279,18 @@ select:focus {
   opacity: 1;
 }
 
-.shoutout > span {
+.shoutout h3 {
+  display: block;
+  font-size: .85em;
   text-transform: lowercase;
   -webkit-font-feature-settings: 'smcp' 1;
   -moz-font-feature-settings: 'smcp' 1;
   font-feature-settings: 'smcp' 1;
+}
+
+.shoutout .logo {
+  margin-top: .2em;
+  font-size: 1.3em;
 }
 
 
