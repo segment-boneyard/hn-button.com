@@ -112,7 +112,7 @@ html {
   border-right-color: #aeae8a;
 }
 [data-count="horizontal"] .hn-count::after {
-  margin-top: -3px;
+  margin-top: -4px;
   border-width: 4px;
   border-right-color: white;
   margin-right: -1px;
@@ -144,7 +144,7 @@ html {
   border-top-color: #aeae8a;
 }
 [data-count="vertical"] .hn-count::after {
-  margin-left: -3px;
+  margin-left: -4px;
   border-width: 4px;
   border-top-color: white;
   margin-top: -1px;
