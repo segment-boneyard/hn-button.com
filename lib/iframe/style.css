@@ -113,8 +113,9 @@ html {
 }
 [data-count="horizontal"] .hn-count::after {
   margin-top: -3px;
-  border-width: 3px;
+  border-width: 4px;
   border-right-color: white;
+  margin-right: -1px;
 }
 
 /*
@@ -144,8 +145,9 @@ html {
 }
 [data-count="vertical"] .hn-count::after {
   margin-left: -3px;
-  border-width: 3px;
+  border-width: 4px;
   border-top-color: white;
+  margin-top: -1px;
 }
 
 /*

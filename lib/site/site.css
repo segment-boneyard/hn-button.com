@@ -16,14 +16,15 @@ html {
 }
 
 body {
-  max-width: 45em;
+  max-width: 43em;
   margin: 0 auto;
+  padding: 0 .5em;
 }
 
 hr {
   border: none;
   border-top: 2px solid #f6f6ef;
-  margin: 4em 0;
+  margin: 3em 0;
 }
 
 input,
@@ -57,9 +58,6 @@ select:focus {
 
 .header {
   position: relative;
-  float: left;
-  width: 28em;
-  padding-top: 6.5em;
   text-align: center;
 }
 
@@ -89,10 +87,8 @@ select:focus {
 
 .form {
   max-width: 16em;
-  float: right;
   background-color: #f6f6ef;
   border: 2px solid #cbcbb4;
-  margin-top: -2px;
 }
 
 .form fieldset {
@@ -160,15 +156,8 @@ select:focus {
  * Feature.
  */
 
-.feature-list {
-  clear: both;
-  padding-top: 6em;
-  overflow: hidden;
-}
-
-.feature-list li {
-  float: left;
-  width: 33.333%;
+.feature {
+  max-width: 15em;
   padding: 0 1.5em;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -179,7 +168,7 @@ select:focus {
   position: relative;
   display: block;
   width: 100%;
-  height: 5em;
+  height: 4em;
 }
 
 .feature h2 {
@@ -270,17 +259,7 @@ select:focus {
  * Footer.
  */
 
-.footer {
-  margin: 4em 0;
-}
-
-.shoutout-list {
-  overflow: hidden;
-}
-
 .shoutout {
-  float: left;
-  width: 25%;
   text-align: center;
   opacity: .3;
   -webkit-transition: opacity .3s;
@@ -312,18 +291,100 @@ select:focus {
 
 
 /**
- * Hacks.
+ * Skinny screens.
  */
 
-.ss-yc {
-  display: inline-block;
-  background-color: black;
-  color: white;
-  width: 1em;
-  height: 1em;
-  line-height: 1em;
-  font-size: .7em;
-  padding: .21em;
-  text-align: center;
-  font-family: "Lucida Grande";
+@media (max-width: 939px) {
+
+  .header {
+    padding-top: 4em;
+    height: 5em;
+  }
+
+  .form {
+    margin: 3em auto;
+  }
+
+  .feature {
+    margin: 2.5em auto;
+  }
+
+  .footer {
+    margin: 2em 0;
+  }
+
+  .shoutout + .shoutout {
+    margin-top: 1.5em;
+  }
+
+}
+
+
+/**
+ * Really skinny screens.
+ */
+
+@media (max-width: 320px) {
+
+  .form input,
+  .form select {
+    width: 8em;
+  }
+
+}
+
+
+/**
+ * Wide screens.
+ */
+
+@media (min-width: 940px) {
+
+  body {
+    padding: 0 2em;
+  }
+
+  hr {
+    margin: 4em 0;
+  }
+
+  .header {
+    float: left;
+    width: 25em;
+    padding-top: 6.5em;
+  }
+
+  .form {
+    float: right;
+    margin-top: -2px;
+  }
+
+  .feature-list {
+    clear: both;
+    padding-top: 6em;
+    overflow: hidden;
+  }
+
+  .feature {
+    float: left;
+    width: 33.333%;
+  }
+
+  .feature figure {
+    height: 5em;
+  }
+
+  .footer {
+    margin: 4em 0;
+  }
+
+  .shoutout-list {
+    overflow: hidden;
+  }
+
+  .shoutout {
+    float: left;
+    width: 25%;
+  }
+
 }
