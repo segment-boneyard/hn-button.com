@@ -7,7 +7,7 @@
     "hbs": "~2.1.0",
     "component-builder": "~0.7.0",
     "mkdirp": "~0.3.5",
-    "hn-item-cache": "0.0.2"
+    "hn-item-cache": "0.0.4"
   },
   "engines": {
     "node": "0.8.x",
