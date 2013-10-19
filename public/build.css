@@ -318,7 +318,8 @@ small {
  */
 
 ol,
-ul {
+ul,
+menu {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -359,7 +360,15 @@ figure {
 }
 
 /**
- * Define consistent border, margin, and padding.
+ * Remove default form styles.
+ */
+
+form {
+  margin: 0;
+}
+
+/**
+ * Remove default fieldset styles.
  */
 
 fieldset {
@@ -2757,7 +2766,7 @@ img {
  * You'll want to figure out the inner logo's alignment first:
  *
  *     .logo[data-logo="Example"] > * {
- *       background-image: url("/segmentio-logo/images/example.svg");
+ *       background-image: url("/segmentio-logo/./images/example.svg");
  *       margin: -.1em 0 -.2em -.05em;
  *     }
  *
@@ -2790,12 +2799,12 @@ img {
 }
 
 .logo[data-logo="Bitdeli"] > * {
-  background-image: url("/segmentio-logo/images/bitdeli/bitdeli.svg");
+  background-image: url("/segmentio-logo/./images/bitdeli/bitdeli.svg");
   margin: -.08em 0 .14em -.1em;
 }
 
 .logo[data-logo="Bitdeli"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/bitdeli/bitdeli-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/bitdeli/bitdeli-monochromatic.svg");
 }
 
 /**
@@ -2807,12 +2816,12 @@ img {
 }
 
 .logo[data-logo="Chartbeat"] > * {
-  background-image: url("/segmentio-logo/images/chartbeat/chartbeat.svg");
+  background-image: url("/segmentio-logo/./images/chartbeat/chartbeat.svg");
   margin: -.06em -.05em .19em -.03em;
 }
 
 .logo[data-logo="Chartbeat"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/chartbeat/chartbeat-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/chartbeat/chartbeat-monochromatic.svg");
 }
 
 /**
@@ -2824,12 +2833,12 @@ img {
 }
 
 .logo[data-logo="Clicky"] > * {
-  background-image: url("/segmentio-logo/images/clicky/clicky.svg");
+  background-image: url("/segmentio-logo/./images/clicky/clicky.svg");
   margin: -.12em 0 -.12em -.12em;
 }
 
 .logo[data-logo="Clicky"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/clicky/clicky-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/clicky/clicky-monochromatic.svg");
 }
 
 /**
@@ -2841,12 +2850,12 @@ img {
 }
 
 .logo[data-logo="Component"] > * {
-  background-image: url("/segmentio-logo/images/component/component.svg");
+  background-image: url("/segmentio-logo/./images/component/component.svg");
   margin: 0;
 }
 
 .logo[data-logo="Component"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/component/component-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/component/component-monochromatic.svg");
 }
 
 /**
@@ -2858,12 +2867,12 @@ img {
 }
 
 .logo[data-logo="comScore"] > * {
-  background-image: url("/segmentio-logo/images/comscore/comscore.svg");
+  background-image: url("/segmentio-logo/./images/comscore/comscore.svg");
   margin: 0 0 .1em -.05em;
 }
 
 .logo[data-logo="comScore"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/comscore/comscore-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/comscore/comscore-monochromatic.svg");
 }
 
 /**
@@ -2875,12 +2884,37 @@ img {
 }
 
 .logo[data-logo="CrazyEgg"] > * {
-  background-image: url("/segmentio-logo/images/crazyegg/crazyegg.svg");
+  background-image: url("/segmentio-logo/./images/crazyegg/crazyegg.svg");
   margin: -.3em 0 -.05em 0;
 }
 
 .logo[data-logo="CrazyEgg"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/crazyegg/crazyegg-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/crazyegg/crazyegg-monochromatic.svg");
+}
+
+/**
+ * Crittercism
+ */
+
+.logo[data-logo="Crittercism"] {
+  width: 5.158467978em; /* (11.4616/2.2219) * (1) */
+}
+
+.logo[data-logo="Crittercism"] > * {
+  background-image: url("/segmentio-logo/./images/crittercism/crittercism.svg");
+  margin: 0;
+}
+
+.logo[data-logo="Crittercism"].monochromatic > * {
+  background-image: url("/segmentio-logo/./images/crittercism/crittercism-monochromatic.svg");
+}
+
+.logo[data-logo="Crittercism"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/crittercism/crittercism-black.svg");
+}
+
+.logo[data-logo="Crittercism"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/crittercism/crittercism-white.svg");
 }
 
 /**
@@ -2892,12 +2926,12 @@ img {
 }
 
 .logo[data-logo="Customer.io"] > * {
-  background-image: url("/segmentio-logo/images/customerio/customerio.svg");
+  background-image: url("/segmentio-logo/./images/customerio/customerio.svg");
   margin: .08em 0 .26em 0;
 }
 
 .logo[data-logo="Customer.io"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/customerio/customerio-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/customerio/customerio-monochromatic.svg");
 }
 
 /**
@@ -2909,12 +2943,37 @@ img {
 }
 
 .logo[data-logo="Errorception"] > * {
-  background-image: url("/segmentio-logo/images/errorception/errorception.svg");
+  background-image: url("/segmentio-logo/./images/errorception/errorception.svg");
   margin: .19em 0 .19em 0;
 }
 
 .logo[data-logo="Errorception"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/errorception/errorception-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/errorception/errorception-monochromatic.svg");
+}
+
+/**
+ * Flurry
+ */
+
+.logo[data-logo="Flurry"] {
+  width: 4.197802198em; /* (11.46/2.73) * (1) - 0 */
+}
+
+.logo[data-logo="Flurry"] > * {
+  background-image: url("/segmentio-logo/./images/flurry/flurry.svg");
+  margin: 0;
+}
+
+.logo[data-logo="Flurry"].monochromatic > * {
+  background-image: url("/segmentio-logo/./images/flurry/flurry-monochromatic.svg");
+}
+
+.logo[data-logo="Flurry"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/flurry/flurry-black.svg");
+}
+
+.logo[data-logo="Flurry"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/flurry/flurry-white.svg");
 }
 
 /**
@@ -2926,12 +2985,12 @@ img {
 }
 
 .logo[data-logo="FoxMetrics"] > * {
-  background-image: url("/segmentio-logo/images/foxmetrics/foxmetrics.svg");
+  background-image: url("/segmentio-logo/./images/foxmetrics/foxmetrics.svg");
   margin: .1em 0 -.15em 0;
 }
 
 .logo[data-logo="FoxMetrics"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/foxmetrics/foxmetrics-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/foxmetrics/foxmetrics-monochromatic.svg");
 }
 
 /**
@@ -2943,12 +3002,12 @@ img {
 }
 
 .logo[data-logo="GitHub"] > * {
-  background-image: url("/segmentio-logo/images/github/github.svg");
+  background-image: url("/segmentio-logo/./images/github/github.svg");
   margin: .1em 0 .1em 0;
 }
 
 .logo[data-logo="GitHub"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/github/github-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/github/github-monochromatic.svg");
 }
 
 /**
@@ -2960,12 +3019,20 @@ img {
 }
 
 .logo[data-logo="Google Analytics"] > * {
-  background-image: url("/segmentio-logo/images/google-analytics/google-analytics.svg");
+  background-image: url("/segmentio-logo/./images/google-analytics/google-analytics.svg");
   margin: 0 0 0 -.05em;
 }
 
 .logo[data-logo="Google Analytics"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/google-analytics/google-analytics-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/google-analytics/google-analytics-monochromatic.svg");
+}
+
+.logo[data-logo="Google Analytics"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/google-analytics/google-analytics-black.svg");
+}
+
+.logo[data-logo="Google Analytics"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/google-analytics/google-analytics-white.svg");
 }
 
 /**
@@ -2977,12 +3044,12 @@ img {
 }
 
 .logo[data-logo="GoSquared"] > * {
-  background-image: url("/segmentio-logo/images/gosquared/gosquared.svg");
+  background-image: url("/segmentio-logo/./images/gosquared/gosquared.svg");
   margin: -.05em 0 .1em -.05em;
 }
 
 .logo[data-logo="GoSquared"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/gosquared/gosquared-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/gosquared/gosquared-monochromatic.svg");
 }
 
 /**
@@ -2994,12 +3061,12 @@ img {
 }
 
 .logo[data-logo="HitTail"] > * {
-  background-image: url("/segmentio-logo/images/hittail/hittail.svg");
+  background-image: url("/segmentio-logo/./images/hittail/hittail.svg");
   margin: -.1em 0 .2em -.1em;
 }
 
 .logo[data-logo="HitTail"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/hittail/hittail-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/hittail/hittail-monochromatic.svg");
 }
 
 /**
@@ -3011,12 +3078,12 @@ img {
 }
 
 .logo[data-logo="Heroku"] > * {
-  background-image: url("/segmentio-logo/images/heroku/heroku.svg");
+  background-image: url("/segmentio-logo/./images/heroku/heroku.svg");
   margin: -.05em 0 -.05em 0;
 }
 
 .logo[data-logo="Heroku"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/heroku/heroku-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/heroku/heroku-monochromatic.svg");
 }
 
 /**
@@ -3028,12 +3095,20 @@ img {
 }
 
 .logo[data-logo="HubSpot"] > * {
-  background-image: url("/segmentio-logo/images/hubspot/hubspot.svg");
+  background-image: url("/segmentio-logo/./images/hubspot/hubspot.svg");
   margin: -.25em 0 -.05em 0;
 }
 
 .logo[data-logo="HubSpot"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/hubspot/hubspot-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/hubspot/hubspot-monochromatic.svg");
+}
+
+.logo[data-logo="HubSpot"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/hubspot/hubspot-black.svg");
+}
+
+.logo[data-logo="HubSpot"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/hubspot/hubspot-white.svg");
 }
 
 /**
@@ -3045,12 +3120,12 @@ img {
 }
 
 .logo[data-logo="Keen IO"] > * {
-  background-image: url("/segmentio-logo/images/keen-io/keen-io.svg");
+  background-image: url("/segmentio-logo/./images/keen-io/keen-io.svg");
   margin: 0 0 .12em -.1em;
 }
 
 .logo[data-logo="Keen IO"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/keen-io/keen-io-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/keen-io/keen-io-monochromatic.svg");
 }
 
 /**
@@ -3062,12 +3137,12 @@ img {
 }
 
 .logo[data-logo="Klaviyo"] > * {
-  background-image: url("/segmentio-logo/images/klaviyo/klaviyo.svg");
+  background-image: url("/segmentio-logo/./images/klaviyo/klaviyo.svg");
   margin: .08em 0 .02em 0;
 }
 
 .logo[data-logo="Klaviyo"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/klaviyo/klaviyo-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/klaviyo/klaviyo-monochromatic.svg");
 }
 
 /**
@@ -3079,12 +3154,12 @@ img {
 }
 
 .logo[data-logo="KISSmetrics"] > * {
-  background-image: url("/segmentio-logo/images/kissmetrics/kissmetrics.svg");
+  background-image: url("/segmentio-logo/./images/kissmetrics/kissmetrics.svg");
   margin: .1em 0 .2em -.08em;
 }
 
 .logo[data-logo="KISSmetrics"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/kissmetrics/kissmetrics-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/kissmetrics/kissmetrics-monochromatic.svg");
 }
 
 /**
@@ -3096,12 +3171,12 @@ img {
 }
 
 .logo[data-logo="Intercom"] > * {
-  background-image: url("/segmentio-logo/images/intercom/intercom.svg");
+  background-image: url("/segmentio-logo/./images/intercom/intercom.svg");
   margin: -.07em 0 -.07em 0;
 }
 
 .logo[data-logo="Intercom"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/intercom/intercom-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/intercom/intercom-monochromatic.svg");
 }
 
 /**
@@ -3113,12 +3188,12 @@ img {
 }
 
 .logo[data-logo="Librato"] > * {
-  background-image: url("/segmentio-logo/images/librato/librato.svg");
+  background-image: url("/segmentio-logo/./images/librato/librato.svg");
   margin: .05em -.1em .25em 0;
 }
 
 .logo[data-logo="Librato"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/librato/librato-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/librato/librato-monochromatic.svg");
 }
 
 /**
@@ -3130,12 +3205,12 @@ img {
 }
 
 .logo[data-logo="LiveChat"] > * {
-  background-image: url("/segmentio-logo/images/livechat/livechat.svg");
+  background-image: url("/segmentio-logo/./images/livechat/livechat.svg");
   margin: 0 0 -.13em 0;
 }
 
 .logo[data-logo="LiveChat"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/livechat/livechat-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/livechat/livechat-monochromatic.svg");
 }
 
 /**
@@ -3147,12 +3222,20 @@ img {
 }
 
 .logo[data-logo="Marketo"] > * {
-  background-image: url("/segmentio-logo/images/marketo/marketo.svg");
+  background-image: url("/segmentio-logo/./images/marketo/marketo.svg");
   margin: -.27em -.05em .08em -.05em;
 }
 
 .logo[data-logo="Marketo"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/marketo/marketo-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/marketo/marketo-monochromatic.svg");
+}
+
+.logo[data-logo="Marketo"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/marketo/marketo-black.svg");
+}
+
+.logo[data-logo="Marketo"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/marketo/marketo-white.svg");
 }
 
 /**
@@ -3164,12 +3247,20 @@ img {
 }
 
 .logo[data-logo="Mixpanel"] > * {
-  background-image: url("/segmentio-logo/images/mixpanel/mixpanel.svg");
+  background-image: url("/segmentio-logo/./images/mixpanel/mixpanel.svg");
   margin: -.07em 0 -.02em 0;
 }
 
 .logo[data-logo="Mixpanel"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/mixpanel/mixpanel-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/mixpanel/mixpanel-monochromatic.svg");
+}
+
+.logo[data-logo="Mixpanel"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/mixpanel/mixpanel-black.svg");
+}
+
+.logo[data-logo="Mixpanel"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/mixpanel/mixpanel-white.svg");
 }
 
 /**
@@ -3181,12 +3272,12 @@ img {
 }
 
 .logo[data-logo="Olark"] > * {
-  background-image: url("/segmentio-logo/images/olark/olark.svg");
+  background-image: url("/segmentio-logo/./images/olark/olark.svg");
   margin: 0 0 -.15em 0;
 }
 
 .logo[data-logo="Olark"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/olark/olark-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/olark/olark-monochromatic.svg");
 }
 
 /**
@@ -3198,12 +3289,12 @@ img {
 }
 
 .logo[data-logo="Omniture"] > * {
-  background-image: url("/segmentio-logo/images/omniture/omniture.svg");
+  background-image: url("/segmentio-logo/./images/omniture/omniture.svg");
   margin: 0 0 .1em 0;
 }
 
 .logo[data-logo="Omniture"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/omniture/omniture-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/omniture/omniture-monochromatic.svg");
 }
 
 /**
@@ -3215,12 +3306,12 @@ img {
 }
 
 .logo[data-logo="Optimizely"] > * {
-  background-image: url("/segmentio-logo/images/optimizely/optimizely.svg");
+  background-image: url("/segmentio-logo/./images/optimizely/optimizely.svg");
   margin: .02em -.05em .1em -.05em;
 }
 
 .logo[data-logo="Optimizely"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/optimizely/optimizely-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/optimizely/optimizely-monochromatic.svg");
 }
 
 /**
@@ -3232,12 +3323,12 @@ img {
 }
 
 .logo[data-logo="Pardot"] > * {
-  background-image: url("/segmentio-logo/images/pardot/pardot.svg");
+  background-image: url("/segmentio-logo/./images/pardot/pardot.svg");
   margin: -.1em 0 -.15em -.1em;
 }
 
 .logo[data-logo="Pardot"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/pardot/pardot-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/pardot/pardot-monochromatic.svg");
 }
 
 /**
@@ -3249,12 +3340,12 @@ img {
 }
 
 .logo[data-logo="Perfect Audience"] > * {
-  background-image: url("/segmentio-logo/images/perfect-audience/perfect-audience.svg");
+  background-image: url("/segmentio-logo/./images/perfect-audience/perfect-audience.svg");
   margin: .22em 0 .22em 0;
 }
 
 .logo[data-logo="Perfect Audience"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/perfect-audience/perfect-audience-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/perfect-audience/perfect-audience-monochromatic.svg");
 }
 
 /**
@@ -3266,12 +3357,12 @@ img {
 }
 
 .logo[data-logo="Quantcast"] > * {
-  background-image: url("/segmentio-logo/images/quantcast/quantcast.svg");
+  background-image: url("/segmentio-logo/./images/quantcast/quantcast.svg");
   margin: .15em -.05em .05em 0;
 }
 
 .logo[data-logo="Quantcast"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/quantcast/quantcast-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/quantcast/quantcast-monochromatic.svg");
 }
 
 /**
@@ -3283,12 +3374,12 @@ img {
 }
 
 .logo[data-logo="Salesforce"] > * {
-  background-image: url("/segmentio-logo/images/salesforce/salesforce.svg");
+  background-image: url("/segmentio-logo/./images/salesforce/salesforce.svg");
   margin: -.1em 0 -.2em 0;
 }
 
 .logo[data-logo="Salesforce"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/salesforce/salesforce-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/salesforce/salesforce-monochromatic.svg");
 }
 
 /**
@@ -3300,12 +3391,20 @@ img {
 }
 
 .logo[data-logo="Segment.io"] > * {
-  background-image: url("/segmentio-logo/images/segmentio/segmentio.svg");
+  background-image: url("/segmentio-logo/./images/segmentio/segmentio.svg");
   margin: .02em 0 .04em 0;
 }
 
 .logo[data-logo="Segment.io"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/segmentio/segmentio-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/segmentio/segmentio-monochromatic.svg");
+}
+
+.logo[data-logo="Segment.io"][data-color="black"] > * {
+  background-image: url("/segmentio-logo/./images/segmentio/segmentio-black.svg");
+}
+
+.logo[data-logo="Segment.io"][data-color="white"] > * {
+  background-image: url("/segmentio-logo/./images/segmentio/segmentio-white.svg");
 }
 
 /**
@@ -3317,12 +3416,12 @@ img {
 }
 
 .logo[data-logo="SnapEngage"] > * {
-  background-image: url("/segmentio-logo/images/snapengage/snapengage.svg");
+  background-image: url("/segmentio-logo/./images/snapengage/snapengage.svg");
   margin: -.1em 0 -.05em 0;
 }
 
 .logo[data-logo="SnapEngage"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/snapengage/snapengage-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/snapengage/snapengage-monochromatic.svg");
 }
 
 /**
@@ -3334,12 +3433,12 @@ img {
 }
 
 .logo[data-logo="Totango"] > * {
-  background-image: url("/segmentio-logo/images/totango/totango.svg");
+  background-image: url("/segmentio-logo/./images/totango/totango.svg");
   margin: .16em -.06em .16em -.04em;
 }
 
 .logo[data-logo="Totango"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/totango/totango-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/totango/totango-monochromatic.svg");
 }
 
 /**
@@ -3351,12 +3450,12 @@ img {
 }
 
 .logo[data-logo="USERcycle"] > * {
-  background-image: url("/segmentio-logo/images/usercycle/usercycle.svg");
+  background-image: url("/segmentio-logo/./images/usercycle/usercycle.svg");
   margin: 0 0 .05em -.05em;
 }
 
 .logo[data-logo="USERcycle"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/usercycle/usercycle-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/usercycle/usercycle-monochromatic.svg");
 }
 
 /**
@@ -3368,12 +3467,12 @@ img {
 }
 
 .logo[data-logo="UserVoice"] > * {
-  background-image: url("/segmentio-logo/images/uservoice/uservoice.svg");
+  background-image: url("/segmentio-logo/./images/uservoice/uservoice.svg");
   margin: -.085em -.02em -.05em 0;
 }
 
 .logo[data-logo="UserVoice"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/uservoice/uservoice-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/uservoice/uservoice-monochromatic.svg");
 }
 
 /**
@@ -3385,12 +3484,12 @@ img {
 }
 
 .logo[data-logo="Vero"] > * {
-  background-image: url("/segmentio-logo/images/vero/vero.svg");
+  background-image: url("/segmentio-logo/./images/vero/vero.svg");
   margin: .15em -.05em .2em -.1em;
 }
 
 .logo[data-logo="Vero"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/vero/vero-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/vero/vero-monochromatic.svg");
 }
 
 /**
@@ -3402,12 +3501,12 @@ img {
 }
 
 .logo[data-logo="Woopra"] > * {
-  background-image: url("/segmentio-logo/images/woopra/woopra.svg");
+  background-image: url("/segmentio-logo/./images/woopra/woopra.svg");
   margin: .06em 0 .11em -.05em;
 }
 
 .logo[data-logo="Woopra"].monochromatic > * {
-  background-image: url("/segmentio-logo/images/woopra/woopra-monochromatic.svg");
+  background-image: url("/segmentio-logo/./images/woopra/woopra-monochromatic.svg");
 }
 
 
