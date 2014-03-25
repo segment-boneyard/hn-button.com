@@ -27,10 +27,14 @@ function require(path, parent, orig) {
   // perform real require()
   // by invoking the module's
   // registered function
-  if (!module.exports) {
-    module.exports = {};
-    module.client = module.component = true;
-    module.call(this, module.exports, require.relative(resolved), module);
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
   }
 
   return module.exports;
@@ -64,7 +68,6 @@ require.aliases = {};
 
 require.resolve = function(path) {
   if (path.charAt(0) === '/') path = path.slice(1);
-  var index = path + '/index.js';
 
   var paths = [
     path,
@@ -77,10 +80,7 @@ require.resolve = function(path) {
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
     if (require.modules.hasOwnProperty(path)) return path;
-  }
-
-  if (require.aliases.hasOwnProperty(index)) {
-    return require.aliases[index];
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
   }
 };
 
@@ -626,13 +626,6 @@ var HN = new Emitter();
 
 
 /**
- * Origin of the server.
- */
-
-var origin = location.protocol + '//hn-button.herokuapp.com';
-
-
-/**
  * When an iframe first loads it send along its width, so we can resize the
  * <iframe> in the DOM. This way it never takes up more space than it actually
  * needs, so multiple button in a row are next to each other.
@@ -662,6 +655,7 @@ HN.initialize = function (a) {
 
 function Button (a) {
   this.id = 'hn-button-' + uid();
+  this.host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
   on(window, 'message', bind(this, this.onMessage));
   this.render(a);
 }
@@ -676,10 +670,11 @@ function Button (a) {
 Button.prototype.render = function (a) {
   // Grab some settings from the <a>.
   var options = {
-    title : a.getAttribute('data-title') || document.title,
-    url   : a.getAttribute('data-url') || window.location.href,
-    style : a.getAttribute('data-style'),
-    count : a.getAttribute('data-count')
+    title: a.getAttribute('data-title') || document.title,
+    url: a.getAttribute('data-url') || window.location.href,
+    style: a.getAttribute('data-style'),
+    count: a.getAttribute('data-count'),
+    host: this.host
   };
 
   // Create the iframe element that we will replace the <a> with.
@@ -722,7 +717,7 @@ Button.prototype.render = function (a) {
 
 Button.prototype.onMessage = function (message) {
   // make sure we're listening for the right thing
-  if (message.origin !== origin) return;
+  if (message.origin !== this.host) return;
   if (message.data.id !== this.id) return;
 
   var event = message.data.event
@@ -747,10 +742,14 @@ Button.prototype.onMessage = function (message) {
 
 function src (options) {
   var query = '';
+  var origin = location.protocol + '//' + options.host;
+
   each(options, function (key, value) {
+    if ('host' == key) return;
     query += query ? '&' : '?';
     if (value) query += key + '=' + encodeURIComponent(value);
   });
+
   return origin + query;
 }
 
@@ -779,24 +778,41 @@ if (window.HN) while (window.HN.length > 0) {
 
 module.exports = HN;
 });
+
+
+
+
+
+
+
+
+
+
+
+
 require.alias("component-bind/index.js", "hn-button/deps/bind/index.js");
+require.alias("component-bind/index.js", "bind/index.js");
 
 require.alias("component-each/index.js", "hn-button/deps/each/index.js");
+require.alias("component-each/index.js", "each/index.js");
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
 require.alias("component-emitter/index.js", "hn-button/deps/emitter/index.js");
+require.alias("component-emitter/index.js", "emitter/index.js");
 require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
 
 require.alias("component-event/index.js", "hn-button/deps/event/index.js");
+require.alias("component-event/index.js", "event/index.js");
 
 require.alias("component-query/index.js", "hn-button/deps/query/index.js");
+require.alias("component-query/index.js", "query/index.js");
 
 require.alias("matthewmueller-uid/index.js", "hn-button/deps/uid/index.js");
-
+require.alias("matthewmueller-uid/index.js", "uid/index.js");
 if (typeof exports == "object") {
   module.exports = require("hn-button");
 } else if (typeof define == "function" && define.amd) {
-  define(function(){ return require("hn-button"); });
+  define([], function(){ return require("hn-button"); });
 } else {
   this["HN"] = require("hn-button");
 }})();

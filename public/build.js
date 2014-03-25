@@ -26,10 +26,14 @@ function require(path, parent, orig) {
   // perform real require()
   // by invoking the module's
   // registered function
-  if (!module.exports) {
-    module.exports = {};
-    module.client = module.component = true;
-    module.call(this, module.exports, require.relative(resolved), module);
+  if (!module._resolving && !module.exports) {
+    var mod = {};
+    mod.exports = {};
+    mod.client = mod.component = true;
+    module._resolving = true;
+    module.call(this, mod.exports, require.relative(resolved), mod);
+    delete module._resolving;
+    module.exports = mod.exports;
   }
 
   return module.exports;
@@ -63,7 +67,6 @@ require.aliases = {};
 
 require.resolve = function(path) {
   if (path.charAt(0) === '/') path = path.slice(1);
-  var index = path + '/index.js';
 
   var paths = [
     path,
@@ -76,10 +79,7 @@ require.resolve = function(path) {
   for (var i = 0; i < paths.length; i++) {
     var path = paths[i];
     if (require.modules.hasOwnProperty(path)) return path;
-  }
-
-  if (require.aliases.hasOwnProperty(index)) {
-    return require.aliases[index];
+    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
   }
 };
 
@@ -200,717 +200,6 @@ require.relative = function(parent) {
   return localRequire;
 };
 
-require.register("component-indexof/index.js", function(exports, require, module){
-
-var indexOf = [].indexOf;
-
-module.exports = function(arr, obj){
-  if (indexOf) return arr.indexOf(obj);
-  for (var i = 0; i < arr.length; ++i) {
-    if (arr[i] === obj) return i;
-  }
-  return -1;
-};
-});
-require.register("component-classes/index.js", function(exports, require, module){
-
-/**
- * Module dependencies.
- */
-
-var index = require('indexof');
-
-/**
- * Whitespace regexp.
- */
-
-var re = /\s+/;
-
-/**
- * toString reference.
- */
-
-var toString = Object.prototype.toString;
-
-/**
- * Wrap `el` in a `ClassList`.
- *
- * @param {Element} el
- * @return {ClassList}
- * @api public
- */
-
-module.exports = function(el){
-  return new ClassList(el);
-};
-
-/**
- * Initialize a new ClassList for `el`.
- *
- * @param {Element} el
- * @api private
- */
-
-function ClassList(el) {
-  this.el = el;
-  this.list = el.classList;
-}
-
-/**
- * Add class `name` if not already present.
- *
- * @param {String} name
- * @return {ClassList}
- * @api public
- */
-
-ClassList.prototype.add = function(name){
-  // classList
-  if (this.list) {
-    this.list.add(name);
-    return this;
-  }
-
-  // fallback
-  var arr = this.array();
-  var i = index(arr, name);
-  if (!~i) arr.push(name);
-  this.el.className = arr.join(' ');
-  return this;
-};
-
-/**
- * Remove class `name` when present, or
- * pass a regular expression to remove
- * any which match.
- *
- * @param {String|RegExp} name
- * @return {ClassList}
- * @api public
- */
-
-ClassList.prototype.remove = function(name){
-  if ('[object RegExp]' == toString.call(name)) {
-    return this.removeMatching(name);
-  }
-
-  // classList
-  if (this.list) {
-    this.list.remove(name);
-    return this;
-  }
-
-  // fallback
-  var arr = this.array();
-  var i = index(arr, name);
-  if (~i) arr.splice(i, 1);
-  this.el.className = arr.join(' ');
-  return this;
-};
-
-/**
- * Remove all classes matching `re`.
- *
- * @param {RegExp} re
- * @return {ClassList}
- * @api private
- */
-
-ClassList.prototype.removeMatching = function(re){
-  var arr = this.array();
-  for (var i = 0; i < arr.length; i++) {
-    if (re.test(arr[i])) {
-      this.remove(arr[i]);
-    }
-  }
-  return this;
-};
-
-/**
- * Toggle class `name`.
- *
- * @param {String} name
- * @return {ClassList}
- * @api public
- */
-
-ClassList.prototype.toggle = function(name){
-  // classList
-  if (this.list) {
-    this.list.toggle(name);
-    return this;
-  }
-
-  // fallback
-  if (this.has(name)) {
-    this.remove(name);
-  } else {
-    this.add(name);
-  }
-  return this;
-};
-
-/**
- * Return an array of classes.
- *
- * @return {Array}
- * @api public
- */
-
-ClassList.prototype.array = function(){
-  var arr = this.el.className.split(re);
-  if ('' === arr[0]) arr.pop();
-  return arr;
-};
-
-/**
- * Check if class `name` is present.
- *
- * @param {String} name
- * @return {ClassList}
- * @api public
- */
-
-ClassList.prototype.has =
-ClassList.prototype.contains = function(name){
-  return this.list
-    ? this.list.contains(name)
-    : !! ~index(this.array(), name);
-};
-
-});
-require.register("component-emitter/index.js", function(exports, require, module){
-
-/**
- * Module dependencies.
- */
-
-var index = require('indexof');
-
-/**
- * Expose `Emitter`.
- */
-
-module.exports = Emitter;
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks[event] = this._callbacks[event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  var self = this;
-  this._callbacks = this._callbacks || {};
-
-  function on() {
-    self.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  fn._off = on;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks[event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks[event];
-    return this;
-  }
-
-  // remove specific handler
-  var i = index(callbacks, fn._off || fn);
-  if (~i) callbacks.splice(i, 1);
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks[event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks[event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-});
-require.register("component-inherit/index.js", function(exports, require, module){
-
-module.exports = function(a, b){
-  var fn = function(){};
-  fn.prototype = b.prototype;
-  a.prototype = new fn;
-  a.prototype.constructor = a;
-};
-});
-require.register("ianstormtaylor-clipboard-dom/index.js", function(exports, require, module){
-
-/**
- * Module dependencies.
- */
-
-var classes = require('classes');
-var inherit = require('inherit');
-var Emitter = require('emitter');
-
-/**
- * Module exports.
- */
-
-exports = module.exports = Client;
-exports.swf = swf;
-
-/**
- * URL to the "ZeroClipboard.swf" file.
- */
-
-var swfPath = 'ZeroClipboard.swf';
-
-/**
- * Get/set the SWF path.
- */
-
-function swf(path){
-  if (0 === arguments.length) {
-    return swfPath;
-  } else {
-    swfPath = path;
-    return Client;
-  }
-}
-
-/**
- * Get absolute coordinates for dom element.
- * XXX: this probably belongs in a more focused component ("position"?)
- *
- * @api private
- */
-
-function getDOMObjectPosition(obj, stopObj){
-  var info = {
-    left: 0,
-    top: 0,
-    width: obj.width ? obj.width : obj.offsetWidth,
-    height: obj.height ? obj.height : obj.offsetHeight
-  };
-
-  while (obj && (obj != stopObj)) {
-    info.left += obj.offsetLeft;
-    info.top += obj.offsetTop;
-    obj = obj.offsetParent;
-  }
-
-  return info;
-}
-
-/**
- * Dispatches an event from the ZeroClipboard SWF Flash environment.
- */
-
-function dispatch(id, eventName, args){
-  var client = window.ZeroClipboard.clients[id];
-  if (client) {
-    client.receiveEvent(eventName, args);
-  }
-}
-
-/**
- * Ensure that the ZeroClipboard-required global variables are set.
- */
-
-if (!window.ZeroClipboard) window.ZeroClipboard = {};
-if (!window.ZeroClipboard.nextId) window.ZeroClipboard.nextId = 1;
-if (!window.ZeroClipboard.clients) window.ZeroClipboard.clients = {};
-if (!window.ZeroClipboard.dispatch) window.ZeroClipboard.dispatch = dispatch;
-
-/**
- * The Client constructor. Turns a DOM node into a "Copy to Clipboard" button.
- * To simulate ":hover" and ":active" styling on "node", define ".hover" and
- * ".active" CSS classes.
- *
- * @param node The DOM node to turn into a "Copy to Clipboard" button.
- * @param parent (optional) The parent DOM node of "node" that "has layout".
- * @api public
- */
-
-function Client(node, parent){
-  if (!(this instanceof Client)) {
-    return new Client(node, parent);
-  }
-  Emitter.call(this);
-  this.loaded = false;    // "true" when the SWF movie has loaded
-  this._text = '';        // the text to copy to the clipboard. set with "text()".
-  this._cursor = true;    // whether to show the hand cursor on mouse-over
-  this.zIndex = 99;       // default z-index of the movie object
-
-  // unique ID
-  this.id = window.ZeroClipboard.nextId++;
-  this.movieId = 'ZeroClipboardMovie_' + this.id;
-
-  // register client with ZeroClipboard global to receive flash events
-  window.ZeroClipboard.clients[this.id] = this;
-
-  // create movie
-  if (node) this.render(node, parent);
-}
-
-/**
- * Inherits from `Emitter.prototype`.
- */
-
-inherit(Client, Emitter);
-
-/**
- * Render the SWF movie on top of the "elem" DOM element.
- *
- * @param elem DOMNode The DOM node that will be "converted"
- * @param appendElem DOMNode (optional) The DOM node that the SWF will be inserted into
- * @api public
- */
-
-Client.prototype.glue =
-Client.prototype.render = function(elem, appendElem) {
-  this.domElement = elem;
-
-  // float just above object, or default zIndex if dom element isn't set
-  if (this.domElement.style.zIndex) {
-    this.zIndex = parseInt(this.domElement.style.zIndex, 10) + 1;
-  }
-
-  if (typeof(appendElem) == 'string') {
-    appendElem = appendElem;
-  }
-  else if (typeof(appendElem) == 'undefined') {
-    appendElem = document.getElementsByTagName('body')[0];
-  }
-
-  // find X/Y position of domElement
-  var box = getDOMObjectPosition(this.domElement, appendElem);
-
-  // create floating DIV above element
-  this.div = document.createElement('div');
-  var style = this.div.style;
-  style.position = 'absolute';
-  style.left = '' + box.left + 'px';
-  style.top = '' + box.top + 'px';
-  style.width = '' + box.width + 'px';
-  style.height = '' + box.height + 'px';
-  style.zIndex = this.zIndex;
-
-  appendElem.appendChild(this.div);
-  this.div.innerHTML = this.getHTML(box.width, box.height);
-};
-
-/**
- * Generate the HTML for SWF embed.
- *
- * @api private
- */
-
-Client.prototype.getHTML = function(width, height){
-  var html = '';
-  var flashvars = 'id=' + this.id + '&width=' + width + '&height=' + height;
-
-  if (navigator.userAgent.match(/MSIE/)) {
-    // IE gets an OBJECT tag
-    var protocol = /^https/i.test(location.href) ? 'https://' : 'http://';
-    html += '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="'+protocol+'download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="'+width+'" height="'+height+'" id="'+this.movieId+'" align="middle"><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="false" /><param name="movie" value="'+swfPath+'" /><param name="loop" value="false" /><param name="menu" value="false" /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><param name="flashvars" value="'+flashvars+'"/><param name="wmode" value="transparent"/></object>';
-  } else {
-    // all other browsers get an EMBED tag
-    html += '<embed id="'+this.movieId+'" src="'+swfPath+'" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="'+width+'" height="'+height+'" name="'+this.movieId+'" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="'+flashvars+'" wmode="transparent" />';
-  }
-  return html;
-};
-
-/**
- * temporarily hide floater offscreen
- */
-
-Client.prototype.hide = function(){
-  if (this.div) {
-    this.div.style.left = '-2000px';
-  }
-};
-
-/**
- * show ourselves after a call to hide()
- */
-
-Client.prototype.show = function(){
-  this.reposition();
-};
-
-/**
- * destroy control and floater
- */
-
-Client.prototype.destroy = function(){
-  if (this.domElement && this.div) {
-    this.hide();
-    this.div.innerHTML = '';
-
-    var body = document.getElementsByTagName('body')[0];
-    try { body.removeChild( this.div ); } catch(e) {}
-
-    this.domElement = null;
-    this.div = null;
-  }
-};
-
-/**
- * Reposition our floating div, optionally to new container.
- *
- * @api private
- */
-
-Client.prototype.reposition = function(elem){
-  // warning: container CANNOT change size, only position
-  if (elem) {
-    this.domElement = elem;
-    if (!this.domElement) this.hide();
-  }
-
-  if (this.domElement && this.div) {
-    var box = getDOMObjectPosition(this.domElement);
-    var style = this.div.style;
-    style.left = '' + box.left + 'px';
-    style.top = '' + box.top + 'px';
-  }
-};
-
-/**
- * Set the text that will be copied to clipboard upon a user click.
- *
- * @param text String the text that will be copied to the clipboard on-click
- * @api public
- */
-
-Client.prototype.text =
-Client.prototype.setText = function(text){
-  if (0 === arguments.length) {
-    return this._text;
-  } else {
-    this._text = text;
-    if (this.loaded) this.movie.setText(text);
-  }
-};
-
-/**
- * Enable hand cursor (true), or default arrow cursor (false).
- *
- * @param enabled Boolean true enabled the cursor hand, false enables the arrow
- * @api public
- */
-
-Client.prototype.cursor =
-Client.prototype.setHandCursor = function(enabled){
-  if (0 === arguments.length) {
-    return this._cursor;
-  } else {
-    var e = !!enabled;
-    this._cursor = e;
-    if (this.loaded) this.movie.setHandCursor(e);
-  }
-};
-
-/**
- * Receive event from flash. Process the event and possibly relay the event to
- * this client instance using "emit()".
- *
- * @api private
- */
-
-Client.prototype.receiveEvent = function(eventName, args){
-  eventName = eventName.toString().toLowerCase().replace(/^on/, '');
-
-  var domClasses;
-  if (this.domElement) {
-    domClasses = classes(this.domElement);
-  }
-
-  // special behavior for certain events
-  switch (eventName) {
-    case 'load':
-      // movie claims it is loaded, but in IE this isn't always the case...
-      // bug fix: Cannot extend EMBED DOM elements in Firefox, must use traditional function
-      this.movie = document.getElementById(this.movieId);
-      if (!this.movie) {
-        var self = this;
-        setTimeout(function(){ self.receiveEvent('load', null); }, 1);
-        return;
-      }
-
-      // Firefox on Windows needs a "kick" in order to set these in certain cases
-      if (!this.loaded && navigator.userAgent.match(/Firefox/) && navigator.userAgent.match(/Windows/)) {
-        var self = this;
-        setTimeout(function(){ self.receiveEvent('load', null); }, 100);
-        this.loaded = true;
-        return;
-      }
-
-      this.loaded = true;
-      this.movie.setText(this._text);
-      this.movie.setHandCursor(this._cursor);
-      break;
-
-    case 'mouseover':
-      if (domClasses) {
-        domClasses.add('hover');
-        if (this.recoverActive) {
-          domClasses.add('active');
-        }
-      }
-      break;
-
-    case 'mouseout':
-      if (domClasses) {
-        this.recoverActive = false;
-        if (domClasses.has('active')) {
-          domClasses.remove('active');
-          this.recoverActive = true;
-        }
-        domClasses.remove('hover');
-      }
-      break;
-
-    case 'mousedown':
-      if (domClasses) {
-        domClasses.add('active');
-      }
-      break;
-
-    case 'mouseup':
-      if (domClasses) {
-        domClasses.remove('active');
-        this.recoverActive = false;
-      }
-      break;
-  }
-
-  // emit the event
-  var a;
-  if ('string' == typeof args) {
-    a = [eventName, args]; // "args" is only a string
-  } else if (args) {
-    a = args.slice(0); // "args" is actually an array
-    a.unshift(eventName);
-  } else {
-    a = [eventName];
-  }
-  this.emit.apply(this, a);
-};
-
-});
 require.register("component-domify/index.js", function(exports, require, module){
 
 /**
@@ -924,20 +213,32 @@ module.exports = parse;
  */
 
 var map = {
-  option: [1, '<select multiple="multiple">', '</select>'],
-  optgroup: [1, '<select multiple="multiple">', '</select>'],
   legend: [1, '<fieldset>', '</fieldset>'],
-  thead: [1, '<table>', '</table>'],
-  tbody: [1, '<table>', '</table>'],
-  tfoot: [1, '<table>', '</table>'],
-  colgroup: [1, '<table>', '</table>'],
-  caption: [1, '<table>', '</table>'],
   tr: [2, '<table><tbody>', '</tbody></table>'],
-  td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
-  th: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
   col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
   _default: [0, '', '']
 };
+
+map.td =
+map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+
+map.option =
+map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+
+map.thead =
+map.tbody =
+map.colgroup =
+map.caption =
+map.tfoot = [1, '<table>', '</table>'];
+
+map.text =
+map.circle =
+map.ellipse =
+map.line =
+map.path =
+map.polygon =
+map.polyline =
+map.rect = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
 
 /**
  * Parse `html` and return the children.
@@ -952,16 +253,19 @@ function parse(html) {
   
   // tag name
   var m = /<([\w:]+)/.exec(html);
-  if (!m) throw new Error('No elements were generated.');
+  if (!m) return document.createTextNode(html);
+
+  html = html.replace(/^\s+|\s+$/g, ''); // Remove leading/trailing whitespace
+
   var tag = m[1];
-  
+
   // body support
   if (tag == 'body') {
     var el = document.createElement('html');
     el.innerHTML = html;
-    return [el.removeChild(el.lastChild)];
+    return el.removeChild(el.lastChild);
   }
-  
+
   // wrap map
   var wrap = map[tag] || map._default;
   var depth = wrap[0];
@@ -971,30 +275,238 @@ function parse(html) {
   el.innerHTML = prefix + html + suffix;
   while (depth--) el = el.lastChild;
 
-  return orphan(el.children);
+  // one element
+  if (el.firstChild == el.lastChild) {
+    return el.removeChild(el.firstChild);
+  }
+
+  // several elements
+  var fragment = document.createDocumentFragment();
+  while (el.firstChild) {
+    fragment.appendChild(el.removeChild(el.firstChild));
+  }
+
+  return fragment;
 }
 
+});
+require.register("component-props/index.js", function(exports, require, module){
 /**
- * Orphan `els` and return an array.
+ * Global Names
+ */
+
+var globals = /\b(Array|Date|Object|Math|JSON)\b/g;
+
+/**
+ * Return immediate identifiers parsed from `str`.
  *
- * @param {NodeList} els
+ * @param {String} str
+ * @param {String|Function} map function or prefix
+ * @return {Array}
+ * @api public
+ */
+
+module.exports = function(str, fn){
+  var p = unique(props(str));
+  if (fn && 'string' == typeof fn) fn = prefixed(fn);
+  if (fn) return map(str, p, fn);
+  return p;
+};
+
+/**
+ * Return immediate identifiers in `str`.
+ *
+ * @param {String} str
  * @return {Array}
  * @api private
  */
 
-function orphan(els) {
+function props(str) {
+  return str
+    .replace(/\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\//g, '')
+    .replace(globals, '')
+    .match(/[a-zA-Z_]\w*/g)
+    || [];
+}
+
+/**
+ * Return `str` with `props` mapped with `fn`.
+ *
+ * @param {String} str
+ * @param {Array} props
+ * @param {Function} fn
+ * @return {String}
+ * @api private
+ */
+
+function map(str, props, fn) {
+  var re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g;
+  return str.replace(re, function(_){
+    if ('(' == _[_.length - 1]) return fn(_);
+    if (!~props.indexOf(_)) return _;
+    return fn(_);
+  });
+}
+
+/**
+ * Return unique array.
+ *
+ * @param {Array} arr
+ * @return {Array}
+ * @api private
+ */
+
+function unique(arr) {
   var ret = [];
 
-  while (els.length) {
-    ret.push(els[0].parentNode.removeChild(els[0]));
+  for (var i = 0; i < arr.length; i++) {
+    if (~ret.indexOf(arr[i])) continue;
+    ret.push(arr[i]);
   }
 
   return ret;
 }
 
+/**
+ * Map with prefix `str`.
+ */
+
+function prefixed(str) {
+  return function(_){
+    return str + _;
+  };
+}
+
+});
+require.register("component-to-function/index.js", function(exports, require, module){
+/**
+ * Module Dependencies
+ */
+
+var expr = require('props');
+
+/**
+ * Expose `toFunction()`.
+ */
+
+module.exports = toFunction;
+
+/**
+ * Convert `obj` to a `Function`.
+ *
+ * @param {Mixed} obj
+ * @return {Function}
+ * @api private
+ */
+
+function toFunction(obj) {
+  switch ({}.toString.call(obj)) {
+    case '[object Object]':
+      return objectToFunction(obj);
+    case '[object Function]':
+      return obj;
+    case '[object String]':
+      return stringToFunction(obj);
+    case '[object RegExp]':
+      return regexpToFunction(obj);
+    default:
+      return defaultToFunction(obj);
+  }
+}
+
+/**
+ * Default to strict equality.
+ *
+ * @param {Mixed} val
+ * @return {Function}
+ * @api private
+ */
+
+function defaultToFunction(val) {
+  return function(obj){
+    return val === obj;
+  }
+}
+
+/**
+ * Convert `re` to a function.
+ *
+ * @param {RegExp} re
+ * @return {Function}
+ * @api private
+ */
+
+function regexpToFunction(re) {
+  return function(obj){
+    return re.test(obj);
+  }
+}
+
+/**
+ * Convert property `str` to a function.
+ *
+ * @param {String} str
+ * @return {Function}
+ * @api private
+ */
+
+function stringToFunction(str) {
+  // immediate such as "> 20"
+  if (/^ *\W+/.test(str)) return new Function('_', 'return _ ' + str);
+
+  // properties such as "name.first" or "age > 18" or "age > 18 && age < 36"
+  return new Function('_', 'return ' + get(str));
+}
+
+/**
+ * Convert `object` to a function.
+ *
+ * @param {Object} object
+ * @return {Function}
+ * @api private
+ */
+
+function objectToFunction(obj) {
+  var match = {}
+  for (var key in obj) {
+    match[key] = typeof obj[key] === 'string'
+      ? defaultToFunction(obj[key])
+      : toFunction(obj[key])
+  }
+  return function(val){
+    if (typeof val !== 'object') return false;
+    for (var key in match) {
+      if (!(key in val)) return false;
+      if (!match[key](val[key])) return false;
+    }
+    return true;
+  }
+}
+
+/**
+ * Built the getter function. Supports getter style functions
+ *
+ * @param {String} str
+ * @return {String}
+ * @api private
+ */
+
+function get(str) {
+  var props = expr(str);
+  if (!props.length) return '_.' + str;
+
+  var val;
+  for(var i = 0, prop; prop = props[i]; i++) {
+    val = '_.' + prop;
+    val = "('function' == typeof " + val + " ? " + val + "() : " + val + ")";
+    str = str.replace(new RegExp(prop, 'g'), val);
+  }
+
+  return str;
+}
+
 });
 require.register("component-type/index.js", function(exports, require, module){
-
 /**
  * toString ref.
  */
@@ -1011,20 +523,19 @@ var toString = Object.prototype.toString;
 
 module.exports = function(val){
   switch (toString.call(val)) {
-    case '[object Function]': return 'function';
     case '[object Date]': return 'date';
     case '[object RegExp]': return 'regexp';
     case '[object Arguments]': return 'arguments';
     case '[object Array]': return 'array';
-    case '[object String]': return 'string';
+    case '[object Error]': return 'error';
   }
 
   if (val === null) return 'null';
   if (val === undefined) return 'undefined';
+  if (val !== val) return 'nan';
   if (val && val.nodeType === 1) return 'element';
-  if (val === Object(val)) return 'object';
 
-  return typeof val;
+  return typeof val.valueOf();
 };
 
 });
@@ -1035,6 +546,7 @@ require.register("component-each/index.js", function(exports, require, module){
  */
 
 var type = require('type');
+var toFunction = require('to-function');
 
 /**
  * HOP reference.
@@ -1043,22 +555,26 @@ var type = require('type');
 var has = Object.prototype.hasOwnProperty;
 
 /**
- * Iterate the given `obj` and invoke `fn(val, i)`.
+ * Iterate the given `obj` and invoke `fn(val, i)`
+ * in optional context `ctx`.
  *
  * @param {String|Array|Object} obj
  * @param {Function} fn
+ * @param {Object} [ctx]
  * @api public
  */
 
-module.exports = function(obj, fn){
+module.exports = function(obj, fn, ctx){
+  fn = toFunction(fn);
+  ctx = ctx || this;
   switch (type(obj)) {
     case 'array':
-      return array(obj, fn);
+      return array(obj, fn, ctx);
     case 'object':
-      if ('number' == typeof obj.length) return array(obj, fn);
-      return object(obj, fn);
+      if ('number' == typeof obj.length) return array(obj, fn, ctx);
+      return object(obj, fn, ctx);
     case 'string':
-      return string(obj, fn);
+      return string(obj, fn, ctx);
   }
 };
 
@@ -1067,12 +583,13 @@ module.exports = function(obj, fn){
  *
  * @param {String} obj
  * @param {Function} fn
+ * @param {Object} ctx
  * @api private
  */
 
-function string(obj, fn) {
+function string(obj, fn, ctx) {
   for (var i = 0; i < obj.length; ++i) {
-    fn(obj.charAt(i), i);
+    fn.call(ctx, obj.charAt(i), i);
   }
 }
 
@@ -1081,13 +598,14 @@ function string(obj, fn) {
  *
  * @param {Object} obj
  * @param {Function} fn
+ * @param {Object} ctx
  * @api private
  */
 
-function object(obj, fn) {
+function object(obj, fn, ctx) {
   for (var key in obj) {
     if (has.call(obj, key)) {
-      fn(key, obj[key]);
+      fn.call(ctx, key, obj[key]);
     }
   }
 }
@@ -1097,14 +615,16 @@ function object(obj, fn) {
  *
  * @param {Array|Object} obj
  * @param {Function} fn
+ * @param {Object} ctx
  * @api private
  */
 
-function array(obj, fn) {
+function array(obj, fn, ctx) {
   for (var i = 0; i < obj.length; ++i) {
-    fn(obj[i], i);
+    fn.call(ctx, obj[i], i);
   }
 }
+
 });
 require.register("component-escape-html/index.js", function(exports, require, module){
 /**
@@ -1126,6 +646,9 @@ module.exports = function(html) {
 
 });
 require.register("component-event/index.js", function(exports, require, module){
+var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
+    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
+    prefix = bind !== 'addEventListener' ? 'on' : '';
 
 /**
  * Bind `el` event `type` to `fn`.
@@ -1139,11 +662,7 @@ require.register("component-event/index.js", function(exports, require, module){
  */
 
 exports.bind = function(el, type, fn, capture){
-  if (el.addEventListener) {
-    el.addEventListener(type, fn, capture || false);
-  } else {
-    el.attachEvent('on' + type, fn);
-  }
+  el[bind](prefix + type, fn, capture || false);
   return fn;
 };
 
@@ -1159,17 +678,11 @@ exports.bind = function(el, type, fn, capture){
  */
 
 exports.unbind = function(el, type, fn, capture){
-  if (el.removeEventListener) {
-    el.removeEventListener(type, fn, capture || false);
-  } else {
-    el.detachEvent('on' + type, fn);
-  }
+  el[unbind](prefix + type, fn, capture || false);
   return fn;
 };
-
 });
 require.register("component-query/index.js", function(exports, require, module){
-
 function one(selector, el) {
   return el.querySelector(selector);
 }
@@ -1189,6 +702,7 @@ exports.engine = function(obj){
   if (!obj.all) throw new Error('.all callback required');
   one = obj.one;
   exports.all = obj.all;
+  return exports;
 };
 
 });
@@ -10929,263 +10443,781 @@ module.exports.out = function animateOut (element, animation, remove, callback) 
       $(element)
         .css('visibility', 'hidden')
         .slideUp(100, callback);
+    } else {
+      if (callback) callback();
     }
   });
 };
-});
-require.register("matthewmueller-debounce/index.js", function(exports, require, module){
-/**
- * Debounce
- *
- * Returns a function, that, as long as it continues to be invoked, will not
- * be triggered. The function will be called after it stops being called for
- * N milliseconds. If `immediate` is passed, trigger the function on the
- * leading edge, instead of the trailing.
- *
- * @param {Function} func
- * @param {Number} wait
- * @param {Boolean} immediate
- * @return {Function}
- */
 
-module.exports = function(func, wait, immediate) {
-  var timeout, result;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      if (!immediate) result = func.apply(context, args);
-    };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) result = func.apply(context, args);
-    return result;
-  };
+});
+require.register("component-indexof/index.js", function(exports, require, module){
+module.exports = function(arr, obj){
+  if (arr.indexOf) return arr.indexOf(obj);
+  for (var i = 0; i < arr.length; ++i) {
+    if (arr[i] === obj) return i;
+  }
+  return -1;
 };
-
 });
-require.register("component-bind/index.js", function(exports, require, module){
-
+require.register("component-classes/index.js", function(exports, require, module){
 /**
- * Slice reference.
+ * Module dependencies.
  */
 
-var slice = [].slice;
+var index = require('indexof');
 
 /**
- * Bind `obj` to `fn`.
+ * Whitespace regexp.
+ */
+
+var re = /\s+/;
+
+/**
+ * toString reference.
+ */
+
+var toString = Object.prototype.toString;
+
+/**
+ * Wrap `el` in a `ClassList`.
  *
- * @param {Object} obj
- * @param {Function|String} fn or string
- * @return {Function}
+ * @param {Element} el
+ * @return {ClassList}
  * @api public
  */
 
-module.exports = function(obj, fn){
-  if ('string' == typeof fn) fn = obj[fn];
-  if ('function' != typeof fn) throw new Error('bind() requires a function');
-  var args = [].slice.call(arguments, 2);
-  return function(){
-    return fn.apply(obj, args.concat(slice.call(arguments)));
+module.exports = function(el){
+  return new ClassList(el);
+};
+
+/**
+ * Initialize a new ClassList for `el`.
+ *
+ * @param {Element} el
+ * @api private
+ */
+
+function ClassList(el) {
+  if (!el) throw new Error('A DOM element reference is required');
+  this.el = el;
+  this.list = el.classList;
+}
+
+/**
+ * Add class `name` if not already present.
+ *
+ * @param {String} name
+ * @return {ClassList}
+ * @api public
+ */
+
+ClassList.prototype.add = function(name){
+  // classList
+  if (this.list) {
+    this.list.add(name);
+    return this;
   }
+
+  // fallback
+  var arr = this.array();
+  var i = index(arr, name);
+  if (!~i) arr.push(name);
+  this.el.className = arr.join(' ');
+  return this;
+};
+
+/**
+ * Remove class `name` when present, or
+ * pass a regular expression to remove
+ * any which match.
+ *
+ * @param {String|RegExp} name
+ * @return {ClassList}
+ * @api public
+ */
+
+ClassList.prototype.remove = function(name){
+  if ('[object RegExp]' == toString.call(name)) {
+    return this.removeMatching(name);
+  }
+
+  // classList
+  if (this.list) {
+    this.list.remove(name);
+    return this;
+  }
+
+  // fallback
+  var arr = this.array();
+  var i = index(arr, name);
+  if (~i) arr.splice(i, 1);
+  this.el.className = arr.join(' ');
+  return this;
+};
+
+/**
+ * Remove all classes matching `re`.
+ *
+ * @param {RegExp} re
+ * @return {ClassList}
+ * @api private
+ */
+
+ClassList.prototype.removeMatching = function(re){
+  var arr = this.array();
+  for (var i = 0; i < arr.length; i++) {
+    if (re.test(arr[i])) {
+      this.remove(arr[i]);
+    }
+  }
+  return this;
+};
+
+/**
+ * Toggle class `name`, can force state via `force`.
+ *
+ * For browsers that support classList, but do not support `force` yet,
+ * the mistake will be detected and corrected.
+ *
+ * @param {String} name
+ * @param {Boolean} force
+ * @return {ClassList}
+ * @api public
+ */
+
+ClassList.prototype.toggle = function(name, force){
+  // classList
+  if (this.list) {
+    if ("undefined" !== typeof force) {
+      if (force !== this.list.toggle(name, force)) {
+        this.list.toggle(name); // toggle again to correct
+      }
+    } else {
+      this.list.toggle(name);
+    }
+    return this;
+  }
+
+  // fallback
+  if ("undefined" !== typeof force) {
+    if (!force) {
+      this.remove(name);
+    } else {
+      this.add(name);
+    }
+  } else {
+    if (this.has(name)) {
+      this.remove(name);
+    } else {
+      this.add(name);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return an array of classes.
+ *
+ * @return {Array}
+ * @api public
+ */
+
+ClassList.prototype.array = function(){
+  var str = this.el.className.replace(/^\s+|\s+$/g, '');
+  var arr = str.split(re);
+  if ('' === arr[0]) arr.shift();
+  return arr;
+};
+
+/**
+ * Check if class `name` is present.
+ *
+ * @param {String} name
+ * @return {ClassList}
+ * @api public
+ */
+
+ClassList.prototype.has =
+ClassList.prototype.contains = function(name){
+  return this.list
+    ? this.list.contains(name)
+    : !! ~index(this.array(), name);
 };
 
 });
-require.register("matthewmueller-uid/index.js", function(exports, require, module){
+require.register("component-emitter/index.js", function(exports, require, module){
+
 /**
- * Export `uid`
+ * Expose `Emitter`.
  */
 
-module.exports = uid;
+module.exports = Emitter;
 
 /**
- * Create a `uid`
+ * Initialize a new `Emitter`.
  *
- * @param {String} len
- * @return {String} uid
+ * @api public
  */
 
-function uid(len) {
-  len = len || 7;
-  return Math.random().toString(35).substr(2, len);
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
 }
 
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks[event] = this._callbacks[event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  var self = this;
+  this._callbacks = this._callbacks || {};
+
+  function on() {
+    self.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks[event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks[event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks[event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks[event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
 });
-require.register("segmentio-hn-button.js/index.js", function(exports, require, module){
+require.register("component-inherit/index.js", function(exports, require, module){
+
+module.exports = function(a, b){
+  var fn = function(){};
+  fn.prototype = b.prototype;
+  a.prototype = new fn;
+  a.prototype.constructor = a;
+};
+});
+require.register("ianstormtaylor-clipboard-dom/index.js", function(exports, require, module){
 
 /**
  * Module dependencies.
  */
 
-var bind = require('bind')
-  , each = require('each')
-  , Emitter = require('emitter')
-  , on = require('event').bind
-  , query = require('query')
-  , uid = require('uid');
-
-
-/**
- * The HN object is really just an emitter for listening to button events.
- */
-
-var HN = new Emitter();
-
-
-/**
- * Origin of the server.
- */
-
-var origin = location.protocol + '//hn-button.herokuapp.com';
-
-
-/**
- * When an iframe first loads it send along its width, so we can resize the
- * <iframe> in the DOM. This way it never takes up more space than it actually
- * needs, so multiple button in a row are next to each other.
- */
-
-HN.on('load', function (event) {
-  var iframe = event.target;
-  iframe.width = Math.ceil(event.width); // browsers round weirdly, ceil helps
-});
-
-
-/**
- * Initialize a button element.
- */
-
-HN.initialize = function (a) {
-  new Button(a);
-};
-
-
-/**
- * Initialize a button. Generate a unique ID that we can use when messaging
- * between windows to identify the sender.
- *
- * @param {Element} button  The button's element in the DOM.
- */
-
-function Button (a) {
-  this.id = 'hn-button-' + uid();
-  on(window, 'message', bind(this, this.onMessage));
-  this.render(a);
-}
-
-
-/**
- * Render a button.
- *
- * @param {Element} a  The original <a> element that was on the page.
- */
-
-Button.prototype.render = function (a) {
-  // Grab some settings from the <a>.
-  var options = {
-    title : a.getAttribute('data-title') || document.title,
-    url   : a.getAttribute('data-url') || window.location.href,
-    style : a.getAttribute('data-style'),
-    count : a.getAttribute('data-count')
-  };
-
-  // Create the iframe element that we will replace the <a> with.
-  var iframe = this.iframe = document.createElement('iframe');
-
-  // Set the source based on data attributes, with fallbacks.
-  iframe.src = src(options);
-
-  // Add the id, name, class, and I think it's nice to see the same attributes
-  // you set on the <a> stay on the iframe.
-  iframe.id = iframe.name = this.id;
-  iframe.className = 'hn-button';
-  iframe.setAttribute('data-title', options.title);
-  iframe.setAttribute('data-url', options.url);
-  if (options.style) iframe.setAttribute('data-style', options.style);
-  if (options.count) iframe.setAttribute('data-count', options.count);
-
-  // Give it a title for accessibility.
-  iframe.title = 'Hacker News Button';
-
-  // Set the proper width and height, depending on the orientation.
-  iframe.height = options.count === 'vertical' ? 62 : 20; // standard
-  iframe.width = 100; // a best guess, real width applied on load
-
-  // Set other required attributes.
-  iframe.frameBorder = 0; // removes default iframe border
-
-  // Replace the <a> with the iframe.
-  a.parentNode.insertBefore(iframe, a);
-  a.parentNode.removeChild(a);
-};
-
-
-/**
- * Listen for messages coming from our iframe's window and proxy them to the
- * global HN object so others can react.
- *
- * @param {MessageEvent} message  The message from the postMessage API.
- */
-
-Button.prototype.onMessage = function (message) {
-  // make sure we're listening for the right thing
-  if (message.origin !== origin) return;
-  if (message.data.id !== this.id) return;
-
-  var event = message.data.event
-    , data = message.data.data;
-
-  // add properties so the listener can differentiate
-  data.type = event;
-  data.id = this.id;
-  data.target = this.iframe;
-
-  // emit on the global HN object
-  HN.emit(event, data);
-};
-
-
-/**
- * Helper to render an iframe src href from an options dictionary.
- *
- * @param {Object} options  The options to use.
- * @return {String}         The iframe `src` href.
- */
-
-function src (options) {
-  var query = '';
-  each(options, function (key, value) {
-    query += query ? '&' : '?';
-    if (value) query += key + '=' + encodeURIComponent(value);
-  });
-  return origin + query;
-}
-
-
-/**
- * Kick everything off, initializing all the `.hn-button`'s on the page.
- */
-
-each(query.all('.hn-button'), HN.initialize);
-
-
-/**
- * Replay existing queued messages into the real HN object.
- */
-
-if (window.HN) while (window.HN.length > 0) {
-  var item = window.HN.shift();
-  var method = item.shift();
-  if (HN[method]) HN[method].apply(HN, item);
-}
-
+var classes = require('classes');
+var inherit = require('inherit');
+var Emitter = require('emitter');
 
 /**
  * Module exports.
  */
 
-module.exports = HN;
+exports = module.exports = Client;
+exports.swf = swf;
+
+/**
+ * URL to the "ZeroClipboard.swf" file.
+ */
+
+var swfPath = 'ZeroClipboard.swf';
+
+/**
+ * Get/set the SWF path.
+ */
+
+function swf(path){
+  if (0 === arguments.length) {
+    return swfPath;
+  } else {
+    swfPath = path;
+    return Client;
+  }
+}
+
+/**
+ * Get absolute coordinates for dom element.
+ * XXX: this probably belongs in a more focused component ("position"?)
+ *
+ * @api private
+ */
+
+function getDOMObjectPosition(obj, stopObj){
+  var info = {
+    left: 0,
+    top: 0,
+    width: obj.width ? obj.width : obj.offsetWidth,
+    height: obj.height ? obj.height : obj.offsetHeight
+  };
+
+  while (obj && (obj != stopObj)) {
+    info.left += obj.offsetLeft;
+    info.top += obj.offsetTop;
+    obj = obj.offsetParent;
+  }
+
+  return info;
+}
+
+/**
+ * Dispatches an event from the ZeroClipboard SWF Flash environment.
+ */
+
+function dispatch(id, eventName, args){
+  var client = window.ZeroClipboard.clients[id];
+  if (client) {
+    client.receiveEvent(eventName, args);
+  }
+}
+
+/**
+ * Ensure that the ZeroClipboard-required global variables are set.
+ */
+
+if (!window.ZeroClipboard) window.ZeroClipboard = {};
+if (!window.ZeroClipboard.nextId) window.ZeroClipboard.nextId = 1;
+if (!window.ZeroClipboard.clients) window.ZeroClipboard.clients = {};
+if (!window.ZeroClipboard.dispatch) window.ZeroClipboard.dispatch = dispatch;
+
+/**
+ * The Client constructor. Turns a DOM node into a "Copy to Clipboard" button.
+ * To simulate ":hover" and ":active" styling on "node", define ".hover" and
+ * ".active" CSS classes.
+ *
+ * @param node The DOM node to turn into a "Copy to Clipboard" button.
+ * @param parent (optional) The parent DOM node of "node" that "has layout".
+ * @api public
+ */
+
+function Client(node, parent){
+  if (!(this instanceof Client)) {
+    return new Client(node, parent);
+  }
+  Emitter.call(this);
+  this.loaded = false;    // "true" when the SWF movie has loaded
+  this._text = '';        // the text to copy to the clipboard. set with "text()".
+  this._cursor = true;    // whether to show the hand cursor on mouse-over
+  this.zIndex = 99;       // default z-index of the movie object
+
+  // unique ID
+  this.id = window.ZeroClipboard.nextId++;
+  this.movieId = 'ZeroClipboardMovie_' + this.id;
+
+  // register client with ZeroClipboard global to receive flash events
+  window.ZeroClipboard.clients[this.id] = this;
+
+  // create movie
+  if (node) this.render(node, parent);
+}
+
+/**
+ * Inherits from `Emitter.prototype`.
+ */
+
+inherit(Client, Emitter);
+
+/**
+ * Render the SWF movie on top of the "elem" DOM element.
+ *
+ * @param elem DOMNode The DOM node that will be "converted"
+ * @param appendElem DOMNode (optional) The DOM node that the SWF will be inserted into
+ * @api public
+ */
+
+Client.prototype.glue =
+Client.prototype.render = function(elem, appendElem) {
+  this.domElement = elem;
+
+  // float just above object, or default zIndex if dom element isn't set
+  if (this.domElement.style.zIndex) {
+    this.zIndex = parseInt(this.domElement.style.zIndex, 10) + 1;
+  }
+
+  if (typeof(appendElem) == 'string') {
+    appendElem = appendElem;
+  }
+  else if (typeof(appendElem) == 'undefined') {
+    appendElem = document.getElementsByTagName('body')[0];
+  }
+
+  // find X/Y position of domElement
+  var box = getDOMObjectPosition(this.domElement, appendElem);
+
+  // create floating DIV above element
+  this.div = document.createElement('div');
+  var style = this.div.style;
+  style.position = 'absolute';
+  style.left = '' + box.left + 'px';
+  style.top = '' + box.top + 'px';
+  style.width = '' + box.width + 'px';
+  style.height = '' + box.height + 'px';
+  style.zIndex = this.zIndex;
+
+  appendElem.appendChild(this.div);
+  this.div.innerHTML = this.getHTML(box.width, box.height);
+};
+
+/**
+ * Generate the HTML for SWF embed.
+ *
+ * @api private
+ */
+
+Client.prototype.getHTML = function(width, height){
+  var html = '';
+  var flashvars = 'id=' + this.id + '&width=' + width + '&height=' + height;
+
+  if (navigator.userAgent.match(/MSIE/)) {
+    // IE gets an OBJECT tag
+    var protocol = /^https/i.test(location.href) ? 'https://' : 'http://';
+    html += '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="'+protocol+'download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="'+width+'" height="'+height+'" id="'+this.movieId+'" align="middle"><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="false" /><param name="movie" value="'+swfPath+'" /><param name="loop" value="false" /><param name="menu" value="false" /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><param name="flashvars" value="'+flashvars+'"/><param name="wmode" value="transparent"/></object>';
+  } else {
+    // all other browsers get an EMBED tag
+    html += '<embed id="'+this.movieId+'" src="'+swfPath+'" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="'+width+'" height="'+height+'" name="'+this.movieId+'" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="'+flashvars+'" wmode="transparent" />';
+  }
+  return html;
+};
+
+/**
+ * temporarily hide floater offscreen
+ */
+
+Client.prototype.hide = function(){
+  if (this.div) {
+    this.div.style.left = '-2000px';
+  }
+};
+
+/**
+ * show ourselves after a call to hide()
+ */
+
+Client.prototype.show = function(){
+  this.reposition();
+};
+
+/**
+ * destroy control and floater
+ */
+
+Client.prototype.destroy = function(){
+  if (this.domElement && this.div) {
+    this.hide();
+    this.div.innerHTML = '';
+
+    var body = document.getElementsByTagName('body')[0];
+    try { body.removeChild( this.div ); } catch(e) {}
+
+    this.domElement = null;
+    this.div = null;
+  }
+};
+
+/**
+ * Reposition our floating div, optionally to new container.
+ *
+ * @api private
+ */
+
+Client.prototype.reposition = function(elem){
+  // warning: container CANNOT change size, only position
+  if (elem) {
+    this.domElement = elem;
+    if (!this.domElement) this.hide();
+  }
+
+  if (this.domElement && this.div) {
+    var box = getDOMObjectPosition(this.domElement);
+    var style = this.div.style;
+    style.left = '' + box.left + 'px';
+    style.top = '' + box.top + 'px';
+  }
+};
+
+/**
+ * Set the text that will be copied to clipboard upon a user click.
+ *
+ * @param text String the text that will be copied to the clipboard on-click
+ * @api public
+ */
+
+Client.prototype.text =
+Client.prototype.setText = function(text){
+  if (0 === arguments.length) {
+    return this._text;
+  } else {
+    this._text = text;
+    if (this.loaded) this.movie.setText(text);
+  }
+};
+
+/**
+ * Enable hand cursor (true), or default arrow cursor (false).
+ *
+ * @param enabled Boolean true enabled the cursor hand, false enables the arrow
+ * @api public
+ */
+
+Client.prototype.cursor =
+Client.prototype.setHandCursor = function(enabled){
+  if (0 === arguments.length) {
+    return this._cursor;
+  } else {
+    var e = !!enabled;
+    this._cursor = e;
+    if (this.loaded) this.movie.setHandCursor(e);
+  }
+};
+
+/**
+ * Receive event from flash. Process the event and possibly relay the event to
+ * this client instance using "emit()".
+ *
+ * @api private
+ */
+
+Client.prototype.receiveEvent = function(eventName, args){
+  eventName = eventName.toString().toLowerCase().replace(/^on/, '');
+
+  var domClasses;
+  if (this.domElement) {
+    domClasses = classes(this.domElement);
+  }
+
+  // special behavior for certain events
+  switch (eventName) {
+    case 'load':
+      // movie claims it is loaded, but in IE this isn't always the case...
+      // bug fix: Cannot extend EMBED DOM elements in Firefox, must use traditional function
+      this.movie = document.getElementById(this.movieId);
+      if (!this.movie) {
+        var self = this;
+        setTimeout(function(){ self.receiveEvent('load', null); }, 1);
+        return;
+      }
+
+      // Firefox on Windows needs a "kick" in order to set these in certain cases
+      if (!this.loaded && navigator.userAgent.match(/Firefox/) && navigator.userAgent.match(/Windows/)) {
+        var self = this;
+        setTimeout(function(){ self.receiveEvent('load', null); }, 100);
+        this.loaded = true;
+        return;
+      }
+
+      this.loaded = true;
+      this.movie.setText(this._text);
+      this.movie.setHandCursor(this._cursor);
+      break;
+
+    case 'mouseover':
+      if (domClasses) {
+        domClasses.add('hover');
+        if (this.recoverActive) {
+          domClasses.add('active');
+        }
+      }
+      break;
+
+    case 'mouseout':
+      if (domClasses) {
+        this.recoverActive = false;
+        if (domClasses.has('active')) {
+          domClasses.remove('active');
+          this.recoverActive = true;
+        }
+        domClasses.remove('hover');
+      }
+      break;
+
+    case 'mousedown':
+      if (domClasses) {
+        domClasses.add('active');
+      }
+      break;
+
+    case 'mouseup':
+      if (domClasses) {
+        domClasses.remove('active');
+        this.recoverActive = false;
+      }
+      break;
+  }
+
+  // emit the event
+  var a;
+  if ('string' == typeof args) {
+    a = [eventName, args]; // "args" is only a string
+  } else if (args) {
+    a = args.slice(0); // "args" is actually an array
+    a.unshift(eventName);
+  } else {
+    a = [eventName];
+  }
+  this.emit.apply(this, a);
+};
+
+});
+
+
+
+require.register("matthewmueller-debounce/index.js", function(exports, require, module){
+/**
+ * Debounces a function by the given threshold.
+ *
+ * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+ * @param {Function} function to wrap
+ * @param {Number} timeout in ms (`100`)
+ * @param {Boolean} whether to execute at the beginning (`true`)
+ * @api public
+ */
+
+module.exports = function debounce(func, threshold, execAsap){
+  var timeout;
+  if (false !== execAsap) execAsap = true;
+
+  return function debounced(){
+    var obj = this, args = arguments;
+
+    function delayed () {
+      if (!execAsap) {
+        func.apply(obj, args);
+      }
+      timeout = null;
+    }
+
+    if (timeout) {
+      clearTimeout(timeout);
+    } else if (execAsap) {
+      func.apply(obj, args);
+    }
+
+    timeout = setTimeout(delayed, threshold || 100);
+  };
+};
+
 });
 require.register("visionmedia-minstache/index.js", function(exports, require, module){
 
@@ -11248,6 +11280,11 @@ function compile(str) {
           tok = tok.slice(1);
           assertProperty(tok);
           js.push(' + section(obj, "' + tok + '", false, ');
+          break;
+        case '!':
+          tok = tok.slice(1);
+          assertProperty(tok);
+          js.push(' + obj.' + tok + ' + ');
           break;
         default:
           assertProperty(tok);
@@ -11332,6 +11369,7 @@ function escape(html) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
+
 });
 require.register("segmentio-hn-button-snippet/index.js", function(exports, require, module){
 
@@ -11374,6 +11412,226 @@ module.exports = '<a href="https://news.ycombinator.com/submit" class="hn-button
 });
 require.register("segmentio-hn-button-snippet/script.js", function(exports, require, module){
 module.exports = '<script type="text/javascript">var HN=[];HN.factory=function(e){return function(){HN.push([e].concat(Array.prototype.slice.call(arguments,0)))};},HN.on=HN.factory("on"),HN.once=HN.factory("once"),HN.off=HN.factory("off"),HN.emit=HN.factory("emit"),HN.load=function(){var e="hn-button.js";if(document.getElementById(e))return;var t=document.createElement("script");t.id=e,t.src="//hn-button.herokuapp.com/hn-button.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)},HN.load();</script>';
+});
+require.register("component-bind/index.js", function(exports, require, module){
+/**
+ * Slice reference.
+ */
+
+var slice = [].slice;
+
+/**
+ * Bind `obj` to `fn`.
+ *
+ * @param {Object} obj
+ * @param {Function|String} fn or string
+ * @return {Function}
+ * @api public
+ */
+
+module.exports = function(obj, fn){
+  if ('string' == typeof fn) fn = obj[fn];
+  if ('function' != typeof fn) throw new Error('bind() requires a function');
+  var args = slice.call(arguments, 2);
+  return function(){
+    return fn.apply(obj, args.concat(slice.call(arguments)));
+  }
+};
+
+});
+require.register("matthewmueller-uid/index.js", function(exports, require, module){
+/**
+ * Export `uid`
+ */
+
+module.exports = uid;
+
+/**
+ * Create a `uid`
+ *
+ * @param {String} len
+ * @return {String} uid
+ */
+
+function uid(len) {
+  len = len || 7;
+  return Math.random().toString(35).substr(2, len);
+}
+
+});
+require.register("segmentio-hn-button.js/index.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var bind = require('bind')
+  , each = require('each')
+  , Emitter = require('emitter')
+  , on = require('event').bind
+  , query = require('query')
+  , uid = require('uid');
+
+
+/**
+ * The HN object is really just an emitter for listening to button events.
+ */
+
+var HN = new Emitter();
+
+
+/**
+ * When an iframe first loads it send along its width, so we can resize the
+ * <iframe> in the DOM. This way it never takes up more space than it actually
+ * needs, so multiple button in a row are next to each other.
+ */
+
+HN.on('load', function (event) {
+  var iframe = event.target;
+  iframe.width = Math.ceil(event.width); // browsers round weirdly, ceil helps
+});
+
+
+/**
+ * Initialize a button element.
+ */
+
+HN.initialize = function (a) {
+  new Button(a);
+};
+
+
+/**
+ * Initialize a button. Generate a unique ID that we can use when messaging
+ * between windows to identify the sender.
+ *
+ * @param {Element} button  The button's element in the DOM.
+ */
+
+function Button (a) {
+  this.id = 'hn-button-' + uid();
+  this.host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
+  on(window, 'message', bind(this, this.onMessage));
+  this.render(a);
+}
+
+
+/**
+ * Render a button.
+ *
+ * @param {Element} a  The original <a> element that was on the page.
+ */
+
+Button.prototype.render = function (a) {
+  // Grab some settings from the <a>.
+  var options = {
+    title: a.getAttribute('data-title') || document.title,
+    url: a.getAttribute('data-url') || window.location.href,
+    style: a.getAttribute('data-style'),
+    count: a.getAttribute('data-count'),
+    host: this.host
+  };
+
+  // Create the iframe element that we will replace the <a> with.
+  var iframe = this.iframe = document.createElement('iframe');
+
+  // Set the source based on data attributes, with fallbacks.
+  iframe.src = src(options);
+
+  // Add the id, name, class, and I think it's nice to see the same attributes
+  // you set on the <a> stay on the iframe.
+  iframe.id = iframe.name = this.id;
+  iframe.className = 'hn-button';
+  iframe.setAttribute('data-title', options.title);
+  iframe.setAttribute('data-url', options.url);
+  if (options.style) iframe.setAttribute('data-style', options.style);
+  if (options.count) iframe.setAttribute('data-count', options.count);
+
+  // Give it a title for accessibility.
+  iframe.title = 'Hacker News Button';
+
+  // Set the proper width and height, depending on the orientation.
+  iframe.height = options.count === 'vertical' ? 62 : 20; // standard
+  iframe.width = 100; // a best guess, real width applied on load
+
+  // Set other required attributes.
+  iframe.frameBorder = 0; // removes default iframe border
+
+  // Replace the <a> with the iframe.
+  a.parentNode.insertBefore(iframe, a);
+  a.parentNode.removeChild(a);
+};
+
+
+/**
+ * Listen for messages coming from our iframe's window and proxy them to the
+ * global HN object so others can react.
+ *
+ * @param {MessageEvent} message  The message from the postMessage API.
+ */
+
+Button.prototype.onMessage = function (message) {
+  // make sure we're listening for the right thing
+  if (message.origin !== this.host) return;
+  if (message.data.id !== this.id) return;
+
+  var event = message.data.event
+    , data = message.data.data;
+
+  // add properties so the listener can differentiate
+  data.type = event;
+  data.id = this.id;
+  data.target = this.iframe;
+
+  // emit on the global HN object
+  HN.emit(event, data);
+};
+
+
+/**
+ * Helper to render an iframe src href from an options dictionary.
+ *
+ * @param {Object} options  The options to use.
+ * @return {String}         The iframe `src` href.
+ */
+
+function src (options) {
+  var query = '';
+  var origin = location.protocol + '//' + options.host;
+
+  each(options, function (key, value) {
+    if ('host' == key) return;
+    query += query ? '&' : '?';
+    if (value) query += key + '=' + encodeURIComponent(value);
+  });
+
+  return origin + query;
+}
+
+
+/**
+ * Kick everything off, initializing all the `.hn-button`'s on the page.
+ */
+
+each(query.all('.hn-button'), HN.initialize);
+
+
+/**
+ * Replay existing queued messages into the real HN object.
+ */
+
+if (window.HN) while (window.HN.length > 0) {
+  var item = window.HN.shift();
+  var method = item.shift();
+  if (HN[method]) HN[method].apply(HN, item);
+}
+
+
+/**
+ * Module exports.
+ */
+
+module.exports = HN;
 });
 
 require.register("segmentio-value/index.js", function(exports, require, module){
@@ -11713,21 +11971,61 @@ function render () {
 }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 require.alias("site/site.js", "hn-button.com/deps/site/site.js");
 require.alias("site/site.js", "hn-button.com/deps/site/index.js");
 require.alias("site/site.js", "site/index.js");
-require.alias("ianstormtaylor-clipboard-dom/index.js", "site/deps/clipboard-dom/index.js");
-require.alias("component-classes/index.js", "ianstormtaylor-clipboard-dom/deps/classes/index.js");
-require.alias("component-indexof/index.js", "component-classes/deps/indexof/index.js");
-
-require.alias("component-emitter/index.js", "ianstormtaylor-clipboard-dom/deps/emitter/index.js");
-require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
-
-require.alias("component-inherit/index.js", "ianstormtaylor-clipboard-dom/deps/inherit/index.js");
-
 require.alias("component-domify/index.js", "site/deps/domify/index.js");
 
 require.alias("component-each/index.js", "site/deps/each/index.js");
+require.alias("component-to-function/index.js", "component-each/deps/to-function/index.js");
+require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
+
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
 require.alias("component-escape-html/index.js", "site/deps/escape-html/index.js");
@@ -11741,16 +12039,34 @@ require.alias("component-jquery/index.js", "ianstormtaylor-animate/deps/jquery/i
 
 require.alias("kewah-css-animation-event-types/index.js", "ianstormtaylor-animate/deps/css-animation-event-types/index.js");
 
+require.alias("ianstormtaylor-clipboard-dom/index.js", "site/deps/clipboard-dom/index.js");
+require.alias("component-classes/index.js", "ianstormtaylor-clipboard-dom/deps/classes/index.js");
+require.alias("component-indexof/index.js", "component-classes/deps/indexof/index.js");
+
+require.alias("component-emitter/index.js", "ianstormtaylor-clipboard-dom/deps/emitter/index.js");
+
+require.alias("component-inherit/index.js", "ianstormtaylor-clipboard-dom/deps/inherit/index.js");
+
+
+
+
 require.alias("matthewmueller-debounce/index.js", "site/deps/debounce/index.js");
+
+require.alias("segmentio-hn-button-snippet/index.js", "site/deps/hn-button-snippet/index.js");
+require.alias("segmentio-hn-button-snippet/button.js", "site/deps/hn-button-snippet/button.js");
+require.alias("segmentio-hn-button-snippet/script.js", "site/deps/hn-button-snippet/script.js");
+require.alias("visionmedia-minstache/index.js", "segmentio-hn-button-snippet/deps/minstache/index.js");
 
 require.alias("segmentio-hn-button.js/index.js", "site/deps/hn-button/index.js");
 require.alias("component-bind/index.js", "segmentio-hn-button.js/deps/bind/index.js");
 
 require.alias("component-each/index.js", "segmentio-hn-button.js/deps/each/index.js");
+require.alias("component-to-function/index.js", "component-each/deps/to-function/index.js");
+require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
+
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
 require.alias("component-emitter/index.js", "segmentio-hn-button.js/deps/emitter/index.js");
-require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
 
 require.alias("component-event/index.js", "segmentio-hn-button.js/deps/event/index.js");
 
@@ -11758,22 +12074,19 @@ require.alias("component-query/index.js", "segmentio-hn-button.js/deps/query/ind
 
 require.alias("matthewmueller-uid/index.js", "segmentio-hn-button.js/deps/uid/index.js");
 
-require.alias("segmentio-hn-button-snippet/index.js", "site/deps/hn-button-snippet/index.js");
-require.alias("segmentio-hn-button-snippet/button.js", "site/deps/hn-button-snippet/button.js");
-require.alias("segmentio-hn-button-snippet/script.js", "site/deps/hn-button-snippet/script.js");
-require.alias("visionmedia-minstache/index.js", "segmentio-hn-button-snippet/deps/minstache/index.js");
-
 
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");
 require.alias("segmentio-value/index.js", "site/deps/value/index.js");
 require.alias("component-type/index.js", "segmentio-value/deps/type/index.js");
 
 require.alias("segmentio-value/index.js", "segmentio-value/index.js");
-
 require.alias("yields-prevent/index.js", "site/deps/prevent/index.js");
 
 require.alias("yields-store/index.js", "site/deps/store/index.js");
 require.alias("component-each/index.js", "yields-store/deps/each/index.js");
+require.alias("component-to-function/index.js", "component-each/deps/to-function/index.js");
+require.alias("component-props/index.js", "component-to-function/deps/props/index.js");
+
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
 
 require.alias("component-type/index.js", "yields-store/deps/type/index.js");
@@ -11781,4 +12094,3 @@ require.alias("component-type/index.js", "yields-store/deps/type/index.js");
 require.alias("yields-unserialize/index.js", "yields-store/deps/unserialize/index.js");
 
 require.alias("site/site.js", "site/index.js");
-
