@@ -654,8 +654,9 @@ HN.initialize = function (a) {
  */
 
 function Button (a) {
+  var host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
+  this.origin = location.protocol + '//' + host;
   this.id = 'hn-button-' + uid();
-  this.host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
   on(window, 'message', bind(this, this.onMessage));
   this.render(a);
 }
@@ -673,15 +674,14 @@ Button.prototype.render = function (a) {
     title: a.getAttribute('data-title') || document.title,
     url: a.getAttribute('data-url') || window.location.href,
     style: a.getAttribute('data-style'),
-    count: a.getAttribute('data-count'),
-    host: this.host
+    count: a.getAttribute('data-count')
   };
 
   // Create the iframe element that we will replace the <a> with.
   var iframe = this.iframe = document.createElement('iframe');
 
   // Set the source based on data attributes, with fallbacks.
-  iframe.src = src(options);
+  iframe.src = this.origin + stringify(options);
 
   // Add the id, name, class, and I think it's nice to see the same attributes
   // you set on the <a> stay on the iframe.
@@ -717,7 +717,7 @@ Button.prototype.render = function (a) {
 
 Button.prototype.onMessage = function (message) {
   // make sure we're listening for the right thing
-  if (message.origin !== this.host) return;
+  if (message.origin !== this.origin) return;
   if (message.data.id !== this.id) return;
 
   var event = message.data.event
@@ -734,23 +734,20 @@ Button.prototype.onMessage = function (message) {
 
 
 /**
- * Helper to render an iframe src href from an options dictionary.
+ * Stringify a querystring from an options dictionary.
  *
  * @param {Object} options  The options to use.
  * @return {String}         The iframe `src` href.
  */
 
-function src (options) {
+function stringify (options) {
   var query = '';
-  var origin = location.protocol + '//' + options.host;
-
   each(options, function (key, value) {
     if ('host' == key) return;
     query += query ? '&' : '?';
     if (value) query += key + '=' + encodeURIComponent(value);
   });
-
-  return origin + query;
+  return query;
 }
 
 

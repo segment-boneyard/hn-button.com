@@ -507,6 +507,7 @@ function get(str) {
 
 });
 require.register("component-type/index.js", function(exports, require, module){
+
 /**
  * toString ref.
  */
@@ -523,19 +524,20 @@ var toString = Object.prototype.toString;
 
 module.exports = function(val){
   switch (toString.call(val)) {
+    case '[object Function]': return 'function';
     case '[object Date]': return 'date';
     case '[object RegExp]': return 'regexp';
     case '[object Arguments]': return 'arguments';
     case '[object Array]': return 'array';
-    case '[object Error]': return 'error';
+    case '[object String]': return 'string';
   }
 
   if (val === null) return 'null';
   if (val === undefined) return 'undefined';
-  if (val !== val) return 'nan';
   if (val && val.nodeType === 1) return 'element';
+  if (val === Object(val)) return 'object';
 
-  return typeof val.valueOf();
+  return typeof val;
 };
 
 });
@@ -11509,8 +11511,9 @@ HN.initialize = function (a) {
  */
 
 function Button (a) {
+  var host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
+  this.origin = location.protocol + '//';
   this.id = 'hn-button-' + uid();
-  this.host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
   on(window, 'message', bind(this, this.onMessage));
   this.render(a);
 }
@@ -11528,15 +11531,14 @@ Button.prototype.render = function (a) {
     title: a.getAttribute('data-title') || document.title,
     url: a.getAttribute('data-url') || window.location.href,
     style: a.getAttribute('data-style'),
-    count: a.getAttribute('data-count'),
-    host: this.host
+    count: a.getAttribute('data-count')
   };
 
   // Create the iframe element that we will replace the <a> with.
   var iframe = this.iframe = document.createElement('iframe');
 
   // Set the source based on data attributes, with fallbacks.
-  iframe.src = src(options);
+  iframe.src = this.origin + stringify(options);
 
   // Add the id, name, class, and I think it's nice to see the same attributes
   // you set on the <a> stay on the iframe.
@@ -11589,23 +11591,20 @@ Button.prototype.onMessage = function (message) {
 
 
 /**
- * Helper to render an iframe src href from an options dictionary.
+ * Stringify a querystring from an options dictionary.
  *
  * @param {Object} options  The options to use.
  * @return {String}         The iframe `src` href.
  */
 
-function src (options) {
+function stringify (options) {
   var query = '';
-  var origin = location.protocol + '//' + options.host;
-
   each(options, function (key, value) {
     if ('host' == key) return;
     query += query ? '&' : '?';
     if (value) query += key + '=' + encodeURIComponent(value);
   });
-
-  return origin + query;
+  return query;
 }
 
 
@@ -11961,7 +11960,7 @@ function render () {
     , button  = snippet.button(options);
 
   // button
-  var a = domify(button)[0];
+  var a = domify(button);
   var old = $('header .hn-button');
   old.parentNode.replaceChild(a, old);
   HN.initialize(a);
