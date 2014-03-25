@@ -2,13 +2,13 @@
   "name": "hn-button.com",
   "version": "1.0.0",
   "dependencies": {
-    "express": "~3.1.1",
-    "hbs": "~2.1.0",
-    "component-builder": "~0.7.0",
-    "mkdirp": "~0.3.5",
-    "superagent": "^0.17.0",
-    "lru-cache": "^2.5.0",
-    "ms": "^0.6.2"
+    "express": "3.1.1",
+    "hbs": "2.1.0",
+    "component-builder": "0.7.0",
+    "mkdirp": "0.3.5",
+    "superagent": "0.17.0",
+    "lru-cache": "2.5.0",
+    "ms": "0.6.2"
   },
   "engines": {
     "node": "0.8.x",
