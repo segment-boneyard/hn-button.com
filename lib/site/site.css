@@ -223,6 +223,11 @@ select:focus {
   text-align: center;
 }
 
+.mimic-feature .fb-like {
+  position: relative;
+  top: -7px;
+}
+
 .mimic-feature .twitter-share-button {
   margin-right: -37px;
 }
