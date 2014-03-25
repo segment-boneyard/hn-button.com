@@ -11512,7 +11512,7 @@ HN.initialize = function (a) {
 
 function Button (a) {
   var host = a.getAttribute('data-host') || 'hn-button.herokuapp.com';
-  this.origin = location.protocol + '//';
+  this.origin = location.protocol + '//' + host;
   this.id = 'hn-button-' + uid();
   on(window, 'message', bind(this, this.onMessage));
   this.render(a);
@@ -11574,7 +11574,7 @@ Button.prototype.render = function (a) {
 
 Button.prototype.onMessage = function (message) {
   // make sure we're listening for the right thing
-  if (message.origin !== this.host) return;
+  if (message.origin !== this.origin) return;
   if (message.data.id !== this.id) return;
 
   var event = message.data.event
